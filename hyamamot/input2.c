@@ -6,9 +6,12 @@
 #include <string.h>
 #include <signal.h>
 
+// sigintしか対応していないが他のシグナルに対応するには？
 static volatile sig_atomic_t g_sigint = 0;
 
-static void	on_sigint(void) {
+// 非同期シグナル安全ではないが、この書き方しかできない？
+static void	on_sigint(void)
+{
 	g_sigint = 1;
 	write(STDOUT_FILENO, "^C\n", 3);
 	rl_replace_line("", 0);
@@ -16,8 +19,9 @@ static void	on_sigint(void) {
 	rl_redisplay();
 }
 
-static void	install_handler(int sig, void (*handler)(int)) {
-	struct sigaction sa;
+static void	install_handler(int sig, void (*handler)(int))
+{
+	struct sigaction	sa;
 
 	sigemptyset(&sa.sa_mask);
 	sa.sa_handler = handler;
@@ -30,8 +34,9 @@ static void	install_handler(int sig, void (*handler)(int)) {
 
 int	main(void)
 {
-	char *line = NULL;
-
+	char	*line;
+	
+	line = NULL;
 	install_handler(SIGINT, on_sigint);
 	while (1)
 	{
@@ -54,5 +59,5 @@ int	main(void)
 		free(line);
 		g_sigint = 0;
 	}
-	return 0;
+	return (0);
 }
