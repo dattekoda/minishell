@@ -43,16 +43,16 @@ int	main(void)
 		line = readline("> ");
 		if (line == NULL) {
 			printf("exit\n");
-			break;
+			break ;
 		}
 		if (*line == '\0') {
 			free(line);
-			continue;
+			continue ;
 		}
 		if (strcmp(line, "exit") == 0) {
 			free(line);
 			printf("exit\n");
-			break;
+			break ;
 		}
 		printf("line is %s\n", line);
 		add_history(line);
