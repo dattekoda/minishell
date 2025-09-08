@@ -35,6 +35,9 @@ git reset --hard HEAD~1
 自戒: こまめにcommtiする
 
 ## 9/8
-hyamamot/input.cのレビュー
-khanadat_protoの追加。
-このディレクトリでプロトタイプの作成を試みる。
+hyamamot/input.cのレビュー   
+khanadat_protoの追加。   
+このディレクトリでプロトタイプの作成を試みる。   
+
+## 9/8
+funcディレクトリで使えるコマンドの整理する。   

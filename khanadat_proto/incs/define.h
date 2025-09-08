@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 14:22:39 by khanadat          #+#    #+#             */
-/*   Updated: 2025/09/08 20:48:36 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/09/08 22:22:45 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ typedef struct s_prompt
 {
 	t_arg	*arg;
 	char	*shell_name;
-	char	*prompt;
+	char	*cmd_line;
 	int		num_cmds;
 }	t_prompt;
 

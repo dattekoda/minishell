@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 14:28:16 by khanadat          #+#    #+#             */
-/*   Updated: 2025/09/08 20:49:34 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/09/08 22:26:33 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,37 @@
 #include "define.h"
 #include <unistd.h>
 #include <stdlib.h>
+#define INSIDE_DOUBLE 1
+#define INSIDE_SINGLE 2
+#define DEFAULT 0
 
 void	count_num_cmds(t_prompt *prompt)
 {
-	while (prompt)
-}
+	char	*line;
+	int		status;
 
-void	display_prompt(char *shell_name)
-{
-	ft_putstr_fd(shell_name, STDERR_FILENO);
-	ft_putstr_fd(PROMPT, STDERR_FILENO);
+	status = DEFAULT;
+	line = prompt->cmd_line;
+	while (*line)
+	{
+		while (ft_strchr(" \t", *line))
+			*line++;
+		if (*line == '\"')
+		{
+			line = ft_strchr(line, '\"');
+			if (!line)
+				msg_syntax_err();
+		}
+		if (*line == '\'')
+			line = ft_strchr(line, '\'');
+		if (!line)
+			msg_syntax_err()
+		if ((status == INSIDE_DOUBLE && *line == '\"') \
+		|| (status == INSIDE_SINGLE && *line == '\''))
+			status = DEFAULT;
+		if (*line == '|' && *(line + 1) != '|')
+			line += 2;
+	}
 }
 
 void	set_prompt(t_prompt *prompt)
@@ -40,6 +61,12 @@ void	get_prompt(t_prompt *prompt)
 	if (gnl < 0)
 		exit(gnl);
 	set_prompt(prompt);
+}
+
+void	display_prompt(char *shell_name)
+{
+	ft_putstr_fd(shell_name, STDERR_FILENO);
+	ft_putstr_fd(PROMPT, STDERR_FILENO);
 }
 
 int	main(int argc, char *argv[], char *env[])
