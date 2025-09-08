@@ -14,7 +14,7 @@ int	main(void)
 	{
 		line = readline("> ");
 		if (line == NULL || strlen(line) == 0)
-		{
+		{ // line == NULLのときにfreeしたらsegmentation faultの可能性が。。。!
 			free(line);
 			break ;
 		}
