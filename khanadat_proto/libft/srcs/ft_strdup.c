@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 08:26:05 by khanadat          #+#    #+#             */
-/*   Updated: 2025/06/23 20:33:25 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/09/08 23:47:36 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,5 @@ char	*ft_strdup(const char *s)
 	dup = malloc(len + 1);
 	if (!dup)
 		return (NULL);
-	ft_memcpy(dup, s, len + 1);
-	return (dup);
+	return (ft_memmove(dup, s, len + 1));
 }

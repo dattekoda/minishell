@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 12:26:12 by khanadat          #+#    #+#             */
-/*   Updated: 2025/06/23 20:32:46 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/09/09 14:53:40 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,3 +23,12 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 	}
 	return ((unsigned char) *s1 - (unsigned char) *s2);
 }
+
+// #include <string.h>
+// #include <stdlib.h>
+// #include <stdio.h>
+// int	main(int argc, char *argv[])
+// {
+// 	printf("real: %d\n", strncmp(argv[1], argv[2], atoi(argv[3])));
+// 	printf("ft:   %d\n", ft_strncmp(argv[1], argv[2], atoi(argv[3])));
+// }

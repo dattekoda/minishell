@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 12:04:42 by khanadat          #+#    #+#             */
-/*   Updated: 2025/06/23 20:32:43 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/09/09 04:07:19 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ size_t	ft_strlen(const char *s)
 	h = s;
 	while (*s)
 		s++;
-	return (s - h);
+	return ((size_t)(s - h));
 }
 
 /*

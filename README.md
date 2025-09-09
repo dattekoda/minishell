@@ -41,3 +41,11 @@ khanadat_protoの追加。
 
 ## 9/8
 funcディレクトリで使えるコマンドの整理する。   
+
+## 9/10
+khanadat_proto/srcsでcd, pwd, echoを再現した簡易的なshellを実装。   
+srcsディレクトリで   
+```
+cc *.c */*.c ../libft/libft.a -I ../incs -I ../libft/includes -o minishell
+```
+でコンパイルできる。

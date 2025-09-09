@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 05:06:22 by khanadat          #+#    #+#             */
-/*   Updated: 2025/06/23 20:32:28 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/09/09 04:06:48 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 void	ft_putstr_fd(char *s, int fd)
 {
-	while (*s)
-		ft_putchar_fd(*s++, fd);
+	size_t	len;
+
+	len = ft_strlen(s);
+	write(fd, s, len);
 }

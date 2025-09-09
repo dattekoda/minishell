@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 10:42:02 by khanadat          #+#    #+#             */
-/*   Updated: 2025/06/23 20:33:06 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/09/09 14:54:23 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,7 @@
 
 int	ft_isalnum(int c)
 {
-	if (('0' <= c && c <= '9')
-		|| ('a' <= c && c <= 'z')
-		|| ('A' <= c && c <= 'Z'))
+	if (ft_isdigit(c) || ft_isalpha(c))
 		return (8);
 	return (0);
 }

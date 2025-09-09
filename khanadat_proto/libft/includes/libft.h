@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 12:52:23 by khanadat          #+#    #+#             */
-/*   Updated: 2025/08/06 03:27:04 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/09/09 18:55:15 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,13 @@
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 42
 # endif
-# ifndef BNL_FREE_FD
-#  define GNL_FREE_FD -4
-# endif
+# define GNL_FREE_FD -4
+# define GNL_ERR_INVALID -3
+# define GNL_ERR_MALLOC -2
+# define GNL_ERR_READ -1
+# define GNL_EOF 0
+# define GNL_LINE 1
+
 
 typedef struct s_gnl
 {
