@@ -33,3 +33,19 @@ git reset --hard HEAD~1
 ```
 
 自戒: こまめにcommtiする
+
+## 9/8
+hyamamot/input.cのレビュー   
+khanadat_protoの追加。   
+このディレクトリでプロトタイプの作成を試みる。   
+
+## 9/8
+funcディレクトリで使えるコマンドの整理する。   
+
+## 9/10
+khanadat_proto/srcsでcd, pwd, echoを再現した簡易的なshellを実装。   
+srcsディレクトリで   
+```
+cc *.c */*.c ../libft/libft.a -I ../incs -I ../libft/includes -o minishell
+```
+でコンパイルできる。
