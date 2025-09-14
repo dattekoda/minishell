@@ -2,6 +2,8 @@
 	"files.associations": {
 		"stdlib.h": "c",
 		"unistd.h": "c",
-		"define.h": "c"
+		"define.h": "c",
+		"libft.h": "c",
+		"readline.h": "c"
 	}
 }

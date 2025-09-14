@@ -24,7 +24,8 @@ make -C ../libft && cc *.c */*.c ../libft/libft.a \
 expand_param.cを追加。    
 標準入力を開いて、受け取った文字列から$マークに続く環境変数を展開したあとに、   
 それを動的に確保された領域に保存して標準出力に出力する。   
-動作例```
+動作例
+```
 $ this is test
 this is test
 $ $HOME
