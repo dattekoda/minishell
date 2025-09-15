@@ -31,11 +31,6 @@ typedef struct s_cmd
 	char			*path;
 }	t_cmd;
 
-typedef struct s_data
-{
-
-}	t_data;
-
 int	main(void)
 {
 	char	*line;
@@ -47,7 +42,6 @@ int	main(void)
 		line = readline("$ ");
 		if (!line)
 			break ;
-		set_cmds()
 		add_history(line);
 		free(expanded);
 	}
