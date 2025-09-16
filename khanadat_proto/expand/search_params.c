@@ -6,13 +6,14 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/13 02:05:57 by khanadat          #+#    #+#             */
-/*   Updated: 2025/09/14 05:00:41 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/09/16 18:14:39 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include "libft.h"
 #include "expand.h"
+#include "status.h"
 
 static int		skip_quotation(char *line, size_t *i);
 static t_list	*t_paramnew(char *env_content);
@@ -58,7 +59,11 @@ static int	skip_quotation(char *line, size_t *i)
 		chr = ft_strchr(&line[*i + 1], '\"');
 	if (!chr)
 	{
-		ft_putendl_fd("syntax_err", STDOUT_FILENO);
+		ft_putstr_fd("syntax error: ", STDERR_FILENO);
+		if (line[*i] == '\'')
+			ft_putendl_fd("you need enclose with \'", STDERR_FILENO);
+		else if (line[*i] == '\"')
+			ft_putendl_fd("you need enclose with \"", STDERR_FILENO);
 		return (ERR);
 	}
 	*i = (size_t)(chr - line + 1);

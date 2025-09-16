@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/13 01:58:48 by khanadat          #+#    #+#             */
-/*   Updated: 2025/09/14 05:01:03 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/09/16 16:11:17 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,6 @@
 
 # include <stddef.h>
 # include "libft.h"
-# ifndef ERR
-#  define ERR -1
-# endif
-# ifndef SUCCESS
-#  define SUCCESS 0
-# endif
 # define SPECIALS "$\'\"|"
 
 typedef struct s_param

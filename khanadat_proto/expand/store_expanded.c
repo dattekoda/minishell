@@ -6,12 +6,13 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/13 02:05:51 by khanadat          #+#    #+#             */
-/*   Updated: 2025/09/14 05:00:41 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/09/16 16:33:25 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "expand.h"
+#include "status.h"
 
 static size_t	calc_params_len(t_list *lst);
 static void		cpy_quotation(char *line, char *expanded, size_t *i, size_t *j);

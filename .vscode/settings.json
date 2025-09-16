@@ -4,6 +4,8 @@
 		"unistd.h": "c",
 		"define.h": "c",
 		"libft.h": "c",
-		"readline.h": "c"
+		"readline.h": "c",
+		"return.h": "c",
+		"tokenizer.h": "c"
 	}
 }

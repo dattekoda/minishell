@@ -3,6 +3,7 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 #include "expand.h"
+#include "status.h"
 
 int	main(void)
 {

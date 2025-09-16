@@ -1,0 +1,35 @@
+#include "libft.h"
+#include "status.h"
+
+static void	put_err(char a);
+
+int	valid_quote(char *line)
+{
+	char	*tmp;
+
+	while(*line)
+	{
+		if (*line != '\'' && *line != '\"')
+		{
+			line++;
+			continue ;
+		}
+		if (*line == '\'')
+			tmp = ft_strchr(line + 1, '\'');
+		else if (*line == '\"')
+			tmp = ft_strchr(line + 1, '\"');
+		if (!tmp)
+			return (put_err(*line), ERR);
+		line = tmp + 1;
+	}
+	return (SUCCESS);
+}
+
+static void	put_err(char a)
+{
+	ft_putstr_fd("syntax error: ", STDERR_FILENO);
+	if (a == '\'')
+		ft_putendl_fd("you need enclose with \'", STDERR_FILENO);
+	else if (a == '\"')
+		ft_putendl_fd("you need enclose with \"", STDERR_FILENO);
+}

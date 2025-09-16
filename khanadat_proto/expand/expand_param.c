@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/13 02:08:01 by khanadat          #+#    #+#             */
-/*   Updated: 2025/09/13 22:26:16 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/09/16 16:33:25 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include <string.h>
 #include "libft.h"
 #include "expand.h"
+#include "status.h"
 
 static void	param_free(void *ptr);
 
