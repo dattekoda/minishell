@@ -3,7 +3,7 @@
 #include "libft.h"
 #include <stdlib.h>
 
-static t_token	*new_token_word(t_token *token, \
+static t_token	*new_word_token(t_token *token, \
 	char **str, t_token *cur);
 static t_token	*new_token(TokenKind kind, char **str, t_token *cur);
 static t_token	*special_token(char **str, t_token *cur);
@@ -45,14 +45,25 @@ void	free_token(t_token *token)
 	}
 }
 
-static t_token	*new_token_word(t_token *token, \
+static t_token	*new_word_token(t_token *token, \
 	char **str, t_token *cur)
 {
 	char	*tmp;
+	char	*chr;
 
 	tmp = *str;
 	while (**str && !ft_isspace(**str) && !ft_strchr(SPECIALS, **str))
-		(*str)++;
+	{
+		if (**str == '\'' || **str == '\"')
+		{
+			chr = ft_strchr(*str + 1, **str);
+			*str = chr + 1;
+			continue ;
+		}
+		while (**str && !ft_isspace(**str) && \
+		!ft_strchr(SPECIALS, **str) && **str != '\'' && **str != '\"')
+			(*str)++;
+	}
 	token->str = ft_strndup(tmp, (*str) - tmp);
 	if (!token->str)
 		return (free(token), (cur->next = NULL), NULL);
@@ -74,7 +85,7 @@ static t_token	*new_token(TokenKind kind, char **str, t_token *cur)
 	if (kind == TK_HERE_DOC || kind == TK_APPEND \
 		|| kind == TK_OR || kind == TK_AND)
 		return (((*str) += 2), token);
-	return (new_token_word(token, str, cur));
+	return (new_word_token(token, str, cur));
 }
 
 static t_token	*special_token(char **str, t_token *cur)

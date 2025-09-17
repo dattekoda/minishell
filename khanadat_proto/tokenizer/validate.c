@@ -1,13 +1,18 @@
+#include <stdlib.h>
 #include "libft.h"
 #include "status.h"
-#include <stdlib.h>
+#include "minishell_err.h"
 
 static int	valid_and(char *line);
-static void	put_err(char a);
+static int	valid_quote(char *line, char type);
 
 int	validate(char *line)
 {
 	if (valid_and(line))
+		return (free(line), ERR);
+	if (valid_quote(line, '\''))
+		return (free(line), ERR);
+	if (valid_quote(line, '\"'))
 		return (free(line), ERR);
 	return (SUCCESS);
 }
@@ -28,9 +33,20 @@ static int	valid_and(char *line)
 	return (SUCCESS);
 }
 
-static void	put_err(char a)
+static int	valid_quote(char *line, char type)
 {
-	ft_putstr_fd("syntax error: ", STDERR_FILENO);
-	if (a == '&')
-		ft_putendl_fd("you cannot use '&', job control function", STDERR_FILENO);
+	char	*left;
+	char	*right;
+
+	while (*line)
+	{
+		left = ft_strchr(line, type);
+		if (!left)
+			break ;
+		right = ft_strchr(left + 1, type);
+		if (!right)
+			return (put_err(type), ERR);
+		line = right + 1;
+	}
+	return (SUCCESS);
 }
