@@ -22,7 +22,7 @@ int	main(void) {
 		if (validate(line))
 			continue ;
 		if (get_token(&cur, line))
-			return (free(line), 1);
+			return (free(line), FAILURE);
 		print_token(cur->next);
 		free(line);
 		free_token(cur->next);

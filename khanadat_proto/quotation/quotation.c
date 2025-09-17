@@ -5,8 +5,6 @@
 #include "status.h"
 #include "minishell_err.h"
 
-static void	put_err(char a);
-
 // free(*new) and joined *new and buffer pointer to *new
 // and initialize buffer
 int	safe_join(char **new, char *buffer)

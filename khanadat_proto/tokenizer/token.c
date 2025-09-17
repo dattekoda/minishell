@@ -27,7 +27,7 @@ int	get_token(t_token **token, char *line)
 		cur = special_token(&line, cur);
 	}
 	if (!cur)
-		return (free_token((*token)->next), -1);
+		return (free_token((*token)->next), ERR);
 	return (SUCCESS);
 }
 
