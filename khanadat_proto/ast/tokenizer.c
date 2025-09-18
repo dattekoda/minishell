@@ -8,8 +8,13 @@ static t_token	*new_reserved_token(t_token *cur, char **str);
 static t_token	*new_word_token(t_token *cur, char **str);
 static t_token	*new_eof_token(t_token *cur);
 
-int	get_token(t_token *cur, char *line)
+int	get_token(t_token **token, char *line)
 {
+	t_token	head;
+	t_token	*cur;
+
+	ft_bzero(&head, sizeof(t_token));
+	cur = &head;
 	while (*line && cur)
 	{
 		if (ft_isspace(*line))
@@ -24,10 +29,9 @@ int	get_token(t_token *cur, char *line)
 		}
 		cur = new_word_token(cur, &line);
 	}
-	if (!cur)
-		return (ERR);
-	if (!new_eof_token(cur))
-		return (ERR);
+	if (!cur || !new_eof_token(cur))
+		return (free_token(head.next), ERR);
+	*token = head.next;
 	return (SUCCESS);
 }
 
