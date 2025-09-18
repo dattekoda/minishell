@@ -9,7 +9,7 @@
 #  define SUCCESS 0
 # endif
 
-# ifndef FAILURE 1
+# ifndef FAILURE
 #  define FAILURE 1
 # endif
 

@@ -1,5 +1,5 @@
-#ifndef TOKENIZER_H
-# define TOKENIZER_H
+#ifndef V1_TOKENIZER_H
+# define V1_TOKENIZER_H
 
 # define SPECIALS "|<>&"
 

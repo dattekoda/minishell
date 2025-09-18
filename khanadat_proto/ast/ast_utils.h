@@ -1,0 +1,11 @@
+#ifndef AST_UTILS_H
+# define AST_UTILS_H
+
+# include "ast_define.h"
+# include "tokenizer.h"
+
+t_node	*new_node(NodeKind kind, t_node *lhs, t_node *rhs);
+bool	consume(t_token **token, t_TokenKind kind);
+t_node	*pipe_node(t_token **token);
+
+#endif
