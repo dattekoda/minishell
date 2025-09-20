@@ -1,7 +1,7 @@
 #include "libft.h"
 #include "status.h"
 
-static void	put_err(char a);
+static void	put_syntax_err(char a);
 
 int	valid_quote(char *line)
 {
@@ -19,13 +19,13 @@ int	valid_quote(char *line)
 		else if (*line == '\"')
 			tmp = ft_strchr(line + 1, '\"');
 		if (!tmp)
-			return (put_err(*line), ERR);
+			return (put_syntax_err(*line), ERR);
 		line = tmp + 1;
 	}
 	return (SUCCESS);
 }
 
-static void	put_err(char a)
+static void	put_syntax_err(char a)
 {
 	ft_putstr_fd("syntax error: ", STDERR_FILENO);
 	if (a == '\'')

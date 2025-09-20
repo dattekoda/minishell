@@ -5,6 +5,6 @@
 # include "tokenizer_define.h"
 
 void	free_node(t_node *node);
-int	get_node(t_node **node, t_token *token);
+int		get_node(t_node **node, t_token *token);
 
 #endif

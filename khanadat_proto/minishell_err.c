@@ -12,7 +12,7 @@ void	err_system_call(char *func)
 	ft_putendl_fd(" failed.", STDERR_FILENO);
 }
 
-void	put_err(char type)
+void	put_syntax_err(char type)
 {
 	ft_putstr_fd("syntax error: ", STDERR_FILENO);
 	if (type == '&')

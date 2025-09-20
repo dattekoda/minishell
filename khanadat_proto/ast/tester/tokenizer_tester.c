@@ -12,16 +12,22 @@ int	main(void)
 {
 	char	*line;
 	t_token	*token;
+	int		status;
 
 	while (1)
 	{
-		token = NULL;
 		line = readline("$ ");
 		if (!line)
 			break ;
 		add_history(line);
-		if (get_token(&token, line))
+		status = get_token(&token, line);
+		if (status == ERR)
 			return (free(line), FAILURE);
+		if (status == SYNTAX_ERR)
+		{
+			free(line);
+			continue ;
+		}
 		print_token(token);
 		free_token(token);
 		free(line);
@@ -34,12 +40,8 @@ static void	print_token(t_token *token)
 {
 	while (token)
 	{
-		if (token->kind == TK_AND)
-			printf("AND\n");
-		else if (token->kind == TK_OR)
-			printf("OR\n");
-		else if (token->kind == TK_PIPE)
-			printf("PIPE\n");
+		if (token->kind == TK_OPERATOR)
+			printf("OPERATOR\n");
 		else if (token->kind == TK_WORD)
 			printf("WORD\n");
 		else if (token->kind == TK_EOF)

@@ -4,7 +4,7 @@
             "name": "Mac",
             "includePath": [
                 "${workspaceFolder}/**",
-                "~/cursus/0/libft/includes/*"
+                "~/cursus/0/libft/dattekoda/includes/*"
             ],
             "defines": [],
             "compilerPath": "/usr/bin/clang",

@@ -27,7 +27,7 @@ static int	valid_and(char *line)
 		if (!tmp)
 			break ;
 		if (*(tmp + 1) != '&')
-			return (put_err('&'), ERR);
+			return (put_syntax_err('&'), ERR);
 		line = tmp + 2;
 	}
 	return (SUCCESS);
@@ -45,7 +45,7 @@ static int	valid_quote(char *line, char type)
 			break ;
 		right = ft_strchr(left + 1, type);
 		if (!right)
-			return (put_err(type), ERR);
+			return (put_syntax_err(type), ERR);
 		line = right + 1;
 	}
 	return (SUCCESS);

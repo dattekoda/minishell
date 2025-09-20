@@ -50,7 +50,7 @@ int	store_double(char **before, char **new, char *buffer, size_t *i)
 
 	chr = ft_strchr(*before + 1, **before);
 	if (!chr)
-		return (free(*new), put_err(**before), ERR);
+		return (free(*new), put_syntax_err(**before), ERR);
 	(*before)++;
 	while (*before < chr)
 	{
@@ -73,7 +73,7 @@ int	store_single(char **before, char **new, char *buffer, size_t *i)
 
 	chr = ft_strchr(*before + 1, **before);
 	if (!chr)
-		return (free(*new), put_err(**before), ERR);
+		return (free(*new), put_syntax_err(**before), ERR);
 	(*before)++;
 	while (*before < chr)
 	{

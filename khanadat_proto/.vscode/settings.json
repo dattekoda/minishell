@@ -4,6 +4,7 @@
 		"history.h": "c",
 		"status.h": "c",
 		"libft.h": "c",
-		"tokenizer.h": "c"
+		"tokenizer.h": "c",
+		"minishell_err.h": "c"
 	}
 }

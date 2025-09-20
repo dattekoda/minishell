@@ -3,12 +3,12 @@
 
 # include <stddef.h>
 
+# define SPECIAL_CHAR "&|<>"
+
 typedef enum s_TokenKind
 {
 	TK_WORD,
-	TK_AND,
-	TK_OR,
-	TK_PIPE,
+	TK_OPERATOR,
 	TK_EOF,
 }	t_TokenKind;
 
