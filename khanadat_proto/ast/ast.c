@@ -56,8 +56,8 @@ int	validate_token(t_token *token)
 		else if (token->kind == TK_OPERATOR
 			&& *(token->str) == '|')
 		{
-			if ((token->next)->kind != TK_WORD \
-			|| *((token->next)->str) != '>')
+			if (!((token->next)->kind == TK_WORD \
+			|| *((token->next)->str) == '>'))
 				return (put_token_err(token->next), SYNTAX_ERR);
 			token = token->next;
 		}
@@ -73,16 +73,16 @@ int	get_node(t_node **node, t_token *token)
 	t_node	*cur;
 	t_node	*before;
 
-	if (validate_token(token))
+	if (token->kind == TK_EOF || validate_token(token))
 		return (SYNTAX_ERR);
-	cur = pipe_node(&token);
+	cur = new_pipe_node(&token);
 	while (cur)
 	{
 		before = cur;
 		if (consume(&token, TK_OPERATOR, ND_OR))
-			cur = new_node(ND_OR, cur, pipe_node(&token));
+			cur = new_node(ND_OR, cur, new_pipe_node(&token));
 		else if (consume(&token, TK_OPERATOR, ND_AND))
-			cur = new_node(ND_AND, cur, pipe_node(&token));
+			cur = new_node(ND_AND, cur, new_pipe_node(&token));
 		else
 			break ;
 	}

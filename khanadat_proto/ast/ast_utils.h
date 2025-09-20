@@ -8,6 +8,6 @@
 void	free_red(t_red *head);
 t_node	*new_node(t_NodeKind kind, t_node *lhs, t_node *rhs);
 bool	consume(t_token **token, t_TokenKind tkind, t_NodeKind nkind);
-t_node	*pipe_node(t_token **token);
+t_node	*new_pipe_node(t_token **token);
 
 #endif

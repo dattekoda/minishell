@@ -11,7 +11,7 @@
 
 static int	set_node_argv(t_token **token, size_t len, t_node *new);
 static void	count_argv_len(t_token *token, size_t *len);
-static int	add_new_red(t_token **token, t_red **cur);
+static int	add_new_red(t_token *token, t_red **cur);
 static int	set_redirection(t_token *token, t_node *new);
 
 t_node	*new_cmd_node(t_token **token)
@@ -19,15 +19,15 @@ t_node	*new_cmd_node(t_token **token)
 	size_t	len;
 	t_node	*new;
 
-	count_argv_len(*token, &len);
 	new = ft_calloc(1, sizeof(t_node));
 	if (!new)
 		return (NULL);
 	if (set_redirection(*token, new))
-		return (NULL);
+		return ((new->kind = ND_AND), NULL);
+	count_argv_len(*token, &len);
 	new->argv = ft_calloc(len + 1, sizeof(char *));
 	if (!new->argv || set_node_argv(token, len, new))
-		return ((new->kind = ND_AND), NULL);
+		return (free_red(new->red), (new->kind = ND_AND), NULL);
 	new->kind = ND_CMD;
 	return (new);
 }
@@ -66,7 +66,7 @@ static int	set_node_argv(t_token **token, size_t len, t_node *new)
 			continue ;
 		}
 		new->argv[i++] = ft_strndup((*token)->str, (*token)->str_len);
-		if (!new->argv[i])
+		if (!new->argv[i - 1])
 		{
 			while (i)
 				free(new->argv[--i]);
@@ -74,6 +74,11 @@ static int	set_node_argv(t_token **token, size_t len, t_node *new)
 		}
 		(*token) = (*token)->next;
 	}
+	while (consume(token, TK_OPERATOR, ND_APPEND) \
+	|| consume(token, TK_OPERATOR, ND_HEREDOC) \
+	|| consume(token, TK_OPERATOR, ND_RED_IN) \
+	|| consume(token, TK_OPERATOR, ND_RED_OUT))
+		(*token) = (*token)->next;
 	return (SUCCESS);
 }
 
@@ -84,6 +89,7 @@ static int	set_redirection(t_token *token, t_node *new)
 	t_red	*cur;
 	int		status;
 
+	ft_bzero(&head, sizeof(t_red));
 	cur = &head;
 	while (token->kind != TK_EOF)
 	{
@@ -92,7 +98,8 @@ static int	set_redirection(t_token *token, t_node *new)
 			token = token->next;
 			continue ;
 		}
-		status = add_new_red(&token, &cur);
+		status = add_new_red(token, &cur);
+		token = token->next->next;
 		if (status < 0)
 			return (status);
 		else if (status == CMD_END)
@@ -102,18 +109,20 @@ static int	set_redirection(t_token *token, t_node *new)
 	return (SUCCESS);
 }
 
-static int	add_new_red(t_token **token, t_red **cur)
+static int	add_new_red(t_token *token, t_red **cur)
 {
 	t_red		*new;
 	t_NodeKind	nkind;
 
-	if (consume(token, TK_OPERATOR, ND_APPEND))
+	if (token->kind != TK_OPERATOR)
+		return (CMD_END);
+	if (!ft_strncmp(token->str, ">>", 2))
 		nkind = ND_APPEND;
-	else if (consume(token, TK_OPERATOR, ND_HEREDOC))
+	else if (!ft_strncmp(token->str, "<<", 2))
 		nkind = ND_HEREDOC;
-	else if (consume(token, TK_OPERATOR, ND_RED_IN))
+	else if (*(token->str) == '<')
 		nkind = ND_RED_IN;
-	else if (consume(token, TK_OPERATOR, ND_RED_OUT))
+	else if (*(token->str) == '>')
 		nkind = ND_RED_OUT;
 	else
 		return (CMD_END);
@@ -121,10 +130,9 @@ static int	add_new_red(t_token **token, t_red **cur)
 	if (!new)
 		return (ERR);
 	new->kind = nkind;
-	new->file = ft_strndup((*token)->str, (*token)->str_len);
+	new->file = ft_strndup(token->next->str, token->next->str_len);
 	if (!new->file)
 		return (free(new), ERR);
-	(*token) = (*token)->next;
 	(*cur)->next = new;
 	(*cur) = new;
 	return (SUCCESS);

@@ -49,28 +49,33 @@ bool	consume(t_token **token, t_TokenKind tkind, t_NodeKind nkind)
 		if (nkind == ND_PIPE \
 			&& !(*((*token)->str) == '|' && *((*token)->str + 1) != '|'))
 			return (false);
-		if (nkind == ND_RED_IN \
-			&& !(*((*token)->str) == '<' && *((*token)->str + 1) != '<'))
-		if (nkind == ND_RED_OUT \
-			&& !(*((*token)->str) == '>' && *((*token)->str + 1) != '>'))
-			return (false);
 		if (nkind == ND_HEREDOC && ft_strncmp((*token)->str, "<<", 2))
 			return (false);
 		if (nkind == ND_APPEND && ft_strncmp((*token)->str, ">>", 2))
+			return (false);
+		if (nkind == ND_RED_IN \
+			&& !(*((*token)->str) == '<' && *((*token)->str + 1) != '<'))
+			return (false);
+		if (nkind == ND_RED_OUT \
+			&& !(*((*token)->str) == '>' && *((*token)->str + 1) != '>'))
 			return (false);
 	}
 	(*token) = (*token)->next;
 	return (true);
 }
 
-t_node	*pipe_node(t_token **token)
+t_node	*new_pipe_node(t_token **token)
 {
 	t_node	*node;
 	t_node	*before;
 
 	node = new_cmd_node(token);
+	// ft_putnbr_fd((*token)->kind, 2);
+	// ft_putchar_fd('\n', 2);
+	// ft_putendl_fd((*token)->str, 2);
 	while (consume(token, TK_OPERATOR, ND_PIPE) && node)
 	{
+		// ft_putendl_fd("inside pipe", 2);
 		before = node;
 		node = new_node(ND_PIPE, node, new_cmd_node(token));
 	}
