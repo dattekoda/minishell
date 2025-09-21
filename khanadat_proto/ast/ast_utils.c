@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ast_utils.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/09/21 09:58:42 by khanadat          #+#    #+#             */
+/*   Updated: 2025/09/21 09:58:43 by khanadat         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <stdbool.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -70,12 +82,8 @@ t_node	*new_pipe_node(t_token **token)
 	t_node	*before;
 
 	node = new_cmd_node(token);
-	// ft_putnbr_fd((*token)->kind, 2);
-	// ft_putchar_fd('\n', 2);
-	// ft_putendl_fd((*token)->str, 2);
 	while (consume(token, TK_OPERATOR, ND_PIPE) && node)
 	{
-		// ft_putendl_fd("inside pipe", 2);
 		before = node;
 		node = new_node(ND_PIPE, node, new_cmd_node(token));
 	}

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   tokenizer.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/09/21 09:58:51 by khanadat          #+#    #+#             */
+/*   Updated: 2025/09/21 10:30:01 by khanadat         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <stdlib.h>
 #include "status.h"
 #include "minishell_err.h"
@@ -19,15 +31,16 @@ void	free_token(t_token *token)
 
 // if systemcall err return -1
 // if syntax err like ' was not enclosed return 2
+// @token is set tokenized pointer
+// @line receive a raw information from prompt.
 int	get_token(t_token **token, char *line)
 {
 	t_token	head;
 	t_token	*cur;
 
-	*token = NULL;
-	if (syntax_validate(line))
+	*token = (ft_bzero(&head, sizeof(t_token)), NULL);
+	if (validate_b4_tokenize(line))
 		return (SYNTAX_ERR);
-	ft_bzero(&head, sizeof(t_token));
 	cur = &head;
 	while (*line && cur)
 	{

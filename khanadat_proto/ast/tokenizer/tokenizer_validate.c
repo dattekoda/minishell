@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   tokenizer_validate.c                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/09/21 09:58:54 by khanadat          #+#    #+#             */
+/*   Updated: 2025/09/21 09:58:55 by khanadat         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "libft.h"
 #include "status.h"
 #include "minishell_err.h"
@@ -5,7 +17,7 @@
 static int	syntax_quote_validate(char *line);
 static int	syntax_and_valitate(char *line);
 
-int	syntax_validate(char *line)
+int	validate_b4_tokenize(char *line)
 {
 	if (syntax_quote_validate(line) \
 	|| syntax_and_valitate(line))

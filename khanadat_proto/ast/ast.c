@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ast.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/09/21 09:58:37 by khanadat          #+#    #+#             */
+/*   Updated: 2025/09/21 10:04:39 by khanadat         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <stdio.h>
 #include <readline/readline.h>
 #include <readline/history.h>
@@ -16,7 +28,7 @@ void	put_token_err(t_token *token)
 		ft_putstr_fd("new_line", STDERR_FILENO);
 	else if (token->kind == TK_OPERATOR)
 		write(STDERR_FILENO, token->str, token->str_len);
-	ft_putstr_fd("\'", STDERR_FILENO);
+	ft_putendl_fd("\'", STDERR_FILENO);
 }
 
 void	free_node(t_node *node)
@@ -45,19 +57,20 @@ int	validate_token(t_token *token)
 	{
 		if (token->kind == TK_OPERATOR \
 			&& (*(token->str) == '<' \
-				|| *(token->str) == '>' \
-				|| !ft_strncmp(token->str, "||", 2) \
-				|| !ft_strncmp(token->str, "&&", 2)))
+				|| *(token->str) == '>'))
 		{
 			if ((token->next)->kind != TK_WORD)
 				return (put_token_err(token->next), SYNTAX_ERR);
 			token = token->next;
 		}
 		else if (token->kind == TK_OPERATOR
-			&& *(token->str) == '|')
+			&& (*(token->str) == '|'
+			|| !ft_strncmp(token->str, "&&", 2)))
 		{
-			if (!((token->next)->kind == TK_WORD \
-			|| *((token->next)->str) == '>'))
+			if ((token->next)->kind == TK_EOF \
+			|| (((token->next)->kind == TK_OPERATOR \
+			&& (*((token->next)->str) != '>' \
+			&& *((token->next)->str) != '<'))))
 				return (put_token_err(token->next), SYNTAX_ERR);
 			token = token->next;
 		}
