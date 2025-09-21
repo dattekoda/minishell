@@ -10,6 +10,7 @@
 		"err.h": "c",
 		"expand.h": "c",
 		"status.h": "c",
-		"ast_utils.h": "c"
+		"ast_utils.h": "c",
+		"ast.h": "c"
 	}
 }

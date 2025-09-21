@@ -45,6 +45,9 @@ int	main(int argc, char *argv[])
 	trap_signal(SIGINT, print_exit);
 	// signal(SIGINT, print_exit);
 	while (1)
-		printf("ohayo");
+	{
+		sleep(1);
+		write(1, "ohayo\n", 6);
+	}
 	exit(0);
 }

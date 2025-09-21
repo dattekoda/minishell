@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/21 09:58:51 by khanadat          #+#    #+#             */
-/*   Updated: 2025/09/21 10:30:01 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/09/21 17:38:37 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ void	free_token(t_token *token)
 		free(token);
 		token = tmp;
 	}
+	token = NULL;
 }
 
 // if systemcall err return -1

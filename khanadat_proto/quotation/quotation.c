@@ -4,20 +4,7 @@
 #include "libft.h"
 #include "status.h"
 #include "minishell_err.h"
-
-// free(*new) and joined *new and buffer pointer to *new
-// and initialize buffer
-int	safe_join(char **new, char *buffer)
-{
-	char	*tmp;
-
-	tmp = ft_strjoin(*new, buffer);
-	free(*new);
-	if (!tmp)
-		return (err_system_call("malloc"), ERR);
-	*new = tmp;
-	return (SUCCESS);
-}
+#include "minishell_lib.h"
 
 // still need to fix in order to get $?
 int	dollar_join(char **new, char **before)
@@ -28,7 +15,7 @@ int	dollar_join(char **new, char **before)
 	dollar_name = ++(*before);
 	// if (*dollar_name == '?')
 	while (**before && **before != '\'' && **before != '\"' \
-		&& !ft_isspace(**before))
+		&& **before != '$' && !ft_isspace(**before))
 		(*before)++;
 	if (dollar_name == (*before) && safe_join(new, "$"))
 		return (ERR);
