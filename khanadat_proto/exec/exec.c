@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/18 18:33:24 by khanadat          #+#    #+#             */
-/*   Updated: 2025/09/21 18:28:29 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/09/22 08:51:52 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,22 +23,8 @@
 #include "minishell_lib.h"
 
 #define MINISHELL_PS1 "PS1=minishell$ "
-#define SYSTEMCALL_EXITSTATUS 1
-#define UNREACHABLE 1
-
-typedef struct s_mini
-{
-	char	*line;
-	char	**envp;
-	size_t	envp_size;
-	size_t	envp_count;
-	char	*prompt;
-	t_token	*token;
-	t_node	*node;
-}	t_mini;
 
 char	*mini_getenv(char *var, t_mini *mini);
-void	free_minienvp(t_mini *mini);
 
 void	print_node(t_node *node)
 {
@@ -79,71 +65,47 @@ void	print_node(t_node *node)
 		print_node(node->rhs);
 }
 
-void	safe_minishell_exit(t_mini *mini)
-{
-	if (mini->line)
-		free(mini->line);
-	if (mini->token)
-		free_token(mini->token);
-	if (mini->node)
-		free_node(mini->node);
-	if (mini->envp)
-		free_minienvp(mini);
-	free(mini);
-	rl_clear_history();
-	exit(SYSTEMCALL_EXITSTATUS);
-}
-
-void	minishell(t_mini *mini)
+void	set_token_node(t_mini *mini, char *line)
 {
 	int		status;
+	t_token	*token;
 
-	mini->token = NULL;
+	token = NULL;
 	mini->node = NULL;
-	status = get_token(&mini->token, mini->line);
+	status = get_token(&token, line);
 	if (status < 0)
 		safe_minishell_exit(mini);
 	if (status == SYNTAX_ERR)
 		return ;
-	status = get_node(&mini->node, mini->token);
+	status = get_node(&mini->node, token);
+	free_token(token);
+	free(line);
+	line = NULL;
 	if (status < 0)
 		safe_minishell_exit(mini);
 	if (status == SYNTAX_ERR)
-	{
-		free_token(mini->token);
 		return ;
-	}
 	print_node(mini->node);
 	// invoke_cmds(mini);
-	free_token(mini->token);
 	free_node(mini->node);
 }
 
 void	prompt(t_mini *mini)
 {
 	char	*prompt_name;
+	char	*line;
 
-	mini->line = NULL;
+	line = NULL;
 	prompt_name = mini_getenv("PS1", mini);
 	if (prompt_name)
-		mini->line = readline(prompt_name);
+		line = readline(prompt_name);
 	else
-		mini->line = readline("");
-	if (!mini->line)
+		line = readline("");
+	// set exit
+	if (!line)
 		return ;
-	add_history(mini->line);
-	minishell(mini);
-	free(mini->line);
-}
-
-void	free_minienvp(t_mini *mini)
-{
-	size_t	i;
-
-	i = 0;
-	while (i < mini->envp_count)
-		free(mini->envp[i++]);
-	free(mini->envp);
+	add_history(line);
+	set_token_node(mini, line);
 }
 
 int	set_env(t_mini *mini, char **envp)
@@ -176,26 +138,6 @@ int	set_mini(t_mini **mini, char **envp)
 		return (err_system_call("malloc"), \
 		free(*mini), ERR);
 	return (SUCCESS);
-}
-
-char	*mini_getenv(char *var, t_mini *mini)
-{
-	size_t	i;
-	char	*chr;
-
-	i = 0;
-	while (i < mini->envp_count)
-	{
-		if (!ft_strncmp(var, mini->envp[i], ft_strlen(var)))
-			break ;
-		i++;
-	}
-	if (!mini->envp[i])
-		return (NULL);
-	chr = ft_strchr(mini->envp[i], '=');
-	if (chr)
-		return (chr + 1);
-	return (NULL);
 }
 
 int	set_shell_name(t_mini *mini, char *argvzero)

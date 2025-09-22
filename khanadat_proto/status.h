@@ -21,4 +21,11 @@
 #  define UNEXPECTED 3
 # endif
 
+# ifndef SYSTEMCALL_EXITSTATUS
+#  define SYSTEMCALL_EXITSTATUS 1
+# endif
+
+# ifndef UNREACHABLE
+#  define UNREACHABLE 1
+# endif
 #endif
