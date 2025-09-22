@@ -11,6 +11,10 @@
 		"expand.h": "c",
 		"status.h": "c",
 		"ast_utils.h": "c",
-		"ast.h": "c"
+		"ast.h": "c",
+		"minishell_err.h": "c",
+		"minishell_define.h": "c",
+		"tokenizer_define.h": "c",
+		"ast_define.h": "c"
 	}
 }

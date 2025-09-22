@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/21 09:58:37 by khanadat          #+#    #+#             */
-/*   Updated: 2025/09/21 10:04:39 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/09/22 14:01:10 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,9 +92,9 @@ int	get_node(t_node **node, t_token *token)
 	while (cur)
 	{
 		before = cur;
-		if (consume(&token, TK_OPERATOR, ND_OR))
+		if (consume_node(&token, TK_OPERATOR, ND_OR))
 			cur = new_node(ND_OR, cur, new_pipe_node(&token));
-		else if (consume(&token, TK_OPERATOR, ND_AND))
+		else if (consume_node(&token, TK_OPERATOR, ND_AND))
 			cur = new_node(ND_AND, cur, new_pipe_node(&token));
 		else
 			break ;

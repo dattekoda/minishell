@@ -3,6 +3,8 @@
 # include "tokenizer_define.h"
 # include "ast_define.h"
 
+# define BUILTIN_NUM 7
+
 typedef struct s_mini
 {
 	char	**envp;

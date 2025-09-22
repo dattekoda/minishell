@@ -1,8 +1,14 @@
+#include <fcntl.h>
 #include <signal.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <signal.h>
 #include <stdio.h>
+#include <sys/types.h>
+#include <sys/wait.h>
+#include <readline/readline.h>
+#include <readline/history.h>
+#include "libft.h"
 
 // struct sigaction {
 // 	void		(*sa_handler)(int); // シグナルを受けたときの処理
@@ -36,18 +42,71 @@ sighandler_t	trap_signal(int sig, sighandler_t handler)
 
 void	print_exit(int sig)
 {
-	printf("Got signall %d\n", sig);
-	exit(0);
+	exit(sig + 128);
 }
 
-int	main(int argc, char *argv[])
+void	do_nothing(int sig)
 {
-	trap_signal(SIGINT, print_exit);
+	int	a = 0;
+
+	a = sig + a;
+	ft_putstr_fd("\n$ ", 1);
+	return ;
+}
+
+#define FILE_NAME ".sigaction_test"
+
+int	main(void)
+{
+	trap_signal(SIGINT, do_nothing);
 	// signal(SIGINT, print_exit);
 	while (1)
 	{
-		sleep(1);
-		write(1, "ohayo\n", 6);
+		char	*prompt;
+		int		status;
+		pid_t	d;
+
+		prompt = readline("$ ");
+		if (!prompt)
+			break ;
+		if (ft_strncmp(prompt, "heredoc", 7))
+		{
+			free(prompt);
+			continue ;
+		}
+		d = fork();
+		if (d == 0)
+		{
+			char	*line;
+			int		fd;
+			int		gnl;
+			fd = open(FILE_NAME, O_RDWR | O_CREAT, 0644);
+			trap_signal(SIGINT, print_exit);
+			while (1)
+			{
+				ft_putstr_fd("heredoc > ", 1);
+				ft_get_next_line(0, &line);
+				if (!line)
+					break ;
+				write(fd, line, ft_strlen(line));
+				free(line);
+			}
+			close(fd);
+			fd = open(FILE_NAME, O_RDONLY);
+			if (fd < 0)
+			{
+				perror("open");
+				exit(54);
+			}
+			ft_putchar_fd('\n', 1);
+			while ((gnl = ft_get_next_line(fd, &line)) == 1) {
+				ft_putstr_fd(line, 1);
+				free(line);
+			}
+			close(fd);
+			unlink(FILE_NAME);
+		}
+		waitpid(d, &status, 0);
 	}
 	exit(0);
 }

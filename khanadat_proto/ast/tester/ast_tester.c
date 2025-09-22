@@ -31,13 +31,13 @@ void	print_node(t_node *node)
 		r = node->red;
 		while (r)
 		{
-			if (r->kind == ND_APPEND)
+			if (r->kind == RD_APPEND)
 				printf("append: ");
-			else if (r->kind == ND_HEREDOC)
+			else if (r->kind == RD_HEREDOC)
 				printf("heredoc: ");
-			else if (r->kind == ND_RED_IN)
+			else if (r->kind == RD_IN)
 				printf("redirect in: ");
-			else if (r->kind == ND_RED_OUT)
+			else if (r->kind == RD_OUT)
 				printf("redirect_out: ");
 			printf("%s\n", r->file);
 			r = r->next;

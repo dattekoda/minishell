@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/21 09:58:46 by khanadat          #+#    #+#             */
-/*   Updated: 2025/09/21 09:58:47 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/09/22 14:06:59 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,16 @@
 # define CMD_END 3
 #endif
 
-static int	set_node_argv(t_token **token, size_t len, t_node *new);
-static void	count_argv_len(t_token *token, size_t *len);
+static int	set_node_argv(t_token **token, t_node *new);
+static void	count_word_num(t_token *token, size_t *word_num);
 static int	add_new_red(t_token *token, t_red **cur);
 static int	set_redirection(t_token *token, t_node *new);
 
+// malloc 2 times as many as number of words
+// in order to ensure sufficient margin after
+// variable expansion
 t_node	*new_cmd_node(t_token **token)
 {
-	size_t	len;
 	t_node	*new;
 
 	new = ft_calloc(1, sizeof(t_node));
@@ -36,22 +38,23 @@ t_node	*new_cmd_node(t_token **token)
 		return (NULL);
 	if (set_redirection(*token, new))
 		return ((new->kind = ND_AND), NULL);
-	count_argv_len(*token, &len);
-	new->argv = ft_calloc(len + 1, sizeof(char *));
-	if (!new->argv || set_node_argv(token, len, new))
+	count_word_num(*token, &new->word_num);
+	new->argv_size = new->word_num * 2;
+	new->argv = ft_calloc(new->argv_size + 1, sizeof(char *));
+	if (!new->argv || set_node_argv(token, new))
 		return (free_red(new->red), (new->kind = ND_AND), NULL);
 	new->kind = ND_CMD;
 	return (new);
 }
 
-static void	count_argv_len(t_token *token, size_t *len)
+static void	count_word_num(t_token *token, size_t *word_num)
 {
-	*len = 0;
+	*word_num = 0;
 	while (token->kind != TK_EOF)
 	{
 		if (token->kind == TK_WORD)
 		{
-			(*len)++;
+			(*word_num)++;
 			token = token->next;
 			continue ;
 		}
@@ -65,12 +68,12 @@ static void	count_argv_len(t_token *token, size_t *len)
 	}
 }
 
-static int	set_node_argv(t_token **token, size_t len, t_node *new)
+static int	set_node_argv(t_token **token, t_node *new)
 {
 	size_t	i;
 
 	i = 0;
-	while (i < len)
+	while (i < new->word_num)
 	{
 		if ((*token)->kind != TK_WORD)
 		{
@@ -86,10 +89,10 @@ static int	set_node_argv(t_token **token, size_t len, t_node *new)
 		}
 		(*token) = (*token)->next;
 	}
-	while (consume(token, TK_OPERATOR, ND_APPEND) \
-	|| consume(token, TK_OPERATOR, ND_HEREDOC) \
-	|| consume(token, TK_OPERATOR, ND_RED_IN) \
-	|| consume(token, TK_OPERATOR, ND_RED_OUT))
+	while (consume_redirect(token, TK_OPERATOR, RD_APPEND) \
+	|| consume_redirect(token, TK_OPERATOR, RD_HEREDOC) \
+	|| consume_redirect(token, TK_OPERATOR, RD_IN) \
+	|| consume_redirect(token, TK_OPERATOR, RD_OUT))
 		(*token) = (*token)->next;
 	return (SUCCESS);
 }
@@ -124,24 +127,24 @@ static int	set_redirection(t_token *token, t_node *new)
 static int	add_new_red(t_token *token, t_red **cur)
 {
 	t_red		*new;
-	t_NodeKind	nkind;
+	t_RedKind	rkind;
 
 	if (token->kind != TK_OPERATOR)
 		return (CMD_END);
 	if (!ft_strncmp(token->str, ">>", 2))
-		nkind = ND_APPEND;
+		rkind = RD_APPEND;
 	else if (!ft_strncmp(token->str, "<<", 2))
-		nkind = ND_HEREDOC;
+		rkind = RD_HEREDOC;
 	else if (*(token->str) == '<')
-		nkind = ND_RED_IN;
+		rkind = RD_IN;
 	else if (*(token->str) == '>')
-		nkind = ND_RED_OUT;
+		rkind = RD_OUT;
 	else
 		return (CMD_END);
 	new = ft_calloc(1, sizeof(t_red));
 	if (!new)
 		return (ERR);
-	new->kind = nkind;
+	new->kind = rkind;
 	new->file = ft_strndup(token->next->str, token->next->str_len);
 	if (!new->file)
 		return (free(new), ERR);

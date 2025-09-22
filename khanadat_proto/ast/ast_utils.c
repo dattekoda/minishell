@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/21 09:58:42 by khanadat          #+#    #+#             */
-/*   Updated: 2025/09/21 09:58:43 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/09/22 14:04:32 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,28 @@ t_node	*new_node(t_NodeKind kind, t_node *lhs, t_node *rhs)
 	return (new);
 }
 
-bool	consume(t_token **token, t_TokenKind tkind, t_NodeKind nkind)
+bool	consume_redirect(t_token **token, t_TokenKind tkind, t_RedKind rkind)
+{
+	if ((*token)->kind != tkind)
+		return (false);
+	if ((*token)->kind == TK_OPERATOR)
+	{
+		if (rkind == RD_HEREDOC && ft_strncmp((*token)->str, "<<", 2))
+			return (false);
+		if (rkind == RD_APPEND && ft_strncmp((*token)->str, ">>", 2))
+			return (false);
+		if (rkind == RD_IN \
+			&& !(*((*token)->str) == '<' && *((*token)->str + 1) != '<'))
+			return (false);
+		if (rkind == RD_OUT \
+			&& !(*((*token)->str) == '>' && *((*token)->str + 1) != '>'))
+			return (false);
+	}
+	(*token) = (*token)->next;
+	return (true);
+}
+
+bool	consume_node(t_token **token, t_TokenKind tkind, t_NodeKind nkind)
 {
 	if ((*token)->kind != tkind)
 		return (false);
@@ -61,16 +82,6 @@ bool	consume(t_token **token, t_TokenKind tkind, t_NodeKind nkind)
 		if (nkind == ND_PIPE \
 			&& !(*((*token)->str) == '|' && *((*token)->str + 1) != '|'))
 			return (false);
-		if (nkind == ND_HEREDOC && ft_strncmp((*token)->str, "<<", 2))
-			return (false);
-		if (nkind == ND_APPEND && ft_strncmp((*token)->str, ">>", 2))
-			return (false);
-		if (nkind == ND_RED_IN \
-			&& !(*((*token)->str) == '<' && *((*token)->str + 1) != '<'))
-			return (false);
-		if (nkind == ND_RED_OUT \
-			&& !(*((*token)->str) == '>' && *((*token)->str + 1) != '>'))
-			return (false);
 	}
 	(*token) = (*token)->next;
 	return (true);
@@ -82,7 +93,7 @@ t_node	*new_pipe_node(t_token **token)
 	t_node	*before;
 
 	node = new_cmd_node(token);
-	while (consume(token, TK_OPERATOR, ND_PIPE) && node)
+	while (consume_node(token, TK_OPERATOR, ND_PIPE) && node)
 	{
 		before = node;
 		node = new_node(ND_PIPE, node, new_cmd_node(token));
