@@ -45,20 +45,19 @@ void	print_exit(int sig)
 	exit(sig + 128);
 }
 
-void	do_nothing(int sig)
+void	set_prompt(int sig)
 {
-	int	a = 0;
+	char	*prompt;
 
-	a = sig + a;
-	ft_putstr_fd("\n$ ", 1);
-	return ;
+	(void)sig;
+	prompt = readline("$ ");
 }
 
-#define FILE_NAME ".sigaction_test"
+#define FILE_NAME ".heredoc_test"
 
 int	main(void)
 {
-	trap_signal(SIGINT, do_nothing);
+	trap_signal(SIGINT, SIG_IGN);
 	// signal(SIGINT, print_exit);
 	while (1)
 	{
