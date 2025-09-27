@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/21 09:58:42 by khanadat          #+#    #+#             */
-/*   Updated: 2025/09/22 14:04:32 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/09/27 17:21:40 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,26 +14,12 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include "ast_define.h"
+#include "ast_utils.h"
 #include "tokenizer.h"
 #include "status.h"
 #include "minishell_err.h"
 #include "libft.h"
 #include "ast.h"
-
-t_node	*new_cmd_node(t_token **token);
-
-void	free_red(t_red *head)
-{
-	t_red	*tmp;
-
-	while (head)
-	{
-		tmp = head->next;
-		free(head->file);
-		free(head);
-		head = tmp;
-	}
-}
 
 t_node	*new_node(t_NodeKind kind, t_node *lhs, t_node *rhs)
 {

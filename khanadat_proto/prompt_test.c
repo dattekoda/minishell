@@ -8,11 +8,20 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 #include "libft.h"
+#include "status.h"
+#include "minishell_err.h"
 
 // #define PATH_MAX 2048
 #define GOT_SIGNAL 2
 #define NO_LINE 1
-#define SYSTEM_CALL_ERR 42
+#define CORE_DUMPED 3
+
+typedef struct s_minishell
+{
+	char	*program_name;
+	char	*prompt;
+	char	**path_list;
+}	t_minishell;
 
 void	free_split(char **splited)
 {
@@ -40,17 +49,55 @@ int	set_handler(int sig, void handler(int))
 	struct sigaction	sa;
 
 	if (sigemptyset(&sa.sa_mask))
-		return (SYSTEM_CALL_ERR);
+		return (ERR);
 	sa.sa_handler = handler;
 	sa.sa_flags = 0;
 	if (sigaction(sig, &sa, (struct sigaction *)0))
-		return (SYSTEM_CALL_ERR);
+		return (ERR);
 	return (0);
+}
+
+int	get_current_dir_path(t_minishell *mini)
+{
+	mini->path_list = ft_calloc(2, sizeof(char *));
+	if (!mini->path_list)
+	// need fix as giving correct err msg.
+		return (err_system_call("malloc"), ERR);
+	*(mini->path_list) = ft_strdup(".");
+	if (!*(mini->path_list))
+		return (err_system_call("malloc"), \
+		free(mini->path_list), ERR);
+	return (SUCCESS);
+}
+
+#define PATH_LIST_LEN 10
+
+int	store_path_list(t_minishell *mini, char *envp[])
+{
+	mini->path_list \
+	= ft_calloc(PATH_LIST_LEN + 1, sizeof(char *));
+}
+
+int	get_path_list(t_minishell *mini, char *envp[])
+{
+	size_t	i;
+
+	i = 0;
+	while (envp[i])
+	{
+		if (!strncmp(envp[i], "PATH=", 5))
+			break ;
+		i++;
+	}
+	if (!envp[i])
+		return (get_current_dir_path(mini));
+	return (store_path_list(mini, envp));
 }
 
 int	main(int argc, char *argv[], char *envp[])
 {
-	char	*prompt;
+	t_minishell	mini;
+	char		*prompt;
 	if (argc != 1)
 		exit(1);
 
@@ -135,13 +182,13 @@ int	main(int argc, char *argv[], char *envp[])
 		int		pfd[2];
 		if (pipe(pfd) < 0)
 			exit((perror("pipe"), free(prompt), \
-			free_split(path_list), SYSTEM_CALL_ERR));
+			free_split(path_list), ERR));
 
 		pid_t	prompt_id;
 		prompt_id = fork();
 		if (prompt_id < 0)
 			exit((perror("fork"), free(prompt), \
-			free_split(path_list), SYSTEM_CALL_ERR));
+			free_split(path_list), ERR));
 
 		// 子プロセス内でプロンプトを取得してそれを親プロセスに書き込み。
 		if (prompt_id == 0)
@@ -158,7 +205,7 @@ int	main(int argc, char *argv[], char *envp[])
 				exit((close(pfd[1]), free(child_line), 0));
 			else
 				exit((close(pfd[1]), free(child_line), \
-				perror("write"), SYSTEM_CALL_ERR));
+				perror("write"), ERR));
 		}
 
 		// 子プロセスから取得したexit statusを確認して、
@@ -174,20 +221,20 @@ int	main(int argc, char *argv[], char *envp[])
 		if (WEXITSTATUS(prompt_status) == NO_LINE)
 			exit((rl_clear_history(), free(prompt), \
 			free_split(path_list), close(pfd[0]), 0)) ;
-		if (WEXITSTATUS(prompt_status) == SYSTEM_CALL_ERR)
+		if (WEXITSTATUS(prompt_status) == ERR)
 			exit((rl_clear_history(), free(prompt), \
-			free_split(path_list), close(pfd[0]), SYSTEM_CALL_ERR));
+			free_split(path_list), close(pfd[0]), ERR));
 
 		// 子プロセスがパイプに書き込んだものを読み取り。
 		char	*line = NULL;
 		size_t	len;
 		if (read(pfd[0], &len, sizeof(size_t)) != sizeof(size_t))
 			exit((rl_clear_history(), free(prompt), \
-			free_split(path_list), perror("read"), close(pfd[0]), SYSTEM_CALL_ERR));
+			free_split(path_list), perror("read"), close(pfd[0]), ERR));
 		line = ft_calloc(len + 1, sizeof(char));
 		if (read(pfd[0], line, len) != (ssize_t)len)
 			exit((rl_clear_history(), free(prompt), \
-			free_split(path_list), perror("read"), free(line), close(pfd[0]), SYSTEM_CALL_ERR));
+			free_split(path_list), perror("read"), free(line), close(pfd[0]), ERR));
 		close(pfd[0]);
 
 		// 何も入力がなくリターンがあったとき
@@ -214,7 +261,7 @@ int	main(int argc, char *argv[], char *envp[])
 		if (access(line_argv[0], F_OK)) {
 			while (path_list[++j])
 			{
-				memset(path, 0, PATH_MAX);
+				ft_memset(path, 0, PATH_MAX);
 				ft_memmove(path, path_list[j], ft_strlen(path_list[j]));
 				ft_memmove(path + ft_strlen(path_list[j]), "/", 1);
 				ft_memmove(path + ft_strlen(path_list[j]) + 1, line_argv[0], line_argv_len);
@@ -246,12 +293,13 @@ int	main(int argc, char *argv[], char *envp[])
 			set_handler(SIGQUIT, SIG_DFL);
 			execve(path, line_argv, envp);
 		}
-		int	status;
-		waitpid(id , &status, 0);
-		if (status == __WIFSTOPPED(status) \
-		&& status == __W_CONTINUED \
-		&& __WCOREDUMP(status))
-			ft_putstr_fd("Quit (core dumped) ", 2);
+		else
+		{
+			int	status;
+			waitpid(id , &status, 0);
+			if (WIFSIGNALED(status) && WTERMSIG(status) == CORE_DUMPED)
+				ft_putstr_fd("Quit (core dumped)\n", 2);
+		}
 		free_split(line_argv);
 	}
 	rl_clear_history();

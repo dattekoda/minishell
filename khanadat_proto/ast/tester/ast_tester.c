@@ -10,8 +10,8 @@
 
 void	print_node(t_node *node)
 {
-	char	**v;
 	t_red	*r;
+	t_word	*w;
 
 	if (node->lhs)
 		print_node(node->lhs);
@@ -24,9 +24,12 @@ void	print_node(t_node *node)
 	else if (node->kind == ND_CMD)
 	{
 		printf("cmd: ");
-		v = node->argv;
-		while (*v)
-			printf("%s ", *(v++));
+		w = node->word;
+		while (w)
+		{
+			printf("%s ", w->word);
+			w = w->next;
+		}
 		printf("\n");
 		r = node->red;
 		while (r)

@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/21 09:58:37 by khanadat          #+#    #+#             */
-/*   Updated: 2025/09/22 14:01:10 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/09/27 17:12:55 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,18 +33,13 @@ void	put_token_err(t_token *token)
 
 void	free_node(t_node *node)
 {
-	size_t	i;
-
 	if (!node)
 		return ;
 	free_node(node->lhs);
 	free_node(node->rhs);
 	if (node->kind == ND_CMD)
 	{
-		i = 0;
-		while (node->argv[i])
-			free(node->argv[i++]);
-		free(node->argv);
+		free_word(node->word);
 		free_red(node->red);
 	}
 	free(node);
