@@ -21,8 +21,16 @@
 #  define UNEXPECTED 3
 # endif
 
+# ifndef PERMISSION_ERR
+#  define PERMISSION_ERR 126
+# endif
+
+# ifndef NOT_FOUND_ERR
+#  define NOT_FOUND_ERR 127
+# endif
+
 # ifndef SYSTEMCALL_EXITSTATUS
-#  define SYSTEMCALL_EXITSTATUS 1
+#  define SYSTEMCALL_EXITSTATUS -1
 # endif
 
 # ifndef UNREACHABLE

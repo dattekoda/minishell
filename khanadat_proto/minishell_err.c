@@ -1,8 +1,27 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell_err.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/09/28 16:14:49 by khanadat          #+#    #+#             */
+/*   Updated: 2025/09/28 16:14:50 by khanadat         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "tokenizer.h"
 #include "minishell_lib.h"
 #include "libft.h"
 #include "status.h"
 #include <unistd.h>
+
+void	err_cmd_not_found(char *file)
+{
+	ft_putstr_fd(access_program_name(NULL), STDERR_FILENO);
+	ft_putstr_fd(": command not found: ", STDERR_FILENO);
+	ft_putendl_fd(file, STDERR_FILENO);
+}
 
 void	err_tokenizer(t_token *token)
 {
@@ -15,7 +34,7 @@ void	err_tokenizer(t_token *token)
 	ft_putendl_fd("\'", STDERR_FILENO);
 }
 
-// used only at the first moment
+// used only at first
 void	err_invalid_arg(char *program_name)
 {
 	ft_putstr_fd(program_name, STDERR_FILENO);

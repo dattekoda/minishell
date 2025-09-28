@@ -15,6 +15,7 @@
 		"minishell_err.h": "c",
 		"minishell_define.h": "c",
 		"tokenizer_define.h": "c",
-		"ast_define.h": "c"
+		"ast_define.h": "c",
+		"signal.h": "c"
 	}
 }

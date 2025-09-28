@@ -1,28 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell_err.h                                    :+:      :+:    :+:   */
+/*   prompt_utils.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/28 16:14:47 by khanadat          #+#    #+#             */
-/*   Updated: 2025/09/28 16:14:48 by khanadat         ###   ########.fr       */
+/*   Created: 2025/09/28 13:42:57 by khanadat          #+#    #+#             */
+/*   Updated: 2025/09/28 13:45:21 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_ERR_H
-# define MINISHELL_ERR_H
+#ifndef PROMPT_UTILS_H
+# define PROMPT_UTILS_H
 
-# include "tokenizer.h"
+# include "minishell_define.h"
 
-// minishll_err.c
-void	err_cmd_not_found(char *file);
-void	err_tokenizer(t_token *token);
-void	err_invalid_arg(char *program_name);
-void	err_system_call(char *func);
-void	put_syntax_err(char type);
-
-// minishell_err1.c
-void	err_permission(char *file);
+int	set_minishell(t_mini *mini, char *envp[]);
+int	set_node(t_mini *mini);
 
 #endif

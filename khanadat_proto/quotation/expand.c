@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include <readline/readline.h>
 #include <readline/history.h>
 
@@ -5,6 +6,7 @@
 #include "status.h"
 #include "minishell_err.h"
 #include "minishell_lib.h"
+#include "expand.h"
 
 // still need to fix in order to get $?
 int	dollar_join(char **new, char **before)
@@ -13,7 +15,12 @@ int	dollar_join(char **new, char **before)
 	char	*env_var;
 
 	dollar_name = ++(*before);
-	// if (*dollar_name == '?')
+	if (*dollar_name == '?')
+	{
+		env_var = ft_itoa(received_sig);
+		safe_join(new, env_var);
+		return (++(*before), free(env_var), SUCCESS);
+	}
 	while (**before && **before != '\'' && **before != '\"' \
 		&& **before != '$' && !ft_isspace(**before))
 		(*before)++;
@@ -122,12 +129,17 @@ int	store_new(char *before, char **new)
 	return (SUCCESS);
 }
 
+// syntax err return 2
+// system call err return -1
+// success return 0
 // 'hello' > hello h'ell'o"$HOME" > hello/home/khanadat
 int	expand_quotation(char *before, char **new)
 {
 	if (BUFFER_SIZE < 1)
 		return (ft_putendl_fd("Error: set the appropriate BUFFER_SIZE.", \
 			STDERR_FILENO), ERR);
+	if (valid_quote(before))
+			return (SYNTAX_ERR);
 	*new = ft_strdup("");
 	if (!*new)
 		return (err_system_call("malloc"), ERR);
@@ -141,19 +153,30 @@ int	main(void)
 {
 	char	*expanded;
 	char	*line;
+	int		status;
 
+	access_program_name("minishell");
+	expanded = NULL;
+	line = NULL;
 	while (1)
 	{
 		line = readline("$ ");
 		if (!line)
 			break;
 		add_history(line);
-		if (expand_quotation(line, &expanded))
-			return (free(line), 1);
-		free(line);
-		printf("%s\n", expanded);
-		free(expanded);
+		ft_putendl_fd("hello", 2);
+		status = expand_quotation(line, &expanded);
+		safe_free((void **)&line);
+		if (status < 0)
+			return (rl_clear_history(), \
+			access_program_name("free_program_name"), 1);
+		if (status == SYNTAX_ERR)
+			continue ;
+		if (expanded)
+			printf("%s\n", expanded);
+		safe_free((void **)&expanded);
 	}
 	rl_clear_history();
+	access_program_name("free_program_name");
 	return 0;
 }

@@ -6,8 +6,8 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 18:16:59 by khanadat          #+#    #+#             */
-/*   Updated: 2025/09/27 18:17:00 by khanadat         ###   ########.fr       */
-/*      char	*program_name(char *set)                                                                      */
+/*   Updated: 2025/09/28 17:36:04 by khanadat         ###   ########.fr       */
+/*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
@@ -17,55 +17,12 @@
 #include "minishell_err.h"
 #include "minishell_define.h"
 #include "minishell_lib.h"
+#include "prompt_utils.h"
 #include "status.h"
 #include "libft.h"
 #include "ast.h"
 #include "tokenizer.h"
-
-int	set_envp(t_mini *mini, char *envp[])
-{
-	size_t	i;
-
-	while (envp[mini->envp_len])
-		(mini->envp_len)++;
-	mini->envp_size = (mini->envp_len) * 2;
-	mini->envp = ft_calloc(mini->envp_size + 1, sizeof(char *));
-	if (!mini->envp)
-		return (err_system_call("malloc"), ERR);
-	i = 0;
-	while (i < mini->envp_len)
-	{
-		mini->envp[i] = ft_strdup(envp[i]);
-		if (!mini->envp[i])
-		{
-			while (i--)
-				free(mini->envp[i]);
-			return (free(mini->envp), err_system_call("malloc"), ERR);
-		}
-		i++;
-	}
-	return (SUCCESS);
-}
-
-int	set_prompt(t_mini *mini)
-{
-	mini->prompt = ft_strjoin \
-	(access_program_name(NULL), "$ ");
-	if (!mini->prompt)
-		return (err_system_call("malloc"), ERR);
-	return (SUCCESS);
-}
-
-int	set_minishell(t_mini *mini, char *envp[])
-{
-	ft_bzero(mini, sizeof(t_mini));
-	if (set_envp(mini, envp))
-		return (ERR);
-	if (set_prompt(mini))
-		return (ERR);
-	return (SUCCESS);
-}
-
+#include "exec.h"
 
 int	set_handler(int sig, void handler(int))
 {
@@ -81,13 +38,14 @@ int	set_handler(int sig, void handler(int))
 
 void	quit_cmd(int sig)
 {
-	exit(sig + 128);
+	exit(sig + DEFAULT_SIG_NUM);
 }
 
 void	restart_prompt(int sig)
 {
 	ft_putchar_fd('\n', STDERR_FILENO);
-	exit(128 + sig);
+	received_sig = DEFAULT_SIG_NUM + sig;
+	exit(DEFAULT_SIG_NUM + sig);
 }
 
 void	send_prompt(t_mini *mini, int *pfd)
@@ -135,32 +93,6 @@ int	receive_prompt(t_mini *mini, int *pfd, pid_t prompt_id)
 	return (SUCCESS);
 }
 
-// set node and free line
-int	set_node(t_mini *mini)
-{
-	int		status;
-	t_token	*token;
-
-	status = get_token(&token, mini->line);
-	if (status < 0)
-		systemcall_minishell_exit(mini, NULL);
-	if (status == SYNTAX_ERR)
-		return (safe_free \
-			((void **)&(mini->line)), \
-			PROMPT_CONTINUE);
-	status = get_node(&(mini->node), token);
-	if (status < 0)
-		systemcall_minishell_exit \
-		((free_token(&token), mini), NULL);
-	if (status == SYNTAX_ERR)
-		return (free_token(&token), \
-			safe_free((void **)&(mini->line)), \
-			PROMPT_CONTINUE);
-	return (free_token(&token), \
-		safe_free((void **)&(mini->line)), \
-		SUCCESS);
-}
-
 void	print_node(t_node *node)
 {
 	t_red	*r;
@@ -203,9 +135,14 @@ void	print_node(t_node *node)
 		print_node(node->rhs);
 }
 
-void	exec_prompt(t_mini *mini)
+void	exec_prompt(t_mini *mini, t_node *node/* , t_NodeKind nkind */)
 {
-	print_node(mini->node);
+	if (!node)
+		return ;
+	if (node->lhs)
+		exec_prompt(mini, node->lhs/* , node->kind */);
+	else if (node->kind == ND_CMD)
+		exec_cmd(mini, node);
 }
 
 void	minishell(t_mini *mini)
@@ -228,7 +165,7 @@ void	minishell(t_mini *mini)
 			continue ;
 		if (set_node(mini) == PROMPT_CONTINUE)
 			continue ;
-		exec_prompt(mini);
+		exec_prompt(mini, mini->node/* , ND_NOT */);
 		free_node(&mini->node);
 	}
 }
@@ -239,6 +176,7 @@ int	main(int argc, char *argv[], char *envp[])
 
 	if (argc != 1)
 		return (err_invalid_arg(argv[1]), FAILURE);
+	received_sig = 0;
 	if (!access_program_name(argv[0]))
 		return (FAILURE);
 	if (set_minishell(&mini, envp))
