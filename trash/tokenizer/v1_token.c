@@ -31,17 +31,17 @@ int	get_token(t_token **token, char *line)
 	return (SUCCESS);
 }
 
-void	free_token(t_token *token)
+void	free_token(t_token **token)
 {
 	t_token	*tmp;
 
-	while (token)
+	while ((*token))
 	{
-		tmp = token->next;
-		if (token->kind == TK_WORD)
-			free(token->str);
-		free(token);
-		token = tmp;
+		tmp = (*token)->next;
+		if ((*token)->kind == TK_WORD)
+			free((*token)->str);
+		free((*token));
+		(*token) = tmp;
 	}
 }
 

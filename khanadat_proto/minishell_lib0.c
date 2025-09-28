@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/21 18:15:10 by khanadat          #+#    #+#             */
-/*   Updated: 2025/09/22 08:52:20 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/09/28 11:02:24 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 #include <stdio.h>
 #include <readline/readline.h>
 #include <readline/history.h>
-#include "status.h"
 #include "minishell_err.h"
-#include "libft.h"
 #include "minishell_define.h"
-#include "tokenizer.h"
+#include "minishell_lib.h"
+#include "status.h"
+#include "libft.h"
 #include "ast.h"
 
 // free(*@join) and joined first and buffer
@@ -35,31 +35,27 @@ int	safe_join(char **joined, char *buffer)
 	return (SUCCESS);
 }
 
-void	free_minienvp(t_mini *mini)
+void	safe_minishell_free(t_mini *mini)
 {
-	size_t	i;
-
-	i = 0;
-	while (i < mini->envp_count)
-	{
-		if (mini->envp[i])
-			free(mini->envp[i]);
-		mini->envp[i++] = NULL;
-	}
-	if (mini->envp)
-		free(mini->envp);
-	mini->envp = NULL;
+	free_split(mini->envp);
+	safe_free((void **)&mini->line);
+	free_node(&mini->node);
+	rl_clear_history();
+	free_program_name();
 }
 
-void	safe_minishell_exit(t_mini *mini)
+void	noline_minishell_exit(t_mini *mini)
 {
-	if (mini->node)
-		free_node(mini->node);
-	if (mini->envp)
-		free_minienvp(mini);
-	free(mini);
-	mini = NULL;
-	rl_clear_history();
+	ft_putendl_fd("exit", STDERR_FILENO);
+	safe_minishell_free(mini);
+	exit(SUCCESS);
+}
+
+void	systemcall_minishell_exit(t_mini *mini, char *func)
+{
+	if (func)
+		err_system_call(func);
+	safe_minishell_free(mini);
 	exit(SYSTEMCALL_EXITSTATUS);
 }
 
@@ -70,7 +66,7 @@ char	*mini_getenv(char *var, t_mini *mini)
 	char	*chr;
 
 	i = 0;
-	while (i < mini->envp_count)
+	while (i < mini->envp_len)
 	{
 		len = ft_strlen(var);
 		if (!ft_strncmp(var, mini->envp[i], len) \

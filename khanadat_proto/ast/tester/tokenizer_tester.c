@@ -29,7 +29,7 @@ int	main(void)
 			continue ;
 		}
 		print_token(token);
-		free_token(token);
+		free_token(&token);
 		free(line);
 	}
 	rl_clear_history();

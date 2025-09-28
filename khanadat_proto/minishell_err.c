@@ -1,19 +1,42 @@
+#include "tokenizer.h"
+#include "minishell_lib.h"
 #include "libft.h"
 #include "status.h"
 #include <unistd.h>
+
+void	err_tokenizer(t_token *token)
+{
+	ft_putstr_fd(access_program_name(NULL), STDERR_FILENO);
+	ft_putstr_fd(": Error: syntax error near unexpected token `", STDERR_FILENO);
+	if (token->kind == TK_EOF)
+		ft_putstr_fd("new_line", STDERR_FILENO);
+	else if (token->kind == TK_OPERATOR)
+		write(STDERR_FILENO, token->str, token->str_len);
+	ft_putendl_fd("\'", STDERR_FILENO);
+}
+
+// used only at the first moment
+void	err_invalid_arg(char *program_name)
+{
+	ft_putstr_fd(program_name, STDERR_FILENO);
+	ft_putendl_fd(": Error: invalid number of arguments", STDERR_FILENO);
+}
 
 // set function's name
 // and put msg to err_fileno like
 // Error: malloc failed.\n
 void	err_system_call(char *func)
 {
-	ft_putstr_fd("Error: ", STDERR_FILENO);
+	ft_putstr_fd(access_program_name(NULL), STDERR_FILENO);
+	ft_putstr_fd(": Error: ", STDERR_FILENO);
 	ft_putstr_fd(func, STDERR_FILENO);
 	ft_putendl_fd(" failed.", STDERR_FILENO);
 }
 
 void	put_syntax_err(char type)
 {
+	ft_putstr_fd(access_program_name(NULL), STDERR_FILENO);
+	ft_putstr_fd(": ", STDERR_FILENO);
 	ft_putstr_fd("syntax error: ", STDERR_FILENO);
 	if (type == '&')
 		ft_putendl_fd("you cannot use '&', job control function", STDERR_FILENO);
@@ -22,3 +45,10 @@ void	put_syntax_err(char type)
 	else if (type == '\"')
 		ft_putendl_fd("you need enclose with \"", STDERR_FILENO);
 }
+
+// int	main(void)
+// {
+// 	program_name("minishell");
+// 	err_system_call("malloc");
+// 	program_name("free_program_name");
+// }

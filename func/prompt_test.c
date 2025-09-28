@@ -10,28 +10,23 @@
 #include "libft.h"
 #include "status.h"
 #include "minishell_err.h"
+#include "ast.h"
 
 // #define PATH_MAX 2048
 #define GOT_SIGNAL 2
 #define NO_LINE 1
 #define CORE_DUMPED 3
 
-typedef struct s_minishell
+typedef struct s_mini
 {
+	char	**envp;
+	size_t	envp_size;
+	size_t	envp_count;
+	t_node	*node;
 	char	*program_name;
 	char	*prompt;
 	char	**path_list;
-}	t_minishell;
-
-void	free_split(char **splited)
-{
-	size_t	i;
-
-	i = 0;
-	while (splited[i])
-		free(splited[i++]);
-	free(splited);
-}
+}	t_mini;
 
 void	quit_cmd(int sig)
 {
@@ -57,7 +52,7 @@ int	set_handler(int sig, void handler(int))
 	return (0);
 }
 
-int	get_current_dir_path(t_minishell *mini)
+int	get_current_dir_path(t_mini *mini)
 {
 	mini->path_list = ft_calloc(2, sizeof(char *));
 	if (!mini->path_list)
@@ -72,13 +67,13 @@ int	get_current_dir_path(t_minishell *mini)
 
 #define PATH_LIST_LEN 10
 
-int	store_path_list(t_minishell *mini, char *envp[])
+int	store_path_list(t_mini *mini, char *envp[])
 {
 	mini->path_list \
 	= ft_calloc(PATH_LIST_LEN + 1, sizeof(char *));
 }
 
-int	get_path_list(t_minishell *mini, char *envp[])
+int	get_path_list(t_mini *mini, char *envp[])
 {
 	size_t	i;
 
@@ -96,7 +91,7 @@ int	get_path_list(t_minishell *mini, char *envp[])
 
 int	main(int argc, char *argv[], char *envp[])
 {
-	t_minishell	mini;
+	t_mini		mini;
 	char		*prompt;
 	if (argc != 1)
 		exit(1);

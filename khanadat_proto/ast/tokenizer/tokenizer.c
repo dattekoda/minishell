@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/21 09:58:51 by khanadat          #+#    #+#             */
-/*   Updated: 2025/09/21 17:38:37 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/09/28 10:59:55 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,17 +17,17 @@
 #include "tokenizer_utils.h"
 #include "libft.h"
 
-void	free_token(t_token *token)
+void	free_token(t_token **token)
 {
 	t_token	*tmp;
 
-	while (token)
+	while ((*token))
 	{
-		tmp = token->next;
-		free(token);
-		token = tmp;
+		tmp = (*token)->next;
+		free((*token));
+		(*token) = tmp;
 	}
-	token = NULL;
+	(*token) = NULL;
 }
 
 // if systemcall err return -1
@@ -58,7 +58,7 @@ int	get_token(t_token **token, char *line)
 		cur = new_word_token(cur, &line);
 	}
 	if (!cur || !new_eof_token(cur))
-		return (free_token(head.next), ERR);
+		return (free_token(&head.next), ERR);
 	*token = head.next;
 	return (SUCCESS);
 }

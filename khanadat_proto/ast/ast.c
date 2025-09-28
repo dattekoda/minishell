@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/21 09:58:37 by khanadat          #+#    #+#             */
-/*   Updated: 2025/09/27 17:12:55 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/09/28 11:01:31 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,29 +21,19 @@
 #include "ast_define.h"
 #include "ast_utils.h"
 
-void	put_token_err(t_token *token)
+void	free_node(t_node **node)
 {
-	ft_putstr_fd("syntax error near unexpected token `", STDERR_FILENO);
-	if (token->kind == TK_EOF)
-		ft_putstr_fd("new_line", STDERR_FILENO);
-	else if (token->kind == TK_OPERATOR)
-		write(STDERR_FILENO, token->str, token->str_len);
-	ft_putendl_fd("\'", STDERR_FILENO);
-}
-
-void	free_node(t_node *node)
-{
-	if (!node)
+	if (!*node)
 		return ;
-	free_node(node->lhs);
-	free_node(node->rhs);
-	if (node->kind == ND_CMD)
+	free_node(&((*node)->lhs));
+	free_node(&((*node)->rhs));
+	if ((*node)->kind == ND_CMD)
 	{
-		free_word(node->word);
-		free_red(node->red);
+		free_word((*node)->word);
+		free_red((*node)->red);
 	}
-	free(node);
-	node = NULL;
+	free(*node);
+	*node = NULL;
 }
 
 int	validate_token(t_token *token)
@@ -55,7 +45,7 @@ int	validate_token(t_token *token)
 				|| *(token->str) == '>'))
 		{
 			if ((token->next)->kind != TK_WORD)
-				return (put_token_err(token->next), SYNTAX_ERR);
+				return (err_tokenizer(token->next), SYNTAX_ERR);
 			token = token->next;
 		}
 		else if (token->kind == TK_OPERATOR
@@ -66,7 +56,7 @@ int	validate_token(t_token *token)
 			|| (((token->next)->kind == TK_OPERATOR \
 			&& (*((token->next)->str) != '>' \
 			&& *((token->next)->str) != '<'))))
-				return (put_token_err(token->next), SYNTAX_ERR);
+				return (err_tokenizer(token->next), SYNTAX_ERR);
 			token = token->next;
 		}
 		token = token->next;
@@ -95,7 +85,7 @@ int	get_node(t_node **node, t_token *token)
 			break ;
 	}
 	if (!cur)
-		return (free_node(before), ERR);
+		return (free_node(&before), ERR);
 	*node = cur;
 	return (SUCCESS);
 }

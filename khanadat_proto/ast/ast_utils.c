@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/21 09:58:42 by khanadat          #+#    #+#             */
-/*   Updated: 2025/09/27 17:21:40 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/09/28 11:01:15 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,6 @@ t_node	*new_pipe_node(t_token **token)
 		node = new_node(ND_PIPE, node, new_cmd_node(token));
 	}
 	if (!node)
-		return (free_node(before), NULL);
+		return (free_node(&before), NULL);
 	return (node);
 }

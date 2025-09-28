@@ -71,16 +71,16 @@ int	main(void) {
 		}
 		status = get_node(&node, token);
 		if (status < 0)
-			return (free_token(token), free(line), FAILURE);
+			return (free_token((t_token **)&token), free(line), FAILURE);
 		if (status == SYNTAX_ERR)
 		{
-			free_token(token);
+			free_token(&token);
 			free(line);
 			continue ;
 		}
 		print_node(node);
-		free_node(node);
-		free_token(token);
+		free_node(&node);
+		free_token(&token);
 		free(line);
 	}
 	rl_clear_history();
