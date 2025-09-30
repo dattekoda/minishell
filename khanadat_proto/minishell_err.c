@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/28 16:14:49 by khanadat          #+#    #+#             */
-/*   Updated: 2025/09/30 14:22:11 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/01 00:43:57 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,10 +65,3 @@ void	put_syntax_err(char type)
 	else if (type == '\"')
 		ft_putendl_fd("you need enclose with \"", STDERR_FILENO);
 }
-
-// int	main(void)
-// {
-// 	program_name("minishell");
-// 	err_system_call("malloc");
-// 	program_name("free_program_name");
-// }

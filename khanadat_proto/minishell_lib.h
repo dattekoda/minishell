@@ -11,8 +11,7 @@ void	child_minishell_exit(t_mini *mini, void func(char *), \
 	char **argv, int status);
 
 // lib1
-void	safe_free(void **ptr);
-void	free_program_name(void);
+void	mini_safe_free(void **ptr);
 char	*access_program_name(char *set);
 void	free_split(char **splited);
 

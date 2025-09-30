@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/21 18:15:10 by khanadat          #+#    #+#             */
-/*   Updated: 2025/09/30 11:13:10 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/01 01:27:07 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,9 @@ int	safe_join(char **joined, char *buffer)
 void	safe_minishell_free(t_mini *mini)
 {
 	free_split(mini->envp);
-	safe_free((void **)&mini->line);
+	mini_safe_free((void **)&mini->line);
 	free_node(&mini->node);
 	rl_clear_history();
-	free_program_name();
 }
 
 void	noline_minishell_exit(t_mini *mini)

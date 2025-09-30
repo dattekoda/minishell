@@ -1,44 +1,36 @@
 #include <stdio.h>
+#include <fcntl.h>
 #include "libft.h"
-#define HEREDOC_NAME_SIZE_MAX 10
 
-int	set_heredoc_name(char **heredoc_name)
+#define FILENAME_DAFAULT_LEN 13
+
+char	*set_heredoc_name(void)
 {
-	static unsigned int	name = 0;
-	char				buffer[HEREDOC_NAME_SIZE_MAX + 1];
+	static unsigned int	num = 0;
+	static char			file_name[FILENAME_MAX];
 	int					tmp;
 	int					i;
 
-	buffer[HEREDOC_NAME_SIZE_MAX] = '\0';
-	if (*heredoc_name)
-		free(*heredoc_name);
-	*heredoc_name = NULL;
-	tmp = name;
-	i = HEREDOC_NAME_SIZE_MAX;
+	tmp = num;
+	ft_strlcpy(file_name, "/tmp/.heredoc", FILENAME_MAX);
+	i = FILENAME_DAFAULT_LEN;
 	if (tmp == 0)
-		buffer[--i] = '0';
+		file_name[i++] = '0';
 	while (tmp)
 	{
-		buffer[--i] = (tmp % 10) + '0';
+		file_name[i++] = (tmp % 10) + '0';
 		tmp /= 10;
 	}
-	*heredoc_name = ft_strjoin("/tmp/.heredoc", &buffer[i]);
-	if (!*heredoc_name)
-		return (1);
-	name++;
-	if (!access(*heredoc_name, F_OK))
-		return (set_heredoc_name(heredoc_name));
-	return (0);
+	file_name[i] = '\0';
+	num++;
+	if (!access(file_name, F_OK))
+		return (set_heredoc_name());
+	return (file_name);
 }
 
 int	main(void)
 {
-	char	*name;
-
-	name = NULL;
-	for (int i = 0; i < 10; i++) {
-		set_heredoc_name(&name);
-		printf("%s\n", name);
-	}
+	for (int i = 0; i < 100; i++)
+		printf("%s\n", set_heredoc_name());
 	return (0);
 }

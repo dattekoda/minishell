@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 14:28:16 by khanadat          #+#    #+#             */
-/*   Updated: 2025/09/12 17:40:36 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/01 01:27:07 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	msg_syntax_err(void)
 	ft_putendl_fd("Error: syntax error", STDERR_FILENO);
 }
 
-void	safe_free(void *ptr)
+void	mini_safe_free(void *ptr)
 {
 	if (ptr)
 		free(ptr);
@@ -266,7 +266,7 @@ int	main(int argc, char *argv[], char *envp[])
 		display_prompt(&data, &prompt);
 		if (!set_prompt(&prompt))
 			exec_cmd(&data);
-		safe_free(prompt.splited_cmd_line);
-		safe_free(prompt.cmd_line);
+		mini_safe_free(prompt.splited_cmd_line);
+		mini_safe_free(prompt.cmd_line);
 	}
 }

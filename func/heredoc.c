@@ -45,12 +45,35 @@ void	print_exit(int sig)
 	exit(sig + 128);
 }
 
-void	set_prompt(int sig)
-{
-	char	*prompt;
+#include <stdio.h>
+#include <fcntl.h>
+#include "libft.h"
 
-	(void)sig;
-	prompt = readline("$ ");
+#define FILENAME_DAFAULT_LEN 13
+#define HEREDOC_FILENAME "/tmp/.heredoc"
+
+char	*set_heredoc_name(void)
+{
+	static unsigned int	num = 0;
+	static char			file_name[FILENAME_MAX];
+	int					tmp;
+	int					i;
+
+	tmp = num;
+	ft_strlcpy(file_name, HEREDOC_FILENAME, FILENAME_MAX);
+	i = FILENAME_DAFAULT_LEN;
+	if (tmp == 0)
+		file_name[i++] = '0';
+	while (tmp)
+	{
+		file_name[i++] = (tmp % 10) + '0';
+		tmp /= 10;
+	}
+	file_name[i] = '\0';
+	num++;
+	if (!access(file_name, F_OK))
+		return (set_heredoc_name());
+	return (file_name);
 }
 
 #define FILE_NAME ".heredoc_test"
@@ -68,6 +91,7 @@ int	main(void)
 		prompt = readline("$ ");
 		if (!prompt)
 			break ;
+		add_history(prompt);
 		if (ft_strncmp(prompt, "heredoc", 7))
 		{
 			free(prompt);
@@ -79,7 +103,8 @@ int	main(void)
 			char	*line;
 			int		fd;
 			int		gnl;
-			fd = open(FILE_NAME, O_RDWR | O_CREAT, 0644);
+			char	*name = set_heredoc_name();
+			fd = open(name, O_RDWR | O_CREAT, 0644);
 			trap_signal(SIGINT, print_exit);
 			while (1)
 			{
@@ -91,7 +116,7 @@ int	main(void)
 				free(line);
 			}
 			close(fd);
-			fd = open(FILE_NAME, O_RDONLY);
+			fd = open(name, O_RDONLY);
 			if (fd < 0)
 			{
 				perror("open");
@@ -103,9 +128,11 @@ int	main(void)
 				free(line);
 			}
 			close(fd);
-			unlink(FILE_NAME);
+			unlink(name);
 		}
 		waitpid(d, &status, 0);
+		free(prompt);
 	}
+	rl_clear_history();
 	exit(0);
 }

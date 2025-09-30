@@ -166,7 +166,7 @@ int	main(void)
 		add_history(line);
 		ft_putendl_fd("hello", 2);
 		status = expand_quotation(line, &expanded);
-		safe_free((void **)&line);
+		mini_safe_free((void **)&line);
 		if (status < 0)
 			return (rl_clear_history(), \
 			access_program_name("free_program_name"), 1);
@@ -174,7 +174,7 @@ int	main(void)
 			continue ;
 		if (expanded)
 			printf("%s\n", expanded);
-		safe_free((void **)&expanded);
+		mini_safe_free((void **)&expanded);
 	}
 	rl_clear_history();
 	access_program_name("free_program_name");

@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 18:16:59 by khanadat          #+#    #+#             */
-/*   Updated: 2025/09/30 19:14:12 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/01 01:27:07 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int	receive_prompt(t_mini *mini, int *pfd, pid_t prompt_id)
 		systemcall_minishell_exit((close(pfd[0]), mini), "read");
 	close(pfd[0]);
 	if (!*(mini->line))
-		return (safe_free((void **)&(mini->line)), PROMPT_CONTINUE);
+		return (mini_safe_free((void **)&(mini->line)), PROMPT_CONTINUE);
 	add_history(mini->line);
 	return (SUCCESS);
 }
@@ -104,9 +104,9 @@ int	main(int argc, char *argv[], char *envp[])
 		return (err_invalid_arg(argv[1]), FAILURE);
 	// received_sig = 0;
 	if (!access_program_name(argv[0]))
-		return (FAILURE);
+		exit(FAILURE);
 	if (set_minishell(&mini, envp))
-		exit((free_program_name(), FAILURE));
+		exit(FAILURE);
 	minishell(&mini);
 	return (FAILURE);
 }
