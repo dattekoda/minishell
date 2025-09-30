@@ -1,0 +1,93 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ast_utils_cmd.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/09/27 15:45:46 by khanadat          #+#    #+#             */
+/*   Updated: 2025/09/27 17:28:43 by khanadat         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "ast_define.h"
+#include "tokenizer_define.h"
+#include "ast_utils.h"
+#include "libft.h"
+#include "status.h"
+
+#ifndef CMD_END
+# define CMD_END 3
+#endif
+
+static int		set_word(t_token **token, t_node *new);
+static t_word	*add_new_word(t_word *cur, t_token *token);
+
+void	free_word(t_word *head)
+{
+	t_word	*tmp;
+
+	while (head)
+	{
+		tmp = head->next;
+		free(head->word);
+		free(head);
+		head = tmp;
+	}
+}
+
+t_node	*new_cmd_node(t_token **token)
+{
+	t_node	*new;
+
+	new = ft_calloc(1, sizeof(t_node));
+	if (!new)
+		return (NULL);
+	if (set_redirection(*token, new))
+		return (free(new), NULL);
+	if (set_word(token, new))
+		return (free_red(new->red), free(new), NULL);
+	new->kind = ND_CMD;
+	return (new);
+}
+
+static int	set_word(t_token **token, t_node *new)
+{
+	t_word	head;
+	t_word	*cur;
+
+	ft_bzero(&head, sizeof(t_word));
+	cur = &head;
+	while ((*token)->kind != TK_EOF)
+	{
+		if ((*token)->kind == TK_OPERATOR \
+			&& check_redkind(*token) == RD_NOT)
+			break ;
+		if ((*token)->kind == TK_OPERATOR)
+		{
+			(*token) = (*token)->next->next;
+			continue ;
+		}
+		cur = add_new_word(cur, (*token));
+		if (!cur)
+			return (free_word(head.next), ERR);
+		(*token) = (*token)->next ;
+	}
+	new->word = head.next;
+	return (SUCCESS);
+}
+
+static t_word	*add_new_word(t_word *cur, t_token *token)
+{
+	t_word	*new;
+
+	new = ft_calloc(1, sizeof(t_word));
+	if (!new)
+		return (free(new), NULL);
+	new->word = ft_strndup(token->str, token->str_len);
+	if (!new->word)
+		return (free(new), NULL);
+	new->word_len = token->str_len;
+	cur->next = new;
+	return (new);
+}
