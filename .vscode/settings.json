@@ -1,0 +1,22 @@
+{
+	"files.associations": {
+		"stdlib.h": "c",
+		"unistd.h": "c",
+		"define.h": "c",
+		"libft.h": "c",
+		"readline.h": "c",
+		"return.h": "c",
+		"tokenizer.h": "c",
+		"err.h": "c",
+		"expand.h": "c",
+		"status.h": "c",
+		"ast_utils.h": "c",
+		"ast.h": "c",
+		"minishell_err.h": "c",
+		"minishell_define.h": "c",
+		"tokenizer_define.h": "c",
+		"ast_define.h": "c",
+		"signal.h": "c",
+		"minishell_lib.h": "c"
+	}
+}
