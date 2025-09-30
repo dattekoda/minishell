@@ -6,11 +6,12 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 18:16:59 by khanadat          #+#    #+#             */
-/*   Updated: 2025/09/30 15:32:07 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/09/30 19:14:12 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
+#include <sys/wait.h>
 #include <readline/readline.h>
 #include <readline/history.h>
 #include <signal.h>
@@ -101,7 +102,7 @@ int	main(int argc, char *argv[], char *envp[])
 
 	if (argc != 1)
 		return (err_invalid_arg(argv[1]), FAILURE);
-	received_sig = 0;
+	// received_sig = 0;
 	if (!access_program_name(argv[0]))
 		return (FAILURE);
 	if (set_minishell(&mini, envp))

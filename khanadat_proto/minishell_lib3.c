@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 17:07:39 by khanadat          #+#    #+#             */
-/*   Updated: 2025/09/30 15:30:35 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/09/30 19:14:24 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,15 +59,15 @@ int	set_handler(int sig, void handler(int))
 	return (SUCCESS);
 }
 
-void	quit_cmd(int sig)
-{
-	received_sig = DEFAULT_SIG_NUM + sig;
-	exit(sig + DEFAULT_SIG_NUM);
-}
+// void	quit_cmd(int sig)
+// {
+// 	received_sig = DEFAULT_SIG_NUM + sig;
+// 	exit(sig + DEFAULT_SIG_NUM);
+// }
 
-void	restart_prompt(int sig)
-{
-	ft_putchar_fd('\n', STDERR_FILENO);
-	received_sig = DEFAULT_SIG_NUM + sig;
-	exit(DEFAULT_SIG_NUM + sig);
-}
+// void	restart_prompt(int sig)
+// {
+// 	ft_putchar_fd('\n', STDERR_FILENO);
+// 	received_sig = DEFAULT_SIG_NUM + sig;
+// 	exit(DEFAULT_SIG_NUM + sig);
+// }

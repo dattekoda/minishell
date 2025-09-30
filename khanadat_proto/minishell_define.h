@@ -13,7 +13,7 @@
 #  define PATH_MAX 1024
 # endif
 
-int	received_sig;
+// int	received_sig;
 
 typedef struct s_mini
 {
