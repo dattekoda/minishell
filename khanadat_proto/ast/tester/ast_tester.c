@@ -7,6 +7,7 @@
 #include "tokenizer_define.h"
 #include "tokenizer.h"
 #include "status.h"
+#include "minishell_lib.h"
 
 void	print_node(t_node *node)
 {
@@ -56,6 +57,7 @@ int	main(void) {
 	t_node	*node;
 	int		status;
 
+	access_program_name("minishell");
 	while (1) {
 		line = readline("$ ");
 		if (!line)

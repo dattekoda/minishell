@@ -1,35 +1,17 @@
-1. 新しいブランチを作成して切り替え
-```bash
-git checkout -b <ブランチ名>
-e.g.) git checkout -b feature/readme
+## 使い方
 ```
-
-2. 作業してコミット
-```bash
-git add .
-git commit -m "UIを新しく実装"
+~/cursus/3/minishell/dattekoda
 ```
-
-3. リモートにプッシュ
-```bash
-git push -u origin feature/new-ui
+というパスにgit cloneすれば以下の*mac用*.zshrcを使えば簡単にコンパイルできる。   
 ```
-
-個人的によく使うコマンド一覧
-
-a. ブランチを切らずに作業をしてしまった時、現在の変更を新しいブランチに退避するコマンド.   
-case1 : まだadd / commitしてない時
-```bash
-git checkout -b 新しいブランチ名
+alias ccw='cc -Wall -Wextra -Werror'
+alias ccft='ccw -I libftのヘッダーディレクトリへのパス libft.aへのパス'
+alias ccr='ccft -lreadline -I /opt/homebrew/opt/readline/include -L /opt/homebrew/opt/readline/lib'
+alias ccm='ccr -I ~/cursus/3/minishell/dattekoda/khanadat_proto/ ~/cursus/3/minishell/dattekoda/khanadat_proto/minishell_*.c'
+alias ccast='ccm -I ~/cursus/3/minishell/dattekoda/khanadat_proto/ast -I ~/cursus/3/minishell/dattekoda/khanadat_proto/ast/tokenizer ~/cursus/3/minishell/dattekoda/khanadat_proto/ast/*.c ~/cursus/3/minishell/dattekoda/khanadat_proto/ast/tokenizer/*.c'
 ```
--> そのまま新しいブランチに持っていけばok
+`khanadat_proto/prompt`ディレクトリ内で`ccast *.c`でコンパイルできるはず。
 
-case2 :  間違えて現在のブランチにコミットしてしまった時
-```bash
-git checkout -b 新しいブランチ名
 
-# 間違って入れたコミットを取り消す (HEAD~nでn回前のcommtiを消せる)
-git reset --hard HEAD~1
-```
-
-自戒: こまめにcommtiする
+## 2025/9/30
+シングルクォーテーション、ダブルクオーテーション、変数展開を行ったあとに一つだけビルトインコマンド以外のコマンドを実行できるように実装。   

@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/21 09:58:37 by khanadat          #+#    #+#             */
-/*   Updated: 2025/09/28 11:01:31 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/09/30 11:20:55 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,10 @@
 #include "tokenizer.h"
 #include "ast_define.h"
 #include "ast_utils.h"
+#include "ast.h"
+
+static bool	is_pipe_or_and(t_token *token);
+static bool	is_redirect(t_token *token);
 
 void	free_node(t_node **node)
 {
@@ -38,24 +42,20 @@ void	free_node(t_node **node)
 
 int	validate_token(t_token *token)
 {
+	if (is_pipe_or_and(token))
+		return (err_tokenizer(token), SYNTAX_ERR);
 	while (token->kind != TK_EOF)
 	{
-		if (token->kind == TK_OPERATOR \
-			&& (*(token->str) == '<' \
-				|| *(token->str) == '>'))
+		if (is_redirect(token))
 		{
 			if ((token->next)->kind != TK_WORD)
 				return (err_tokenizer(token->next), SYNTAX_ERR);
 			token = token->next;
 		}
-		else if (token->kind == TK_OPERATOR
-			&& (*(token->str) == '|'
-			|| !ft_strncmp(token->str, "&&", 2)))
+		else if (is_pipe_or_and(token))
 		{
 			if ((token->next)->kind == TK_EOF \
-			|| (((token->next)->kind == TK_OPERATOR \
-			&& (*((token->next)->str) != '>' \
-			&& *((token->next)->str) != '<'))))
+			|| is_pipe_or_and(token->next))
 				return (err_tokenizer(token->next), SYNTAX_ERR);
 			token = token->next;
 		}
@@ -88,4 +88,23 @@ int	get_node(t_node **node, t_token *token)
 		return (free_node(&before), ERR);
 	*node = cur;
 	return (SUCCESS);
+}
+
+static bool	is_pipe_or_and(t_token *token)
+{
+	if (token->kind != TK_OPERATOR)
+		return (false);
+	if (*(token->str) == '|' \
+	|| !ft_strncmp(token->str, "&&", 2))
+		return (true);
+	return (false);
+}
+
+static bool	is_redirect(t_token *token)
+{
+	if (token->kind != TK_OPERATOR)
+		return (false);
+	if (*(token->str) == '>' || *(token->str) == '<')
+		return (true);
+	return (false);
 }

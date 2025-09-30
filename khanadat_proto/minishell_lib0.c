@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/21 18:15:10 by khanadat          #+#    #+#             */
-/*   Updated: 2025/09/28 11:02:24 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/09/30 11:13:10 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 #include "libft.h"
 #include "ast.h"
 
-// free(*@join) and joined first and buffer
+// free join and joined first and buffer
 // if malloc failed, put error
 int	safe_join(char **joined, char *buffer)
 {
@@ -59,25 +59,12 @@ void	systemcall_minishell_exit(t_mini *mini, char *func)
 	exit(SYSTEMCALL_EXITSTATUS);
 }
 
-char	*mini_getenv(char *var, t_mini *mini)
+void	child_minishell_exit(t_mini *mini, void func(char *), \
+	char **argv, int status)
 {
-	size_t	i;
-	size_t	len;
-	char	*chr;
-
-	i = 0;
-	while (i < mini->envp_len)
-	{
-		len = ft_strlen(var);
-		if (!ft_strncmp(var, mini->envp[i], len) \
-		&& mini->envp[i][len] == '=')
-			break ;
-		i++;
-	}
-	if (!mini->envp[i])
-		return (NULL);
-	chr = ft_strchr(mini->envp[i], '=');
-	if (chr)
-		return (chr + 1);
-	return (NULL);
+	if (func)
+		func(argv[0]);
+	free(argv);
+	safe_minishell_free(mini);
+	exit(status);
 }

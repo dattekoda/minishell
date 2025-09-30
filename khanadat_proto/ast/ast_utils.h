@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/21 09:58:39 by khanadat          #+#    #+#             */
-/*   Updated: 2025/09/27 17:17:12 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/09/29 19:35:27 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ bool	consume_node(t_token **token, t_TokenKind tkind, t_NodeKind nkind);
 t_node	*new_pipe_node(t_token **token);
 
 // ast_utils_node.c
-void	free_word(t_word *head);
 t_node	*new_cmd_node(t_token **token);
 
 // ast_utils_red.c
