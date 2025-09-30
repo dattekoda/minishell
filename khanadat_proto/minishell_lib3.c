@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 17:07:39 by khanadat          #+#    #+#             */
-/*   Updated: 2025/09/29 17:12:39 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/09/30 15:30:35 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,37 @@
 #include <unistd.h>
 #include "status.h"
 #include "minishell_define.h"
+#include "minishell_lib.h"
 #include "minishell_err.h"
 #include "libft.h"
+
+void	catch_signal(int status, t_mini *mini)
+{
+	int	sig;
+	int	exit_status;
+
+	exit_status = 0;
+	if (WIFEXITED(status))
+	{
+		if (WEXITSTATUS(status) == SYSTEMCALL_EXITSTATUS)
+			systemcall_minishell_exit(mini, NULL);
+		exit_status = WEXITSTATUS(status);
+	}
+	else if (WIFSIGNALED(status))
+	{
+		sig = WTERMSIG(status);
+		if (sig == SIGQUIT)
+		{
+			ft_putstr_fd("Quit: ", STDERR_FILENO);
+			ft_putnbr_fd(sig, STDERR_FILENO);
+			ft_putchar_fd('\n', STDERR_FILENO);
+		}
+		if (sig == SIGINT)
+			ft_putchar_fd('\n', STDERR_FILENO);
+		exit_status = WTERMSIG(status);
+	}
+	store_status(exit_status, mini);
+}
 
 int	set_handler(int sig, void handler(int))
 {
@@ -32,6 +61,7 @@ int	set_handler(int sig, void handler(int))
 
 void	quit_cmd(int sig)
 {
+	received_sig = DEFAULT_SIG_NUM + sig;
 	exit(sig + DEFAULT_SIG_NUM);
 }
 

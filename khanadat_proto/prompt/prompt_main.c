@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 18:16:59 by khanadat          #+#    #+#             */
-/*   Updated: 2025/09/29 17:04:57 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/09/30 15:32:07 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	send_prompt(t_mini *mini, int *pfd)
 	size_t	line_len;
 
 	close(pfd[0]);
-	set_handler(SIGINT, restart_prompt);
+	set_handler(SIGINT, SIG_DFL);
 	child_line = readline(mini->prompt);
 	if (!child_line)
 		exit((close(pfd[1]), NO_NEW_LINE));
@@ -49,8 +49,9 @@ int	receive_prompt(t_mini *mini, int *pfd, pid_t prompt_id)
 
 	waitpid(prompt_id, &prompt_status, 0);
 	close(pfd[1]);
-	if (WEXITSTATUS(prompt_status) == GOT_SIGNAL)
-		return (close(pfd[0]), PROMPT_CONTINUE);
+	if (WIFSIGNALED(prompt_status))
+		return (store_status(WTERMSIG(prompt_status) + 128, mini), \
+		close(pfd[0]), ft_putchar_fd('\n', STDERR_FILENO), PROMPT_CONTINUE);
 	if (WEXITSTATUS(prompt_status) == NO_NEW_LINE)
 		noline_minishell_exit((close(pfd[0]), mini));
 	if (WEXITSTATUS(prompt_status) == ERR)
@@ -67,58 +68,6 @@ int	receive_prompt(t_mini *mini, int *pfd, pid_t prompt_id)
 		return (safe_free((void **)&(mini->line)), PROMPT_CONTINUE);
 	add_history(mini->line);
 	return (SUCCESS);
-}
-
-void	print_node(t_node *node)
-{
-	t_red	*r;
-	t_word	*w;
-
-	if (node->lhs)
-		print_node(node->lhs);
-	if (node->kind == ND_AND)
-		printf("and\n");
-	else if (node->kind == ND_OR)
-		printf("or\n");
-	else if (node->kind == ND_PIPE)
-		printf("pipe\n");
-	else if (node->kind == ND_CMD)
-	{
-		printf("cmd: ");
-		w = node->word;
-		while (w)
-		{
-			printf("%s ", w->word);
-			w = w->next;
-		}
-		printf("\n");
-		r = node->red;
-		while (r)
-		{
-			if (r->kind == RD_APPEND)
-				printf("append: ");
-			else if (r->kind == RD_HEREDOC)
-				printf("heredoc: ");
-			else if (r->kind == RD_IN)
-				printf("redirect in: ");
-			else if (r->kind == RD_OUT)
-				printf("redirect_out: ");
-			printf("%s\n", r->file);
-			r = r->next;
-		}
-	}
-	if (node->rhs)
-		print_node(node->rhs);
-}
-
-void	exec_prompt(t_mini *mini, t_node *node/* , t_NodeKind nkind */)
-{
-	if (!node)
-		return ;
-	if (node->lhs)
-		exec_prompt(mini, node->lhs/* , node->kind */);
-	else if (node->kind == ND_CMD)
-		exec_cmd(mini, node);
 }
 
 void	minishell(t_mini *mini)
