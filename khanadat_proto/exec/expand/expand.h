@@ -6,10 +6,9 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 16:58:13 by khanadat          #+#    #+#             */
-/*   Updated: 2025/09/29 19:14:52 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/09/30 15:36:47 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #ifndef EXPAND_H
 # define EXPAND_H

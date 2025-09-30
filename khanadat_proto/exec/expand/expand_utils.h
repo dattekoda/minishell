@@ -1,29 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell_err.h                                    :+:      :+:    :+:   */
+/*   expand_utils.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/28 16:14:47 by khanadat          #+#    #+#             */
-/*   Updated: 2025/09/30 14:51:25 by khanadat         ###   ########.fr       */
+/*   Created: 2025/09/30 13:27:28 by khanadat          #+#    #+#             */
+/*   Updated: 2025/09/30 15:38:06 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_ERR_H
-# define MINISHELL_ERR_H
+#ifndef EXPAND_UTILS_H
+# define EXPAND_UTILS_H
 
-# include "tokenizer.h"
+# include "minishell_define.h"
+# include "expand_define.h"
 
-// minishll_err.c
-void	err_cmd_not_found(char *file);
-void	err_tokenizer(t_token *token);
-void	err_invalid_arg(char *program_name);
-void	err_system_call(char *func);
-void	put_syntax_err(char type);
-
-// minishell_err1.c
-void	err_permission(char *file);
-void	err_is_dir(char *file);
+// expand_utils.c
+char	*mini_getenv(char **var, t_mini *mini);
+void	free_dollar(t_dollar *head);
+int		search_dollar(t_word *word, t_mini *mini, t_dollar **dol);
+t_word	*add_new_word(t_word *cur, t_dollar **dol);
 
 #endif

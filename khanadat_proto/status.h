@@ -21,6 +21,10 @@
 #  define UNEXPECTED 3
 # endif
 
+# ifndef IS_DIR_ERR
+#  define IS_DIR_ERR 126
+# endif
+
 # ifndef PERMISSION_ERR
 #  define PERMISSION_ERR 126
 # endif

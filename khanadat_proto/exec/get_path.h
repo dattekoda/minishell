@@ -1,21 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec.h                                             :+:      :+:    :+:   */
+/*   get_path.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/28 17:29:53 by khanadat          #+#    #+#             */
-/*   Updated: 2025/09/28 17:30:41 by khanadat         ###   ########.fr       */
+/*   Created: 2025/09/30 13:22:37 by khanadat          #+#    #+#             */
+/*   Updated: 2025/09/30 13:23:25 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef EXEC_H
-# define EXEC_H
+#ifndef GET_PATH_H
+# define GET_PATH_H
 
-#include "ast.h"
-#include "minishell_define.h"
+# include "minishell_define.h"
 
-void	exec_cmd(t_mini *mini, t_node *node);
+void	get_path(char **path, t_mini *mini, char **argv);
 
 #endif

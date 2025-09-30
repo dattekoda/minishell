@@ -21,6 +21,7 @@ char	*normal_getenv(char *var, t_mini *mini);
 void	store_status(int status, t_mini *mini);
 
 // lib3
+void	catch_signal(int status, t_mini *mini);
 int		set_handler(int sig, void handler(int));
 void	quit_cmd(int sig);
 void	restart_prompt(int sig);

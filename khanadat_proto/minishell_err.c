@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/28 16:14:49 by khanadat          #+#    #+#             */
-/*   Updated: 2025/09/30 11:12:28 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/09/30 14:22:11 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,9 @@
 void	err_cmd_not_found(char *file)
 {
 	ft_putstr_fd(access_program_name(NULL), STDERR_FILENO);
-	ft_putstr_fd(": command not found: ", STDERR_FILENO);
-	ft_putendl_fd(file, STDERR_FILENO);
+	ft_putstr_fd(": ", STDERR_FILENO);
+	ft_putstr_fd(file, STDERR_FILENO);
+	ft_putendl_fd(": command not found", STDERR_FILENO);
 }
 
 void	err_tokenizer(t_token *token)
