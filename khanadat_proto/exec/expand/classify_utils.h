@@ -1,26 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_dollar_utils.h                              :+:      :+:    :+:   */
+/*   classify_utils.h                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/30 13:55:17 by khanadat          #+#    #+#             */
-/*   Updated: 2025/09/30 13:57:14 by khanadat         ###   ########.fr       */
+/*   Created: 2025/10/01 01:16:09 by khanadat          #+#    #+#             */
+/*   Updated: 2025/10/02 01:34:01 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef get_dollar_UTILS_H
-# define get_dollar_UTILS_H
+#ifndef CLASSIFY_UTILS_H
+# define CLASSIFY_UTILS_H
 
 # include "minishell_define.h"
 # include "expand_define.h"
 
-t_dollar	*add_dollar(t_dollar *cur, t_mini *mini, \
-	char **word, t_DollarKind kind);
+// classify_utils0.c
+t_dollar	*classify_more_dollar(t_dollar **cur, t_mini *mini, char **tmp);
 t_dollar	*add_single(t_dollar *cur, char **word);
-t_dollar	*add_double(t_dollar *cur, char **word);
+t_dollar	*add_status(t_dollar *cur, t_mini *mini, char **word);
+
+// classify_utils1.c
 t_dollar	*classify_double(t_dollar **cur, t_mini *mini, char **tmp);
 t_dollar	*add_outside(t_dollar *cur, char **word);
+char		*mini_getenv(char **var, t_mini *mini);
 
 #endif

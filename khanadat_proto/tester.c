@@ -28,18 +28,13 @@ void	dol_checker(t_dollar *dol)
 {
 	while (dol)
 	{
-		fprintf(stderr, "val:	%s\n", dol->value);
-		fprintf(stderr, "len:	%zu\n", dol->value_len);
-		if (dol->wkind == WD_SINGLE)
-			fprintf(stderr, "kind:	%s\n", "single");
-		else if (dol->wkind == WD_DOUBLE)
-			fprintf(stderr, "kind:	%s\n", "double");
-		else if (dol->wkind == WD_OUTSIDE)
-			fprintf(stderr, "kind:	%s\n", "outside");
-		else if (dol->wkind == WD_DOLLAR)
-			fprintf(stderr, "kind:	%s\n", "dollar");
-		else if (dol->wkind == WD_DDOLLAR)
-			fprintf(stderr, "kind:	%s\n", "double dollar");
+		if (dol->dkind == WD_WORD)
+		{
+			fprintf(stderr, "val:	%s\n", dol->value);
+			fprintf(stderr, "len:	%zu\n", dol->value_len);
+		}
+		else if (dol->dkind == WD_SPACE)
+			fprintf(stderr, "space\n");
 		fprintf(stderr, "\n");
 		dol = dol->next;
 	}

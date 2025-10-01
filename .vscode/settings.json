@@ -19,6 +19,8 @@
 		"signal.h": "c",
 		"minishell_lib.h": "c",
 		"expand_utils.h": "c",
-		"add_dollar_utils.h": "c"
+		"add_dollar_utils.h": "c",
+		"add_new_utils.h": "c",
+		"classify_utils.h": "c"
 	}
 }

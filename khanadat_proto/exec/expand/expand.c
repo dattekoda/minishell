@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 15:35:23 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/01 14:02:53 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/02 01:19:58 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,9 @@ static int	set_new_word(t_word **new, t_word *before, t_mini *mini)
 			return (free_word(head.next), ERR);
 		dol_head = dol;
 		while (dol && cur)
+		{
 			cur = add_new_word(cur, &dol);
+		}
 		before = before->next;
 		free_dollar(dol_head);
 	}
