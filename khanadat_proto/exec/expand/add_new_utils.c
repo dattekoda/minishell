@@ -55,9 +55,10 @@ void	skip_first_space(t_dollar **dol)
 	{
 		while (((*dol)->value)[i] && ft_isspace((*dol)->value[i]))
 			i++;
+		fprintf(stderr, "%s\n", (*dol)->value + i);
 		if (i)
 			(*dol)->value += i;
-		else if ((*dol)->value[i])
+		if ((*dol)->value[i])
 			return ;
 		(*dol) = (*dol)->next;
 	}
@@ -87,13 +88,14 @@ static bool	check_first_space(t_dollar **dol, size_t *len)
 	i = 0;
 	while (((*dol)->value)[i] && ft_isspace(((*dol)->value)[i]))
 		i++;
-	if (i)
-		(*dol)->value += i;
-	if (i && ((*dol)->value)[i])
+	if (!i)
+		return (false);
+	(*dol)->value += i;
+	if (((*dol)->value)[i])
 		return(true);
-	else if (i && (*dol)->next && (*dol)->next->dkind != WD_DOLLAR)
+	if ((*dol)->next && (*dol)->next->dkind != WD_DOLLAR)
 		return((*dol) = (*dol)->next, true);
-	else if (i && (*dol)->next)
+	if ((*dol)->next)
 	{
 		(*dol) = (*dol)->next;
 		return (need_split(dol, len));
