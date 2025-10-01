@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/21 09:58:34 by khanadat          #+#    #+#             */
-/*   Updated: 2025/09/29 19:36:00 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/01 12:02:12 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,9 @@
 
 // ast_utils_cmd.c
 void	free_word(t_word *head);
+
+// ast_utils_red.c
+void		free_red(t_red *head);
 
 void	free_node(t_node **node);
 int		get_node(t_node **node, t_token *token);

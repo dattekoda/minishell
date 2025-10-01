@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   search_dollar_utils.c                              :+:      :+:    :+:   */
+/*   get_dollar_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -20,7 +20,7 @@
 // if couldn't find any value then
 // set value as "\0"
 t_dollar	*add_dollar(t_dollar *cur, t_mini *mini, \
-	char **word, t_WordKind kind)
+	char **word, t_DollarKind kind)
 {
 	char		*value;
 	t_dollar	*new;
@@ -30,7 +30,7 @@ t_dollar	*add_dollar(t_dollar *cur, t_mini *mini, \
 	if (!new)
 		return (NULL);
 	cur->next = new;
-	new->wkind = kind;
+	new->dkind = kind;
 	if (**word == '?')
 	{
 		new->value = mini->status;
@@ -55,7 +55,7 @@ t_dollar	*add_single(t_dollar *cur, char **word)
 		return (NULL);
 	cur->next = new;
 	new->value = *word + 1;
-	new->wkind = WD_SINGLE;
+	new->dkind = WD_SINGLE;
 	*word = ft_strchr(new->value, '\'') + 1;
 	new->value_len = (size_t)(*word - 1 - new->value);
 	return (new);
@@ -69,9 +69,9 @@ t_dollar	*add_double(t_dollar *cur, char **word)
 	if (!new)
 		return (NULL);
 	cur->next = new;
-	new->wkind = WD_DOUBLE;
+	new->dkind = WD_DOUBLE;
 	new->value = *word + (**word == '\"');
-	new->wkind = WD_DOUBLE;
+	new->dkind = WD_DOUBLE;
 	while (**word && **word != '\"' \
 	&& **word != '$')
 	{
@@ -106,7 +106,7 @@ t_dollar	*add_outside(t_dollar *cur, char **word)
 	if (!new)
 		return (NULL);
 	cur->next = new;
-	new->wkind = WD_OUTSIDE;
+	new->dkind = WD_OUTSIDE;
 	new->value = *word;
 	while (**word && !ft_strchr("\'\"$", **word))
 	{

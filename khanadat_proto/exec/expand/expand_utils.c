@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 13:28:31 by khanadat          #+#    #+#             */
-/*   Updated: 2025/09/30 15:36:15 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/01 12:51:32 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,7 @@
 #include "status.h"
 #include "libft.h"
 #include "expand_define.h"
-#include "search_dollar_utils.h"
-#include "add_new_word_utils.h"
+#include "get_dollar_utils.h"
 
 static void	classify_dollar(t_dollar **cur, t_mini *mini, char **tmp);
 
@@ -61,16 +60,14 @@ void	free_dollar(t_dollar *head)
 	}
 }
 
-int	search_dollar(t_word *word, t_mini *mini, t_dollar **dol)
+int	get_dollar(char *str, t_mini *mini, t_dollar **dol)
 {
-	char		*tmp;
 	t_dollar	head;
 	t_dollar	*cur;
 
 	ft_bzero(&head, sizeof(t_dollar));
 	cur = &head;
-	tmp = word->word;
-	classify_dollar(&cur, mini, &tmp);
+	classify_dollar(&cur, mini, &str);
 	if (!cur)
 		return (free_dollar(head.next), ERR);
 	*dol = head.next;
@@ -98,22 +95,4 @@ static void	classify_dollar(t_dollar **cur, t_mini *mini, char **tmp)
 		}
 		*cur = add_outside(*cur, tmp);
 	}
-}
-
-t_word	*add_new_word(t_word *cur, t_dollar **dol)
-{
-	t_word		*new_word;
-	t_dollar	*dol_tail;
-
-	new_word = ft_calloc(1, sizeof(t_word));
-	if (!new_word)
-		return (NULL);
-	dol_tail = *dol;
-	new_word->word_len = count_word_len(dol);
-	new_word->word = ft_calloc(new_word->word_len + 1, sizeof(char));
-	cur->next = new_word;
-	if (!new_word->word)
-		return (free(new_word), NULL);
-	set_word_word(new_word, dol_tail);
-	return (new_word);
 }

@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/28 14:15:28 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/01 01:37:10 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/01 13:48:53 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,9 +143,8 @@ void    set_redirect(t_mini *mini, t_red *red, int *cfd)
 				close(cfd[0]);
 			if (access(red->file, F_OK))
 			{
-				err_cmd_not_found(red->file);
-				red = red->next ;
-				continue ;
+				err_no_file(red->file);
+				child_minishell_exit(mini, NULL, NULL, FAILURE);
 			}
 			cfd[0] = open(red->file, O_RDONLY);
 		}
@@ -167,6 +166,8 @@ void    exec_child_proc(t_mini *mini, t_node *node)
 
 	set_handler(SIGINT, SIG_DFL);
 	set_handler(SIGQUIT, SIG_DFL);
+	if (expand_node(node, mini))
+		systemcall_minishell_exit(mini, "malloc");
 	cfd[0] = STDIN_FILENO;
 	cfd[1] = STDOUT_FILENO;
 	set_redirect(mini, node->red, cfd);
@@ -174,8 +175,6 @@ void    exec_child_proc(t_mini *mini, t_node *node)
 		dup2(cfd[0], STDIN_FILENO);
 	if (cfd[1] != STDOUT_FILENO)
 		dup2(cfd[1], STDOUT_FILENO);
-	if (expand_word(node, mini))
-		systemcall_minishell_exit(mini, "malloc");
 	if (store_argv(node, &argv))
 		systemcall_minishell_exit(mini, "malloc");
 	get_path(&path, mini, argv);

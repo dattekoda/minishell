@@ -6,15 +6,18 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 17:51:14 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/01 01:27:07 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/01 13:38:52 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include <stddef.h>
 #include <stdio.h>
+#include <readline/readline.h>
+#include <readline/history.h>
 #include "libft.h"
 #include "minishell_lib.h"
+#include "ast.h"
 
 static char	*get_program_name(char *set);
 
@@ -23,6 +26,14 @@ void	mini_safe_free(void **ptr)
 	if (*ptr)
 		free(*ptr);
 	*ptr = NULL;
+}
+
+void	t_mini_free(t_mini *mini)
+{
+	free_split(mini->envp);
+	mini_safe_free((void **)&mini->line);
+	free_node(&mini->node);
+	rl_clear_history();
 }
 
 // caution: set name before use

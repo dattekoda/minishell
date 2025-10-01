@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/21 18:15:10 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/01 01:27:07 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/01 13:39:16 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,26 +35,25 @@ int	safe_join(char **joined, char *buffer)
 	return (SUCCESS);
 }
 
-void	safe_minishell_free(t_mini *mini)
-{
-	free_split(mini->envp);
-	mini_safe_free((void **)&mini->line);
-	free_node(&mini->node);
-	rl_clear_history();
-}
-
-void	noline_minishell_exit(t_mini *mini)
+void	minishell_exit(t_mini *mini)
 {
 	ft_putendl_fd("exit", STDERR_FILENO);
-	safe_minishell_free(mini);
+	t_mini_free(mini);
 	exit(SUCCESS);
+}
+
+void	failure_minishell_exit(t_mini *mini, void func(char *), char *file)
+{
+	func(file);
+	t_mini_free(mini);
+	exit(FAILURE);
 }
 
 void	systemcall_minishell_exit(t_mini *mini, char *func)
 {
 	if (func)
 		err_system_call(func);
-	safe_minishell_free(mini);
+	t_mini_free(mini);
 	exit(SYSTEMCALL_EXITSTATUS);
 }
 
@@ -64,6 +63,6 @@ void	child_minishell_exit(t_mini *mini, void func(char *), \
 	if (func)
 		func(argv[0]);
 	free(argv);
-	safe_minishell_free(mini);
+	t_mini_free(mini);
 	exit(status);
 }

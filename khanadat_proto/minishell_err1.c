@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/28 16:13:47 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/01 01:33:31 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/01 13:29:19 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,4 +38,20 @@ void	err_heredoc(char *file)
 		delimited by end-of-file (wanted `", STDERR_FILENO);
 	ft_putstr_fd(file, STDERR_FILENO);
 	ft_putendl_fd("')", STDERR_FILENO);
+}
+
+void	err_no_file(char *file)
+{
+	ft_putstr_fd(access_program_name(NULL), STDERR_FILENO);
+	ft_putstr_fd(": ", STDERR_FILENO);
+	ft_putstr_fd(file, STDERR_FILENO);
+	ft_putendl_fd(": no such file of directory", STDERR_FILENO);
+}
+
+void	err_ambiguous(char *file)
+{
+	ft_putstr_fd(access_program_name(NULL), STDERR_FILENO);
+	ft_putstr_fd(": ", STDERR_FILENO);
+	ft_putstr_fd(file, STDERR_FILENO);
+	ft_putendl_fd(": ambiguous redirect", STDERR_FILENO);
 }

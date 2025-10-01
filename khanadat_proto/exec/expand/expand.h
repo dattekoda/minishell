@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 16:58:13 by khanadat          #+#    #+#             */
-/*   Updated: 2025/09/30 15:36:47 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/01 11:57:18 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,6 @@
 
 # include "minishell_define.h"
 
-int	expand_word(t_node *node, t_mini *mini);
+int	expand_node(t_node *node, t_mini *mini);
 
 #endif

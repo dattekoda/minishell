@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/28 16:14:47 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/01 01:31:17 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/01 13:29:25 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,5 +26,7 @@ void	put_syntax_err(char type);
 void	err_permission(char *file);
 void	err_is_dir(char *file);
 void	err_heredoc(char *file);
+void	err_no_file(char *file);
+void	err_ambiguous(char *file);
 
 #endif
