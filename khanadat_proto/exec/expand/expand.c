@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 15:35:23 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/03 14:40:40 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/04 03:35:11 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,8 @@ static int	set_new_word(t_word **new, t_word *before, t_mini *mini)
 	while (before && cur)
 	{
 		if (get_dollar(before->word, mini, &dol))
-			return (free_word(head.next), ERR);
-		// dol_checker(dol);
+			systemcall_minishell_exit((free_word(head.next), \
+			mini), "malloc");
 		dol_head = dol;
 		while (dol && cur)
 			cur = add_new_word(cur, &dol);
@@ -84,7 +84,8 @@ static int	set_new_word(t_word **new, t_word *before, t_mini *mini)
 		free_dollar(dol_head);
 	}
 	if (!cur)
-		return (free_word(head.next), ERR);
+		systemcall_minishell_exit((free_word(head.next), \
+		mini), "malloc");
 	*new = head.next;
 	return (SUCCESS);
 }
@@ -101,7 +102,8 @@ static int	set_new_red(t_red **new, t_red *before, t_mini *mini)
 	while (before && cur)
 	{
 		if (get_dollar(before->file, mini, &dol))
-			return (free_red(head.next), ERR);
+			systemcall_minishell_exit((free_red(head.next), \
+			mini), "malloc");
 		dol_head = dol;
 		cur = add_new_red(cur, &dol, before->kind);
 		if (dol)
@@ -111,7 +113,8 @@ static int	set_new_red(t_red **new, t_red *before, t_mini *mini)
 		free_dollar(dol_head);
 	}
 	if (!cur)
-		return (free_red(head.next), ERR);
+		systemcall_minishell_exit((free_red(head.next), \
+		mini), "malloc");
 	*new = head.next;
 	return (SUCCESS);
 }
