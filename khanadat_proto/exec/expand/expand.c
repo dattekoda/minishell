@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 15:35:23 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/04 03:35:11 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/04 03:51:17 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ static int	set_new_red(t_red **new, t_red *before, t_mini *mini)
 			mini), "malloc");
 		dol_head = dol;
 		cur = add_new_red(cur, &dol, before->kind);
-		if (dol)
+		if (dol || !*cur->file)
 			return (free_dollar(dol_head), free(head.next), \
 			err_ambiguous(before->file), ERR);
 		before = before->next;
