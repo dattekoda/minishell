@@ -1,57 +1,54 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell_err1.c                                   :+:      :+:    :+:   */
+/*   minishell_err2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/28 16:13:47 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/03 16:30:13 by khanadat         ###   ########.fr       */
+/*   Created: 2025/10/02 15:32:17 by khanadat          #+#    #+#             */
+/*   Updated: 2025/10/03 00:14:26 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
-#include "libft.h"
 #include "minishell_lib.h"
+#include "libft.h"
 
-void	err_permission(char *file)
+void	err_cd(char *file)
+{
+	ft_putstr_fd(access_program_name(NULL), STDERR_FILENO);
+	ft_putstr_fd(": cd: ", STDERR_FILENO);
+	ft_putstr_fd(file, STDERR_FILENO);
+	ft_putendl_fd(": No such file or directory", STDERR_FILENO);
+}
+
+void	err_no_home(char *file)
 {
 	ft_putstr_fd(access_program_name(NULL), STDERR_FILENO);
 	ft_putstr_fd(": ", STDERR_FILENO);
 	ft_putstr_fd(file, STDERR_FILENO);
-	ft_putendl_fd(": permission denied", STDERR_FILENO);
+	ft_putendl_fd(": Home not set", STDERR_FILENO);
 }
 
-void	err_is_dir(char *file)
+void	err_too_many(char *file)
 {
 	ft_putstr_fd(access_program_name(NULL), STDERR_FILENO);
 	ft_putstr_fd(": ", STDERR_FILENO);
 	ft_putstr_fd(file, STDERR_FILENO);
-	ft_putendl_fd(": Is a directory", STDERR_FILENO);
+	ft_putendl_fd(": too many arguments", STDERR_FILENO);
 }
 
-void	err_heredoc(char *file)
+void	err_not_dir(char *file)
 {
-	ft_putchar_fd('\n', STDERR_FILENO);
 	ft_putstr_fd(access_program_name(NULL), STDERR_FILENO);
-	ft_putstr_fd(": warning: here-document at line 1 "\
-		"delimited by end-of-file (wanted `", STDERR_FILENO);
+	ft_putstr_fd(": cd: ", STDERR_FILENO);
 	ft_putstr_fd(file, STDERR_FILENO);
-	ft_putendl_fd("')", STDERR_FILENO);
+	ft_putendl_fd(": Not a directory", STDERR_FILENO);
 }
 
-void	err_no_file(char *file)
+void	err_cd_permission(char *file)
 {
 	ft_putstr_fd(access_program_name(NULL), STDERR_FILENO);
-	ft_putstr_fd(": ", STDERR_FILENO);
+	ft_putstr_fd(": cd: ", STDERR_FILENO);
 	ft_putstr_fd(file, STDERR_FILENO);
-	ft_putendl_fd(": no such file or directory", STDERR_FILENO);
-}
-
-void	err_ambiguous(char *file)
-{
-	ft_putstr_fd(access_program_name(NULL), STDERR_FILENO);
-	ft_putstr_fd(": ", STDERR_FILENO);
-	ft_putstr_fd(file, STDERR_FILENO);
-	ft_putendl_fd(": ambiguous redirect", STDERR_FILENO);
+	ft_putendl_fd(": Permission denied", STDERR_FILENO);
 }

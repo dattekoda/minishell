@@ -5,6 +5,10 @@
 #  define ERR -1
 # endif
 
+# ifndef NO_ERR
+#  define NO_ERR 0
+# endif
+
 # ifndef SUCCESS
 #  define SUCCESS 0
 # endif
@@ -34,7 +38,7 @@
 # endif
 
 # ifndef SYSTEMCALL_EXITSTATUS
-#  define SYSTEMCALL_EXITSTATUS -1
+#  define SYSTEMCALL_EXITSTATUS 255
 # endif
 
 # ifndef UNREACHABLE

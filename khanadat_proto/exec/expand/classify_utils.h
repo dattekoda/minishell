@@ -1,27 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expand_utils.h                                     :+:      :+:    :+:   */
+/*   classify_utils.h                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/30 13:27:28 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/03 23:49:38 by khanadat         ###   ########.fr       */
+/*   Created: 2025/10/01 01:16:09 by khanadat          #+#    #+#             */
+/*   Updated: 2025/10/03 21:26:44 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef EXPAND_UTILS_H
-# define EXPAND_UTILS_H
+#ifndef CLASSIFY_UTILS_H
+# define CLASSIFY_UTILS_H
 
 # include "minishell_define.h"
 # include "expand_define.h"
 
-// expand_utils.c
-void	free_dollar(t_dollar *head);
-int		get_dollar(char *str, t_mini *mini, t_dollar **dol);
+// classify_utils0.c
+t_dollar	*classify_more_dollar(t_dollar **cur, t_mini *mini, char **tmp);
+t_dollar	*add_single(t_dollar *cur, char **word);
+t_dollar	*add_status(t_dollar *cur, t_mini *mini, char **word);
 
-// expand_utils_add.c
-t_word	*add_new_word(t_word *cur, t_dollar **dol);
-t_red	*add_new_red(t_red *cur, t_dollar **dol, t_RedKind rk);
+// classify_utils1.c
+t_dollar	*classify_double(t_dollar **cur, t_mini *mini, char **tmp);
+t_dollar	*add_outside(t_dollar *cur, char **word);
 
 #endif

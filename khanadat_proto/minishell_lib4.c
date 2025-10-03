@@ -1,27 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expand_utils.h                                     :+:      :+:    :+:   */
+/*   minishell_lib4.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/30 13:27:28 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/03 23:49:38 by khanadat         ###   ########.fr       */
+/*   Created: 2025/10/04 00:40:21 by khanadat          #+#    #+#             */
+/*   Updated: 2025/10/04 01:32:58 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef EXPAND_UTILS_H
-# define EXPAND_UTILS_H
+#include <stdlib.h>
+#include "minishell_define.h"
+#include "minishell_lib.h"
+#include "status.h"
+#include "libft.h"
 
-# include "minishell_define.h"
-# include "expand_define.h"
-
-// expand_utils.c
-void	free_dollar(t_dollar *head);
-int		get_dollar(char *str, t_mini *mini, t_dollar **dol);
-
-// expand_utils_add.c
-t_word	*add_new_word(t_word *cur, t_dollar **dol);
-t_red	*add_new_red(t_red *cur, t_dollar **dol, t_RedKind rk);
-
-#endif
+void	normal_minishell_exit(t_mini *mini, void (*func)(void *), \
+	void *ptr, int status)
+{
+	if (func)
+		(*func)(ptr);
+	t_mini_free(mini);
+	exit(status);
+}

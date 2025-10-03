@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 17:07:39 by khanadat          #+#    #+#             */
-/*   Updated: 2025/09/30 15:30:35 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/02 23:30:46 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@ void	catch_signal(int status, t_mini *mini)
 	exit_status = 0;
 	if (WIFEXITED(status))
 	{
-		if (WEXITSTATUS(status) == SYSTEMCALL_EXITSTATUS)
+		if (WEXITSTATUS(status) \
+		== (unsigned char)SYSTEMCALL_EXITSTATUS)
 			systemcall_minishell_exit(mini, NULL);
 		exit_status = WEXITSTATUS(status);
 	}
@@ -42,7 +43,7 @@ void	catch_signal(int status, t_mini *mini)
 		}
 		if (sig == SIGINT)
 			ft_putchar_fd('\n', STDERR_FILENO);
-		exit_status = WTERMSIG(status);
+		exit_status = WTERMSIG(status) + 128;
 	}
 	store_status(exit_status, mini);
 }
@@ -59,15 +60,15 @@ int	set_handler(int sig, void handler(int))
 	return (SUCCESS);
 }
 
-void	quit_cmd(int sig)
-{
-	received_sig = DEFAULT_SIG_NUM + sig;
-	exit(sig + DEFAULT_SIG_NUM);
-}
+// void	quit_cmd(int sig)
+// {
+// 	received_sig = DEFAULT_SIG_NUM + sig;
+// 	exit(sig + DEFAULT_SIG_NUM);
+// }
 
-void	restart_prompt(int sig)
-{
-	ft_putchar_fd('\n', STDERR_FILENO);
-	received_sig = DEFAULT_SIG_NUM + sig;
-	exit(DEFAULT_SIG_NUM + sig);
-}
+// void	restart_prompt(int sig)
+// {
+// 	ft_putchar_fd('\n', STDERR_FILENO);
+// 	received_sig = DEFAULT_SIG_NUM + sig;
+// 	exit(DEFAULT_SIG_NUM + sig);
+// }

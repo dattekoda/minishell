@@ -6,11 +6,12 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 18:16:59 by khanadat          #+#    #+#             */
-/*   Updated: 2025/09/30 15:32:07 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/01 13:34:13 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
+#include <sys/wait.h>
 #include <readline/readline.h>
 #include <readline/history.h>
 #include <signal.h>
@@ -53,7 +54,7 @@ int	receive_prompt(t_mini *mini, int *pfd, pid_t prompt_id)
 		return (store_status(WTERMSIG(prompt_status) + 128, mini), \
 		close(pfd[0]), ft_putchar_fd('\n', STDERR_FILENO), PROMPT_CONTINUE);
 	if (WEXITSTATUS(prompt_status) == NO_NEW_LINE)
-		noline_minishell_exit((close(pfd[0]), mini));
+		minishell_exit((close(pfd[0]), mini));
 	if (WEXITSTATUS(prompt_status) == ERR)
 		systemcall_minishell_exit((close(pfd[0]), mini), "write");
 	if (read(pfd[0], &line_len, sizeof(size_t)) != sizeof(size_t))
@@ -65,7 +66,7 @@ int	receive_prompt(t_mini *mini, int *pfd, pid_t prompt_id)
 		systemcall_minishell_exit((close(pfd[0]), mini), "read");
 	close(pfd[0]);
 	if (!*(mini->line))
-		return (safe_free((void **)&(mini->line)), PROMPT_CONTINUE);
+		return (mini_safe_free((void **)&(mini->line)), PROMPT_CONTINUE);
 	add_history(mini->line);
 	return (SUCCESS);
 }
@@ -101,11 +102,11 @@ int	main(int argc, char *argv[], char *envp[])
 
 	if (argc != 1)
 		return (err_invalid_arg(argv[1]), FAILURE);
-	received_sig = 0;
+	// received_sig = 0;
 	if (!access_program_name(argv[0]))
-		return (FAILURE);
+		exit(FAILURE);
 	if (set_minishell(&mini, envp))
-		exit((free_program_name(), FAILURE));
+		exit(FAILURE);
 	minishell(&mini);
 	return (FAILURE);
 }

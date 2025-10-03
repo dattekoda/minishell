@@ -6,48 +6,53 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 17:51:14 by khanadat          #+#    #+#             */
-/*   Updated: 2025/09/28 09:44:18 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/01 13:38:52 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include <stddef.h>
+#include <stdio.h>
+#include <readline/readline.h>
+#include <readline/history.h>
 #include "libft.h"
 #include "minishell_lib.h"
+#include "ast.h"
 
 static char	*get_program_name(char *set);
 
-void	safe_free(void **ptr)
+void	mini_safe_free(void **ptr)
 {
 	if (*ptr)
 		free(*ptr);
 	*ptr = NULL;
 }
 
-void	free_program_name(void)
+void	t_mini_free(t_mini *mini)
 {
-	access_program_name \
-	("free_program_name");
+	free_split(mini->envp);
+	mini_safe_free((void **)&mini->line);
+	free_node(&mini->node);
+	rl_clear_history();
 }
 
-// set char *set "free_program_name" then
-// you can free static char*
+// caution: set name before use
+// set char *set NULL then
+// you can get program_name
+// set's len exceeds FILENAME_MAX
+// then return NULL
 char	*access_program_name(char *set)
 {
-	static char	*name = NULL;
+	static char	name[FILENAME_MAX];
+	char		*actual_name;
 
-	if (set && name \
-		&& !ft_strcmp(set, "free_program_name"))
-	{
-		safe_free((void **)&name);
-		return (NULL);
-	}
-	if (!name)
-		name = ft_strdup(get_program_name(set));
-	if (!name)
-		return (ft_putstr_fd(set, STDERR_FILENO), \
-		ft_putendl_fd(": Error: malloc failed", STDERR_FILENO), \
-		NULL);
+	if (!set)
+		return (name);
+	actual_name = get_program_name(set);
+	if (FILENAME_MAX < ft_strlen(actual_name))
+		return (ft_putstr_fd(actual_name, STDERR_FILENO), \
+		ft_putendl_fd(": File name too long", STDERR_FILENO), NULL);
+	ft_strlcpy(name, actual_name, FILENAME_MAX);
 	return (name);
 }
 
@@ -80,6 +85,6 @@ void	free_split(char **splited)
 
 	i = 0;
 	while (splited[i])
-		safe_free((void **)&splited[i++]);
-	safe_free((void **)&splited);
+		mini_safe_free((void **)&splited[i++]);
+	mini_safe_free((void **)&splited);
 }

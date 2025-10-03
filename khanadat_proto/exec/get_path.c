@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 13:20:01 by khanadat          #+#    #+#             */
-/*   Updated: 2025/09/30 15:35:12 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/04 00:43:57 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,10 @@ void	get_cwd_path(char **path, char **argv, t_mini *mini)
 	ft_strlcpy(path_buffer, "./", PATH_MAX);
 	ft_strlcat(path_buffer, argv[0], PATH_MAX);
 	if (access(path_buffer, F_OK))
-		child_minishell_exit(mini, err_cmd_not_found, \
+		child_minishell_exit(mini, &err_cmd_not_found, \
 		argv, NOT_FOUND_ERR);
 	if (access(path_buffer, X_OK))
-		child_minishell_exit(mini, err_permission, \
+		child_minishell_exit(mini, &err_permission, \
 		argv, PERMISSION_ERR);
 	*path = ft_strdup(path_buffer);
 	if (!*path)
@@ -67,12 +67,12 @@ void	get_path_from_env(char **path, char **argv, \
 		if (!access(path_buffer, F_OK))
 			break ;
 		if (!chr)
-			child_minishell_exit(mini, err_cmd_not_found, \
+			child_minishell_exit(mini, &err_cmd_not_found, \
 			argv, NOT_FOUND_ERR);
 		path_env = chr + 1;
 	}
 	if (access(path_buffer, X_OK))
-		child_minishell_exit(mini, err_permission, \
+		child_minishell_exit(mini, &err_permission, \
 			argv, PERMISSION_ERR);
 	*path = ft_strdup(path_buffer);
 	if (!*path)
@@ -85,19 +85,14 @@ void	get_path_from_env(char **path, char **argv, \
 
 void	get_abs_path(char **path, char **argv, t_mini *mini)
 {
-	int			status;
-	struct stat	buf;
-
 	if (access(argv[0], F_OK))
-		child_minishell_exit(mini, err_cmd_not_found, \
+		child_minishell_exit(mini, &err_cmd_not_found, \
 			argv, NOT_FOUND_ERR);
-	stat(argv[0], &buf);
-	if (S_ISDIR(buf.st_mode))
-		child_minishell_exit(mini, err_is_dir, \
+	if (mini_is_dir(argv[0]))
+		child_minishell_exit(mini, &err_is_dir, \
 		argv, IS_DIR_ERR);
-	status = access(argv[0], X_OK);
-	if (status)
-		child_minishell_exit(mini, err_permission, \
+	if (access(argv[0], X_OK))
+		child_minishell_exit(mini, &err_permission, \
 			argv, PERMISSION_ERR);
 	*path = argv[0];
 }

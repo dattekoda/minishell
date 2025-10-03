@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/28 13:38:47 by khanadat          #+#    #+#             */
-/*   Updated: 2025/09/29 15:09:06 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/02 21:15:15 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static int	set_prompt(t_mini *mini);
 int	set_minishell(t_mini *mini, char *envp[])
 {
 	ft_bzero(mini, sizeof(t_mini));
-	mini->status[0] = '0';
+	store_status(0, mini);
 	if (set_envp(mini, envp))
 		return (ERR);
 	if (set_prompt(mini))
@@ -43,7 +43,7 @@ int	set_node(t_mini *mini)
 	if (status < 0)
 		systemcall_minishell_exit(mini, NULL);
 	if (status == SYNTAX_ERR)
-		return (safe_free \
+		return (mini_safe_free \
 			((void **)&(mini->line)), \
 			PROMPT_CONTINUE);
 	status = get_node(&(mini->node), token);
@@ -52,10 +52,10 @@ int	set_node(t_mini *mini)
 		((free_token(&token), mini), NULL);
 	if (status == SYNTAX_ERR)
 		return (free_token(&token), \
-			safe_free((void **)&(mini->line)), \
+			mini_safe_free((void **)&(mini->line)), \
 			PROMPT_CONTINUE);
 	return (free_token(&token), \
-		safe_free((void **)&(mini->line)), \
+		mini_safe_free((void **)&(mini->line)), \
 		SUCCESS);
 }
 
