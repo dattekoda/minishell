@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/28 14:15:28 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/04 03:02:43 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/04 03:26:15 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -260,7 +260,7 @@ void	exec_cmd(t_mini *mini, t_node *node)
 	int		saved[2];
 
 	if (expand_node(node, mini))
-		systemcall_minishell_exit(mini, "malloc");
+		return ;
 	if (store_argv(node->word, &argv))
 		systemcall_minishell_exit(mini, "malloc");
 	cfd[0] = STDIN_FILENO;
