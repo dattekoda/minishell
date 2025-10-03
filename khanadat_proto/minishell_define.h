@@ -7,7 +7,7 @@
 # define DEFAULT_SIG_NUM 128
 # define GOT_SIGNAL 130
 # define PROMPT_CONTINUE 5
-# define STATUS_SIZE 4
+# define STATUS_SIZE 6
 
 # ifndef PATH_MAX
 #  define PATH_MAX 1024

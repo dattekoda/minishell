@@ -26,6 +26,8 @@ t_dollar	*classify_more_dollar(t_dollar **cur, t_mini *mini, char **tmp)
 	if (**tmp == '?')
 		return (add_status(*cur, mini, tmp));
 	value = mini_getenv(tmp, mini);
+	if (!value)
+		value = &mini->status[3];
 	while (*value && *cur)
 	{
 		if (ft_isspace(*value))

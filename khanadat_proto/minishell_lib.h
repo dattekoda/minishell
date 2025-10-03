@@ -19,7 +19,8 @@ void	free_split(char **splited);
 
 // lib2
 char	*normal_getenv(char *var, t_mini *mini);
-void	store_status(int status, t_mini *mini);
+void	store_status(unsigned char status, t_mini *mini);
+bool	mini_is_dir(char *file);
 
 // lib3
 void	catch_signal(int status, t_mini *mini);

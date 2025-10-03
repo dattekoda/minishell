@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/28 16:14:49 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/01 00:43:57 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/03 15:05:10 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include "libft.h"
 #include "status.h"
 #include <unistd.h>
+#include <stdio.h>
 
 void	err_cmd_not_found(char *file)
 {
@@ -49,8 +50,7 @@ void	err_system_call(char *func)
 {
 	ft_putstr_fd(access_program_name(NULL), STDERR_FILENO);
 	ft_putstr_fd(": Error: ", STDERR_FILENO);
-	ft_putstr_fd(func, STDERR_FILENO);
-	ft_putendl_fd(" failed.", STDERR_FILENO);
+	perror(func);
 }
 
 void	put_syntax_err(char type)

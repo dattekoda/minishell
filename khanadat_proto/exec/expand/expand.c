@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 15:35:23 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/02 01:19:58 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/03 14:40:40 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,22 @@ int	expand_node(t_node *node, t_mini *mini)
 	return (SUCCESS);
 }
 
+// void	dol_checker(t_dollar *dol)
+// {
+// 	while (dol)
+// 	{
+// 		if (dol->dkind == WD_WORD)
+// 		{
+// 			fprintf(stderr, "val:	%s\n", dol->value);
+// 			fprintf(stderr, "len:	%zu\n", dol->value_len);
+// 		}
+// 		else if (dol->dkind == WD_SPACE)
+// 			fprintf(stderr, "space\n");
+// 		fprintf(stderr, "\n");
+// 		dol = dol->next;
+// 	}
+// }
+
 static int	set_new_word(t_word **new, t_word *before, t_mini *mini)
 {
 	t_word		head;
@@ -60,15 +76,14 @@ static int	set_new_word(t_word **new, t_word *before, t_mini *mini)
 	{
 		if (get_dollar(before->word, mini, &dol))
 			return (free_word(head.next), ERR);
+		// dol_checker(dol);
 		dol_head = dol;
 		while (dol && cur)
-		{
 			cur = add_new_word(cur, &dol);
-		}
 		before = before->next;
 		free_dollar(dol_head);
 	}
-	if (!new)
+	if (!cur)
 		return (free_word(head.next), ERR);
 	*new = head.next;
 	return (SUCCESS);
@@ -90,12 +105,12 @@ static int	set_new_red(t_red **new, t_red *before, t_mini *mini)
 		dol_head = dol;
 		cur = add_new_red(cur, &dol, before->kind);
 		if (dol)
-			failure_minishell_exit((free_dollar(dol_head), \
-			free(head.next), mini), err_ambiguous, before->file);
+			return (free_dollar(dol_head), free(head.next), \
+			err_ambiguous(before->file), ERR);
 		before = before->next;
 		free_dollar(dol_head);
 	}
-	if (!new)
+	if (!cur)
 		return (free_red(head.next), ERR);
 	*new = head.next;
 	return (SUCCESS);

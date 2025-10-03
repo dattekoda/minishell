@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/28 16:14:47 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/01 13:29:25 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/02 16:27:27 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,5 +28,12 @@ void	err_is_dir(char *file);
 void	err_heredoc(char *file);
 void	err_no_file(char *file);
 void	err_ambiguous(char *file);
+
+// minishell_err2.c
+void	err_cd(char *file);
+void	err_no_home(char *file);
+void	err_too_many(char *file);
+void	err_not_dir(char *file);
+void	err_cd_permission(char *file);
 
 #endif

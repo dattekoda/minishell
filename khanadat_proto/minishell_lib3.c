@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 17:07:39 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/01 01:42:09 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/02 23:30:46 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@ void	catch_signal(int status, t_mini *mini)
 	exit_status = 0;
 	if (WIFEXITED(status))
 	{
-		if (WEXITSTATUS(status) == SYSTEMCALL_EXITSTATUS)
+		if (WEXITSTATUS(status) \
+		== (unsigned char)SYSTEMCALL_EXITSTATUS)
 			systemcall_minishell_exit(mini, NULL);
 		exit_status = WEXITSTATUS(status);
 	}

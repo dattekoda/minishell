@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 13:20:01 by khanadat          #+#    #+#             */
-/*   Updated: 2025/09/30 15:35:12 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/02 16:19:53 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,18 +85,13 @@ void	get_path_from_env(char **path, char **argv, \
 
 void	get_abs_path(char **path, char **argv, t_mini *mini)
 {
-	int			status;
-	struct stat	buf;
-
 	if (access(argv[0], F_OK))
 		child_minishell_exit(mini, err_cmd_not_found, \
 			argv, NOT_FOUND_ERR);
-	stat(argv[0], &buf);
-	if (S_ISDIR(buf.st_mode))
+	if (mini_is_dir(argv[0]))
 		child_minishell_exit(mini, err_is_dir, \
 		argv, IS_DIR_ERR);
-	status = access(argv[0], X_OK);
-	if (status)
+	if (access(argv[0], X_OK))
 		child_minishell_exit(mini, err_permission, \
 			argv, PERMISSION_ERR);
 	*path = argv[0];

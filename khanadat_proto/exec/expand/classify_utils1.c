@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 01:26:08 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/02 01:33:57 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/02 21:34:52 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,8 +106,10 @@ char	*mini_getenv(char **var, t_mini *mini)
 
 	i = 0;
 	chr = *var;
-	while (**var && !ft_strchr("\'\"$/", **var))
+	while (**var && !ft_strchr("\'\"$", **var))
 		(*var)++;
+	if (*var == chr)
+		return (&mini->status[4]);
 	len = *var - chr;
 	while (i < mini->envp_len)
 	{

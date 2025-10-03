@@ -34,7 +34,7 @@
 # endif
 
 # ifndef SYSTEMCALL_EXITSTATUS
-#  define SYSTEMCALL_EXITSTATUS -1
+#  define SYSTEMCALL_EXITSTATUS 255
 # endif
 
 # ifndef UNREACHABLE

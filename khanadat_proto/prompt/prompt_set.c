@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/28 13:38:47 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/01 01:27:07 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/02 21:15:15 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static int	set_prompt(t_mini *mini);
 int	set_minishell(t_mini *mini, char *envp[])
 {
 	ft_bzero(mini, sizeof(t_mini));
-	mini->status[0] = '0';
+	store_status(0, mini);
 	if (set_envp(mini, envp))
 		return (ERR);
 	if (set_prompt(mini))
