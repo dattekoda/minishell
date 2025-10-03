@@ -76,4 +76,5 @@ set_redirect.h, set_redirect.cの追加。
 heredocを子プロセスで行うよう修正。   
 heredocで変数展開が行う機能の追加。   
 cdで絶対パスに移動できるように修正。   
+ambigous redirectでmallocエラーとして処理されるバグを修正。   
 次にやるタスクはexec.cファイルの整理。   
