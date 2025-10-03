@@ -22,6 +22,7 @@ typedef struct s_mini
 	size_t	envp_len; // actual stored size of envp
 	char	*prompt;
 	char	*line;
+	char	*heredoc_name; // no need free
 	t_node	*node;
 	char	status[STATUS_SIZE];
 }	t_mini;

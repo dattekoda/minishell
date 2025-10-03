@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/28 16:13:47 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/02 15:35:03 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/03 16:30:13 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,8 @@ void	err_heredoc(char *file)
 {
 	ft_putchar_fd('\n', STDERR_FILENO);
 	ft_putstr_fd(access_program_name(NULL), STDERR_FILENO);
-	ft_putstr_fd(": warning here-document at line 1 \
-		delimited by end-of-file (wanted `", STDERR_FILENO);
+	ft_putstr_fd(": warning: here-document at line 1 "\
+		"delimited by end-of-file (wanted `", STDERR_FILENO);
 	ft_putstr_fd(file, STDERR_FILENO);
 	ft_putendl_fd("')", STDERR_FILENO);
 }

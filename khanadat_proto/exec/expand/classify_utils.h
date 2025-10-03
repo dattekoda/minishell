@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 01:16:09 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/02 01:34:01 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/03 21:26:44 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,5 @@ t_dollar	*add_status(t_dollar *cur, t_mini *mini, char **word);
 // classify_utils1.c
 t_dollar	*classify_double(t_dollar **cur, t_mini *mini, char **tmp);
 t_dollar	*add_outside(t_dollar *cur, char **word);
-char		*mini_getenv(char **var, t_mini *mini);
 
 #endif

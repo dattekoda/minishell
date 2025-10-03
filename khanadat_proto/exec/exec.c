@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/28 14:15:28 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/03 15:00:27 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/04 03:02:43 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,7 @@
 #include "expand.h"
 #include "get_path.h"
 #include "ast.h"
-
-#define FILENAME_DAFAULT_LEN 13
-#define HEREDOC_FILENAME "/tmp/.heredoc"
+#include "set_redirect.h"
 
 size_t	count_word(t_word *head)
 {
@@ -62,99 +60,6 @@ void	close_cfd(int *cfd)
 		close(cfd[0]);
 	if (cfd[1] != STDOUT_FILENO)
 		close(cfd[1]);
-}
-
-char	*set_heredoc_name(void)
-{
-	static unsigned int	num = 0;
-	static char			file_name[FILENAME_MAX];
-	int					tmp;
-	int					i;
-
-	tmp = num;
-	ft_strlcpy(file_name, HEREDOC_FILENAME, FILENAME_MAX);
-	i = FILENAME_DAFAULT_LEN;
-	if (tmp == 0)
-		file_name[i++] = '0';
-	while (tmp)
-	{
-		file_name[i++] = (tmp % 10) + '0';
-		tmp /= 10;
-	}
-	file_name[i] = '\0';
-	num++;
-	if (!access(file_name, F_OK))
-		return (set_heredoc_name());
-	return (file_name);
-}
-
-void    set_redirect(t_mini *mini, t_red *red, int *cfd)
-{
-	while (red)
-	{
-		if (red->kind == RD_APPEND)
-		{
-			if (cfd[1] != STDOUT_FILENO)
-				close(cfd[1]);
-			cfd[1] = open(red->file, O_RDWR | O_CREAT | O_APPEND , 0666);
-		}
-		else if (red->kind == RD_HEREDOC)
-		{
-			if (cfd[0] != STDIN_FILENO)
-				close(cfd[0]);
-			char	*name;
-			char	*line;
-			int		status;
-			int		fd;
-			size_t	len;
-			len = ft_strlen(red->file);
-			name = set_heredoc_name();
-			fd = open(name, O_RDWR | O_CREAT | O_TRUNC, 0666);
-			while (1)
-			{
-				ft_putstr_fd("> ", STDOUT_FILENO);
-				status = ft_get_next_line(STDIN_FILENO, &line);
-				if (status == -1)
-					systemcall_minishell_exit(mini, "read");
-				else if (status == -2)
-					systemcall_minishell_exit(mini, "malloc");
-				if (!line)
-				{
-					err_heredoc(red->file);
-					break ;
-				}
-				if (!ft_strncmp(line, red->file, len) \
-					&& line[len] == '\n')
-				{
-					free(line);
-					break ;
-				}
-				ft_putstr_fd(line, fd);
-				free(line);
-			}
-			close(fd);
-			cfd[0] = open(name, O_RDONLY);
-			unlink(name);
-		}
-		else if (red->kind == RD_IN)
-		{
-			if (cfd[0] != STDIN_FILENO)
-				close(cfd[0]);
-			if (access(red->file, F_OK))
-			{
-				err_no_file(red->file);
-				child_minishell_exit(mini, NULL, NULL, FAILURE);
-			}
-			cfd[0] = open(red->file, O_RDONLY);
-		}
-		else if (red->kind == RD_OUT)
-		{
-			if (cfd[1] != STDOUT_FILENO)
-				close(cfd[1]);
-			cfd[1] = open(red->file, O_RDWR | O_CREAT | O_TRUNC, 0666);
-		}
-		red = red->next ;
-	}
 }
 
 #define CWD_INIT_SIZE 4096
@@ -198,6 +103,13 @@ int	set_abs_path(char **dir)
 	char	*abs_path;
 	char	*pwd;
 
+	if (**dir == '/')
+	{
+		*dir = ft_strdup(*dir);
+		if (!*dir)
+			return (ERR);
+		return (SUCCESS);
+	}
 	dir_len	= ft_strlen(*dir);
 	pwd = mini_getcwd();
 	pwd_len = ft_strlen(pwd);
@@ -353,7 +265,11 @@ void	exec_cmd(t_mini *mini, t_node *node)
 		systemcall_minishell_exit(mini, "malloc");
 	cfd[0] = STDIN_FILENO;
 	cfd[1] = STDOUT_FILENO;
-	set_redirect(mini, node->red, cfd);
+	if (set_redirect(mini, node->red, cfd))
+	{
+		close_cfd(cfd);
+		return ;
+	}
 	if (cfd[0] != STDIN_FILENO)
 	{
 		saved[0] = dup(STDIN_FILENO);
@@ -395,6 +311,11 @@ void	exec_cmd(t_mini *mini, t_node *node)
 		close(saved[1]);
 	}
 	free(argv);
+	if (mini->heredoc_name)
+	{
+		unlink(mini->heredoc_name);
+		mini->heredoc_name = NULL;
+	}
 }
 
 void	exec_prompt(t_mini *mini, t_node *node/* , t_NodeKind nkind */)

@@ -5,6 +5,10 @@
 #  define ERR -1
 # endif
 
+# ifndef NO_ERR
+#  define NO_ERR 0
+# endif
+
 # ifndef SUCCESS
 #  define SUCCESS 0
 # endif

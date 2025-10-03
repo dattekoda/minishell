@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/21 18:15:10 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/02 16:40:27 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/04 00:54:20 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,11 @@ void	minishell_exit(t_mini *mini)
 	exit(SUCCESS);
 }
 
-void	failure_minishell_exit(t_mini *mini, void func(char *), char *file)
+void	failure_minishell_exit(t_mini *mini, void (*func)(char *), char *file, int status)
 {
-	func(file);
+	(*func)(file);
 	t_mini_free(mini);
-	exit(FAILURE);
+	exit(status);
 }
 
 void	systemcall_minishell_exit(t_mini *mini, char *func)
@@ -57,11 +57,11 @@ void	systemcall_minishell_exit(t_mini *mini, char *func)
 	exit(SYSTEMCALL_EXITSTATUS);
 }
 
-void	child_minishell_exit(t_mini *mini, void func(char *), \
+void	child_minishell_exit(t_mini *mini, void (*func)(char *), \
 	char **argv, int status)
 {
 	if (func)
-		func(argv[0]);
+		(*func)(argv[0]);
 	free(argv);
 	t_mini_free(mini);
 	exit(status);
