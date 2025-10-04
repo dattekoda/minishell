@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/28 14:15:28 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/04 03:26:15 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/04 23:14:33 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,7 +150,25 @@ int	set_mini_envp(char *var, char *val, char **envp_i)
 	return (SUCCESS);
 }
 
-void	mini_export(char *var, char *val, t_mini *mini)
+int	add_mini_len(t_mini *mini)
+{
+	char	**tmp;
+
+	mini->envp_len++;
+	if (mini->envp_len > mini->envp_size)
+	{
+		mini->envp_size *= 2;
+		tmp = ft_calloc(mini->envp_size + 1, sizeof(char *));
+		if (!tmp)
+			return (err_system_call("malloc"), ERR);
+		ft_memmove(tmp, mini->envp, mini->envp_size / 2 * sizeof(char *));
+		free(mini->envp);
+		mini->envp = tmp;
+	}
+	return (SUCCESS);
+}
+
+int	mini_export(char *var, char *val, t_mini *mini)
 {
 	size_t	var_len;
 	size_t	i;
@@ -164,8 +182,11 @@ void	mini_export(char *var, char *val, t_mini *mini)
 			break ;
 		i++;
 	}
+	if (!mini->envp[i] && add_mini_len(mini))
+		return (err_system_call("malloc"), ERR);
 	if (set_mini_envp(var, val, &mini->envp[i]))
-		systemcall_minishell_exit(mini, "malloc");
+		return (err_system_call("malloc"), ERR);
+	return (SUCCESS);
 }
 
 void	exec_cd(t_mini *mini, char **argv)
@@ -186,39 +207,140 @@ void	exec_cd(t_mini *mini, char **argv)
 		err_too_many("cd");
 		store_status(1, mini);
 	}
-	if (set_abs_path(&dir))
-	{
-		free(argv);
-		systemcall_minishell_exit(mini, "malloc");
-	}
 	if (access(dir, F_OK))
 	{
-		free(dir);
 		err_cd(argv[1]);
 		store_status(1, mini);
 		return ;
 	}
 	if (!mini_is_dir(dir))
 	{
-		free(dir);
 		err_not_dir(argv[1]);
 		store_status(1, mini);
 		return ;
 	}
 	if (access(dir, X_OK))
 	{
-		free(dir);
 		err_cd_permission(argv[1]);
 		store_status(1, mini);
 		return ;
 	}
+	// if (set_abs_path(&dir))
+	// {
+	// 	free(argv);
+	// 	systemcall_minishell_exit(mini, "malloc");
+	// }
 	if (chdir(dir))
 		perror("chdir");
-	free(dir);
+	// free(dir);
 	dir = mini_getcwd();
-	mini_export("PWD", dir, mini);
+	if (mini_export("PWD", dir, mini))
+		normal_minishell_exit(mini, &free, \
+			argv, SYSTEMCALL_EXITSTATUS);
 	free(dir);
-	store_status(1, mini);
+	store_status(FAILURE, mini);
+}
+
+void	exec_env(t_mini *mini, char **argv)
+{
+	size_t	i;
+
+	if (argv[1])
+	{
+		err_msg_env(argv[1]);
+		store_status(FAILURE, mini);
+		return ;
+	}
+	i = 0;
+	while (i < mini->envp_len)
+		ft_putendl_fd(mini->envp[i++], STDOUT_FILENO);
+	store_status(SUCCESS, mini);
+}
+
+int	export_arg(t_mini *mini, char *arg, size_t var_len)
+{
+	size_t	i;
+
+	i = 0;
+	while (mini->envp[i])
+	{
+		if (!ft_strncmp(arg, mini->envp[i], var_len) \
+			&& mini->envp[i][var_len] == '=')
+			break ;
+		i++;
+	}
+	if (mini->envp[i])
+		free(mini->envp[i]);
+	else if (!mini->envp[i] && add_mini_len(mini))
+		return (err_system_call("malloc"), ERR);
+	mini->envp[i] = ft_strdup(arg);
+	if (!mini->envp[i])
+		return (err_system_call("malloc"), ERR);
+	return (SUCCESS);
+}
+
+void	exec_export(t_mini *mini, char **argv)
+{
+	size_t	i;
+	size_t	var_len;
+	char	*eq_ptr;
+
+	if (!argv[1])
+		exec_env(mini, argv);
+	i = 0;
+	while (argv[++i])
+	{
+		eq_ptr = ft_strchr(argv[i], '=');
+		if (!eq_ptr)
+			continue ;
+		var_len = (size_t)(eq_ptr - argv[i]);
+		if (!var_len || (var_len == 1 && *argv[i] == '$'))
+		{
+			err_export(argv[i]);
+			store_status(FAILURE, mini);
+			return ;
+		}
+		if (export_arg(mini, argv[i], var_len))
+			normal_minishell_exit(mini, &free, \
+				argv, SYSTEMCALL_EXITSTATUS);
+	}
+	store_status(SUCCESS, mini);
+}
+
+#define NEW_LINE_OPTION "-n"
+#define NEW_LINE_OPTION_LEN 2
+
+bool	new_line_checkr(char *arg)
+{
+	if (!*arg)
+		return (true);
+	if (*arg++ != '-')
+		return (true);
+	if (*arg != 'n')
+		return (true);
+	while (*arg && *arg == 'n')
+		arg++;
+	if (!*arg)
+		return (false);
+	return (true);
+}
+
+void	exec_echo(t_mini *mini, char **argv)
+{
+	size_t	i;
+	bool	print_new_line;
+
+	print_new_line = new_line_checkr(argv[1]);
+	i = !print_new_line;
+	while (argv[++i])
+	{
+		ft_putstr_fd(argv[i], STDOUT_FILENO);
+		if (argv[i + 1])
+			ft_putchar_fd(' ', STDOUT_FILENO);
+	}
+	if (print_new_line)
+		ft_putchar_fd('\n', STDOUT_FILENO);
+	store_status(SUCCESS, mini);
 }
 
 bool	exec_builtin(t_mini *mini, char **argv)
@@ -227,15 +349,15 @@ bool	exec_builtin(t_mini *mini, char **argv)
 		return (exec_pwd(mini, argv), true);
 	if (!ft_strcmp(argv[0], "cd"))
 		return (exec_cd(mini, argv), true);
-	// if (!ft_strcmp(argv[0], "env"))
-	// 	return (true);
-	// if (!ft_strcmp(argv[0], "export"))
-	// 	return (true);
+	if (!ft_strcmp(argv[0], "env"))
+		return (exec_env(mini, argv), true);
+	if (!ft_strcmp(argv[0], "export"))
+		return (exec_export(mini, argv), true);
+	if (!ft_strcmp(argv[0], "echo"))
+		return (exec_echo(mini, argv), true);
 	// if (!ft_strcmp(argv[0], "unset"))
 	// 	return (true);
 	// if (!ft_strcmp(argv[0], "exit"))
-	// 	return (true);
-	// if (!ft_strcmp(argv[0], "echo"))
 	// 	return (true);
 	return (false);
 }
@@ -286,7 +408,6 @@ void	exec_cmd(t_mini *mini, t_node *node)
 	}
 	if (!exec_builtin(mini, argv))
 	{
-		
 		cmd_id = fork();
 		if (cmd_id < 0)
 			systemcall_minishell_exit(mini, "fork");
