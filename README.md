@@ -94,3 +94,4 @@ export var+=valueへ対応する機能の追加。
 cdで$PWDを更新するときの挙動を調整。   
 buitinディレクトリの作成。   
 exec.cファイルの整理。   
+tokenizer, astの段階で出るsyntax errorがエラーステータス$?を取得できていないバグを修正。   
