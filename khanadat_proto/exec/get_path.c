@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 13:20:01 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/04 00:43:57 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/06 00:49:07 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	get_cwd_path(char **path, char **argv, t_mini *mini)
 		child_minishell_exit(mini, &err_cmd_not_found, \
 		argv, NOT_FOUND_ERR);
 	if (access(path_buffer, X_OK))
-		child_minishell_exit(mini, &err_permission, \
+		child_minishell_exit(mini, &err_file, \
 		argv, PERMISSION_ERR);
 	*path = ft_strdup(path_buffer);
 	if (!*path)
@@ -72,7 +72,7 @@ void	get_path_from_env(char **path, char **argv, \
 		path_env = chr + 1;
 	}
 	if (access(path_buffer, X_OK))
-		child_minishell_exit(mini, &err_permission, \
+		child_minishell_exit(mini, &err_file, \
 			argv, PERMISSION_ERR);
 	*path = ft_strdup(path_buffer);
 	if (!*path)
@@ -92,7 +92,7 @@ void	get_abs_path(char **path, char **argv, t_mini *mini)
 		child_minishell_exit(mini, &err_is_dir, \
 		argv, IS_DIR_ERR);
 	if (access(argv[0], X_OK))
-		child_minishell_exit(mini, &err_permission, \
+		child_minishell_exit(mini, &err_file, \
 			argv, PERMISSION_ERR);
 	*path = argv[0];
 }

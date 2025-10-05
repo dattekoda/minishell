@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 16:18:41 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/04 18:06:03 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/06 02:56:30 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,6 +153,8 @@ int	mini_heredoc(t_mini *mini, t_red *red, int *cfd)
 
 	if (cfd[0] != STDIN_FILENO)
 		close(cfd[0]);
+	if (mini->heredoc_name)
+		unlink(mini->heredoc_name);
 	mini->heredoc_name = set_heredoc_name();
 	heredoc_id = fork();
 	if (heredoc_id < 0)
@@ -187,12 +189,10 @@ int	set_redirect(t_mini *mini, t_red *red, int *cfd)
 		{
 			if (cfd[0] != STDIN_FILENO)
 				close(cfd[0]);
-			if (access(red->file, F_OK))
-			{
-				err_no_file(red->file);
-				store_status(1, mini);
-				return (ERR);
-			}
+			if (access(red->file, F_OK | X_OK))
+				return (err_file(red->file), \
+				store_status(FAILURE, mini), \
+				ERR);
 			cfd[0] = open(red->file, O_RDONLY);
 		}
 		else if (red->kind == RD_OUT)

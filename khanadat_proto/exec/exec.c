@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/28 14:15:28 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/05 23:37:12 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/06 02:12:55 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,13 @@
 #include "ast.h"
 #include "set_redirect.h"
 #include "builtin.h"
+
+typedef struct s_cmd
+{
+	pid_t	cmd_id;
+	int		cmd_fd[2];
+	char	**argv;
+}	t_cmd;
 
 size_t	count_word(t_word *head)
 {
@@ -55,12 +62,12 @@ int	store_argv(t_word *head, char ***argv)
 	return (SUCCESS);
 }
 
-void	close_cfd(int *cfd)
+void	close_cfd(int *cmd_fd)
 {
-	if (cfd[0] != STDIN_FILENO)
-		close(cfd[0]);
-	if (cfd[1] != STDOUT_FILENO)
-		close(cfd[1]);
+	if (cmd_fd[0] != STDIN_FILENO)
+		close(cmd_fd[0]);
+	if (cmd_fd[1] != STDOUT_FILENO)
+		close(cmd_fd[1]);
 }
 
 int	set_abs_path(char **dir)
@@ -110,33 +117,33 @@ void	exec_cmd(t_mini *mini, t_node *node)
 	pid_t	cmd_id;
 	int		status;
 	char	**argv;
-	int	 	cfd[2];
+	int	 	cmd_fd[2];
 	int		saved[2];
 
 	if (expand_node(node, mini))
 		return ;
 	if (store_argv(node->word, &argv))
 		systemcall_minishell_exit(mini, "malloc");
-	cfd[0] = STDIN_FILENO;
-	cfd[1] = STDOUT_FILENO;
-	if (set_redirect(mini, node->red, cfd))
+	cmd_fd[0] = STDIN_FILENO;
+	cmd_fd[1] = STDOUT_FILENO;
+	if (set_redirect(mini, node->red, cmd_fd))
 	{
-		close_cfd(cfd);
+		close_cfd(cmd_fd);
 		return ;
 	}
-	if (cfd[0] != STDIN_FILENO)
+	if (cmd_fd[0] != STDIN_FILENO)
 	{
 		saved[0] = dup(STDIN_FILENO);
 		if (saved[0] < 0)
 			systemcall_minishell_exit(mini, "dup");
-		dup2(cfd[0], STDIN_FILENO);
+		dup2(cmd_fd[0], STDIN_FILENO);
 	}
-	if (cfd[1] != STDOUT_FILENO)
+	if (cmd_fd[1] != STDOUT_FILENO)
 	{
 		saved[1] = dup(STDOUT_FILENO);
 		if (saved[1] < 0)
 			systemcall_minishell_exit(mini, "dup");
-		dup2(cfd[1], STDOUT_FILENO);
+		dup2(cmd_fd[1], STDOUT_FILENO);
 	}
 	if (!exec_builtin(mini, argv))
 	{
@@ -149,16 +156,16 @@ void	exec_cmd(t_mini *mini, t_node *node)
 			systemcall_minishell_exit(mini, "waitpid");
 		catch_signal(status, mini);
 	}
-	if (cfd[0] != STDIN_FILENO)
+	if (cmd_fd[0] != STDIN_FILENO)
 	{
-		close(cfd[0]);
+		close(cmd_fd[0]);
 		if (dup2(saved[0], STDIN_FILENO) < 0)
 			systemcall_minishell_exit(mini, "dup2");
 		close(saved[0]);
 	}
-	if (cfd[1] != STDOUT_FILENO)
+	if (cmd_fd[1] != STDOUT_FILENO)
 	{
-		close(cfd[1]);
+		close(cmd_fd[1]);
 		if (dup2(saved[1], STDOUT_FILENO) < 0)
 			systemcall_minishell_exit(mini, "dup2");
 		close(saved[1]);
@@ -179,4 +186,6 @@ void	exec_prompt(t_mini *mini, t_node *node/* , t_NodeKind nkind */)
 		exec_prompt(mini, node->lhs/* , node->kind */);
 	if (node->kind == ND_CMD)
 		exec_cmd(mini, node);
+	if (node->rhs)
+		exec_prompt(mini, node->rhs);
 }

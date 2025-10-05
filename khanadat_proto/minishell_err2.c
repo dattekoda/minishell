@@ -6,10 +6,11 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 15:32:17 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/03 00:14:26 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/06 00:38:58 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdio.h>
 #include "minishell_lib.h"
 #include "libft.h"
 
@@ -17,8 +18,7 @@ void	err_cd(char *file)
 {
 	ft_putstr_fd(access_program_name(NULL), STDERR_FILENO);
 	ft_putstr_fd(": cd: ", STDERR_FILENO);
-	ft_putstr_fd(file, STDERR_FILENO);
-	ft_putendl_fd(": No such file or directory", STDERR_FILENO);
+	perror(file);
 }
 
 void	err_no_home(char *file)
@@ -37,18 +37,18 @@ void	err_too_many(char *file)
 	ft_putendl_fd(": too many arguments", STDERR_FILENO);
 }
 
-void	err_not_dir(char *file)
-{
-	ft_putstr_fd(access_program_name(NULL), STDERR_FILENO);
-	ft_putstr_fd(": cd: ", STDERR_FILENO);
-	ft_putstr_fd(file, STDERR_FILENO);
-	ft_putendl_fd(": Not a directory", STDERR_FILENO);
-}
+// void	err_not_dir(char *file)
+// {
+// 	ft_putstr_fd(access_program_name(NULL), STDERR_FILENO);
+// 	ft_putstr_fd(": cd: ", STDERR_FILENO);
+// 	ft_putstr_fd(file, STDERR_FILENO);
+// 	ft_putendl_fd(": Not a directory", STDERR_FILENO);
+// }
 
-void	err_cd_permission(char *file)
-{
-	ft_putstr_fd(access_program_name(NULL), STDERR_FILENO);
-	ft_putstr_fd(": cd: ", STDERR_FILENO);
-	ft_putstr_fd(file, STDERR_FILENO);
-	ft_putendl_fd(": Permission denied", STDERR_FILENO);
-}
+// void	err_cd_permission(char *file)
+// {
+// 	ft_putstr_fd(access_program_name(NULL), STDERR_FILENO);
+// 	ft_putstr_fd(": cd: ", STDERR_FILENO);
+// 	ft_putstr_fd(file, STDERR_FILENO);
+// 	ft_putendl_fd(": Permission denied", STDERR_FILENO);
+// }
