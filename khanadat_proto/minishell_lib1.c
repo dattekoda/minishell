@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 17:51:14 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/01 13:38:52 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/04 22:53:16 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,24 @@ void	mini_safe_free(void **ptr)
 
 void	t_mini_free(t_mini *mini)
 {
-	free_split(mini->envp);
+	size_t	i;
+
+	i = 0;
+	while (i < mini->envp_len)
+	{
+		if (mini->envp[i])
+			free(mini->envp[i]);
+		i++;
+	}
+	free(mini->envp);
 	mini_safe_free((void **)&mini->line);
 	free_node(&mini->node);
 	rl_clear_history();
 }
 
-// caution: set name before use
+// caution: the name should
+// set only once throughout
+// the program.
 // set char *set NULL then
 // you can get program_name
 // set's len exceeds FILENAME_MAX

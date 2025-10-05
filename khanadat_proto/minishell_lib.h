@@ -32,4 +32,8 @@ void	restart_prompt(int sig);
 // lib4
 void	normal_minishell_exit(t_mini *mini, void (*func)(void *), \
 	void *ptr, int status);
+size_t	search_envp_i(t_mini *mini, char *arg, size_t var_len);
+char	*mini_getcwd(void);
+int		add_mini_len(t_mini *mini);
+
 #endif

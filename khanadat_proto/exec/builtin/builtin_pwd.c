@@ -1,28 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ast.h                                              :+:      :+:    :+:   */
+/*   builtin_pwd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/21 09:58:34 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/01 21:20:16 by khanadat         ###   ########.fr       */
+/*   Created: 2025/10/05 23:35:22 by khanadat          #+#    #+#             */
+/*   Updated: 2025/10/05 23:37:50 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef AST_H
-# define AST_H
+#include <stdlib.h>
+#include <unistd.h>
+#include "minishell_define.h"
+#include "minishell_lib.h"
+#include "libft.h"
 
-# include "ast_define.h"
-# include "tokenizer_define.h"
+void	exec_pwd(t_mini *mini, char **argv)
+{
+	char	*cwd;
 
-// ast_utils_cmd.c
-void	free_word(t_word *head);
-
-// ast_utils_red.c
-void	free_red(t_red *head);
-
-void	free_node(t_node **node);
-int		get_node(t_node **node, t_token *token);
-
-#endif
+	cwd = mini_getcwd();
+	if (!cwd)
+	{
+		free(argv);
+		systemcall_minishell_exit(mini, "malloc");
+	}
+	ft_putendl_fd(cwd, STDOUT_FILENO);
+	free(cwd);
+	store_status(0, mini);
+}

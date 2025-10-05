@@ -81,3 +81,16 @@ cdで絶対パスに移動できるように修正。
 ambigous redirectでmallocエラーとして処理されるバグを修正。  
 未設定の環境変数をリダイレクト入力としてセットしたときにambigous redirectとエラーメッセージが表示されるよう修正。   
 次にやるタスクはexec.cファイルの整理。   
+
+exportの追加   
+echoの追加   
+envの追加   
+
+## 10/5
+引数がないときのechoでセグフォするバグを修正。   
+exitの追加。   
+unsetの追加。   
+export var+=valueへ対応する機能の追加。   
+cdで$PWDを更新するときの挙動を調整。   
+buitinディレクトリの作成。   
+exec.cファイルの整理。   

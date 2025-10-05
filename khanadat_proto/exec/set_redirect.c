@@ -6,13 +6,15 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 16:18:41 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/04 01:51:57 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/04 18:06:03 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
 #include <fcntl.h>
 #include <unistd.h>
+#include <sys/wait.h>
+#include <signal.h>
 #include "minishell_define.h"
 #include "minishell_lib.h"
 #include "minishell_err.h"

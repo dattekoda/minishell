@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/28 16:14:47 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/02 16:27:27 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/05 17:22:48 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,5 +35,10 @@ void	err_no_home(char *file);
 void	err_too_many(char *file);
 void	err_not_dir(char *file);
 void	err_cd_permission(char *file);
+
+// minishell_err3.c
+void	err_msg_env(char *file);
+void	err_export(char *file);
+void	err_exit_numeric(char *file);
 
 #endif

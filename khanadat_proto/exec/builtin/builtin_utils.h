@@ -1,28 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ast.h                                              :+:      :+:    :+:   */
+/*   builtin_utils.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/21 09:58:34 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/01 21:20:16 by khanadat         ###   ########.fr       */
+/*   Created: 2025/10/05 18:16:41 by khanadat          #+#    #+#             */
+/*   Updated: 2025/10/05 23:48:19 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef AST_H
-# define AST_H
+#ifndef BUILTIN_UTILS_H
+# define BUILTIN_UTILS_H
 
-# include "ast_define.h"
-# include "tokenizer_define.h"
+# include "minishell_define.h"
 
-// ast_utils_cmd.c
-void	free_word(t_word *head);
-
-// ast_utils_red.c
-void	free_red(t_red *head);
-
-void	free_node(t_node **node);
-int		get_node(t_node **node, t_token *token);
+void	exec_cd(t_mini *mini, char **argv);
+void	exec_echo(t_mini *mini, char **argv);
+void	exec_env(t_mini *mini, char **argv);
+void	exec_exit(t_mini *mini, char **argv);
+void	exec_export(t_mini *mini, char **argv);
+void	exec_pwd(t_mini *mini, char **argv);
+void	exec_unset(t_mini *mini, char **argv);
 
 #endif
