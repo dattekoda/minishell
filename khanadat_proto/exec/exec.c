@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/28 14:15:28 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/04 23:14:33 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/05 17:27:21 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,25 +168,23 @@ int	add_mini_len(t_mini *mini)
 	return (SUCCESS);
 }
 
-int	mini_export(char *var, char *val, t_mini *mini)
-{
-	size_t	var_len;
-	size_t	i;
+#define ENV_PWD "PWD"
+#define ENV_PWD_LEN 3
 
-	i = 0;
-	var_len = ft_strlen(var);
-	while (mini->envp[i])
-	{
-		if (!ft_strncmp(var, mini->envp[i], var_len) \
-		&& mini->envp[i][var_len] == '=')
-			break ;
-		i++;
-	}
-	if (!mini->envp[i] && add_mini_len(mini))
+int	update_pwd(t_mini *mini)
+{
+	size_t	i;
+	char	*pwd;
+
+	i = search_envp_i(mini, ENV_PWD, ENV_PWD_LEN);
+	if (!mini->envp[i])
+		return (SUCCESS);
+	pwd = mini_getcwd();
+	if (!pwd)
 		return (err_system_call("malloc"), ERR);
-	if (set_mini_envp(var, val, &mini->envp[i]))
-		return (err_system_call("malloc"), ERR);
-	return (SUCCESS);
+	if (set_mini_envp(ENV_PWD, pwd, &mini->envp[i]))
+		return (free(pwd), err_system_call("malloc"), ERR);
+	return (free(pwd), SUCCESS);
 }
 
 void	exec_cd(t_mini *mini, char **argv)
@@ -205,7 +203,7 @@ void	exec_cd(t_mini *mini, char **argv)
 	if (argv[1] && argv[2])
 	{
 		err_too_many("cd");
-		store_status(1, mini);
+		store_status(SYNTAX_ERR, mini);
 	}
 	if (access(dir, F_OK))
 	{
@@ -233,11 +231,9 @@ void	exec_cd(t_mini *mini, char **argv)
 	if (chdir(dir))
 		perror("chdir");
 	// free(dir);
-	dir = mini_getcwd();
-	if (mini_export("PWD", dir, mini))
+	if (update_pwd(mini))
 		normal_minishell_exit(mini, &free, \
 			argv, SYSTEMCALL_EXITSTATUS);
-	free(dir);
 	store_status(FAILURE, mini);
 }
 
@@ -257,18 +253,37 @@ void	exec_env(t_mini *mini, char **argv)
 	store_status(SUCCESS, mini);
 }
 
+int	export_plus(t_mini *mini, char *arg, size_t	var_len)
+{
+	size_t	i;
+	char	*tmp;
+	char	*plus_ptr;
+
+	plus_ptr = ft_strchr(arg, '+');
+	ft_memmove(plus_ptr, plus_ptr + 1, ft_strlen(plus_ptr));
+	i = search_envp_i(mini, arg, var_len);
+	if (mini->envp[i])
+	{
+		tmp = ft_strjoin(mini->envp[i], ft_strchr(arg, '=') + 1);
+		free(mini->envp[i]);
+		mini->envp[i] = tmp;
+	}
+	else
+	{
+		if (add_mini_len(mini))
+			return (err_system_call("malloc"), ERR);
+		mini->envp[i] = ft_strdup(arg);
+	}
+	if (!mini->envp[i])
+		return (err_system_call("malloc"), ERR);
+	return (SUCCESS);
+}
+
 int	export_arg(t_mini *mini, char *arg, size_t var_len)
 {
 	size_t	i;
 
-	i = 0;
-	while (mini->envp[i])
-	{
-		if (!ft_strncmp(arg, mini->envp[i], var_len) \
-			&& mini->envp[i][var_len] == '=')
-			break ;
-		i++;
-	}
+	i = search_envp_i(mini, arg, var_len);
 	if (mini->envp[i])
 		free(mini->envp[i]);
 	else if (!mini->envp[i] && add_mini_len(mini))
@@ -279,39 +294,68 @@ int	export_arg(t_mini *mini, char *arg, size_t var_len)
 	return (SUCCESS);
 }
 
+#define CONTINUE_STATUS 1
+#define PLUS_EXPORT 2
+#define NORMAL_EXPORT 3
+
+// if continue then return 7
+// if invalid argv_i then return -1
+int	check_valid_arg_export(t_mini *mini, char *argv_i, size_t *var_len)
+{
+	char	*eq_ptr;
+	char	*plus_ptr;
+
+	eq_ptr = ft_strchr(argv_i, '=');
+	if (!eq_ptr)
+		return (CONTINUE_STATUS);
+	*var_len = (size_t)(eq_ptr - argv_i);
+	plus_ptr = ft_strchr(argv_i, '+');
+	if (plus_ptr && plus_ptr + 1 == eq_ptr)
+		*var_len = (size_t)(plus_ptr - argv_i);
+	if (!*var_len || (*var_len == 1 && *argv_i == '$')
+		|| (plus_ptr && plus_ptr + 1 < eq_ptr))
+	{
+		err_export(argv_i);
+		store_status(FAILURE, mini);
+		return (ERR);
+	}
+	if (plus_ptr && plus_ptr + 1 == eq_ptr)
+		return (PLUS_EXPORT);
+	return (NORMAL_EXPORT);
+}
+
 void	exec_export(t_mini *mini, char **argv)
 {
 	size_t	i;
 	size_t	var_len;
-	char	*eq_ptr;
+	int		status;
 
 	if (!argv[1])
 		exec_env(mini, argv);
 	i = 0;
 	while (argv[++i])
 	{
-		eq_ptr = ft_strchr(argv[i], '=');
-		if (!eq_ptr)
+		status = check_valid_arg_export(mini, argv[i], &var_len);
+		if (status == CONTINUE_STATUS)
 			continue ;
-		var_len = (size_t)(eq_ptr - argv[i]);
-		if (!var_len || (var_len == 1 && *argv[i] == '$'))
-		{
-			err_export(argv[i]);
-			store_status(FAILURE, mini);
+		if (status == ERR)
 			return ;
-		}
-		if (export_arg(mini, argv[i], var_len))
+		if (status == PLUS_EXPORT \
+			&& export_plus(mini, argv[i], var_len))
+			normal_minishell_exit(mini, &free, \
+				argv, SYSTEMCALL_EXITSTATUS);
+		if (status == NORMAL_EXPORT \
+			&& export_arg(mini, argv[i], var_len))
 			normal_minishell_exit(mini, &free, \
 				argv, SYSTEMCALL_EXITSTATUS);
 	}
 	store_status(SUCCESS, mini);
 }
 
-#define NEW_LINE_OPTION "-n"
-#define NEW_LINE_OPTION_LEN 2
-
-bool	new_line_checkr(char *arg)
+bool	new_line_checker(char *arg)
 {
+	if (!arg)
+		return (true);
 	if (!*arg)
 		return (true);
 	if (*arg++ != '-')
@@ -330,7 +374,7 @@ void	exec_echo(t_mini *mini, char **argv)
 	size_t	i;
 	bool	print_new_line;
 
-	print_new_line = new_line_checkr(argv[1]);
+	print_new_line = new_line_checker(argv[1]);
 	i = !print_new_line;
 	while (argv[++i])
 	{
@@ -341,6 +385,73 @@ void	exec_echo(t_mini *mini, char **argv)
 	if (print_new_line)
 		ft_putchar_fd('\n', STDOUT_FILENO);
 	store_status(SUCCESS, mini);
+}
+
+void	exec_unset(t_mini *mini, char **argv)
+{
+	size_t	i;
+	size_t	j;
+
+	i = 0;
+	while (argv[++i])
+	{
+		j = search_envp_i(mini, argv[i], ft_strlen(argv[i]));
+		if (!mini->envp[j])
+			continue ;
+		free(mini->envp[j]);
+		ft_memmove(mini->envp + j, mini->envp + j + 1, \
+			(mini->envp_len - j) * sizeof(char *));
+		(mini->envp_len)--;
+	}
+	store_status(SUCCESS, mini);
+}
+
+bool	is_valid_exit_arg(char *str, int64_t *num)
+{
+	bool		issigned;
+	uint64_t	unum;
+	uint64_t	old_unum;
+
+	unum = 0;
+	issigned = false;
+	while (ft_isspace(*str))
+		str++;
+	if (*str == '-' || *str == '+')
+		issigned = (*str++ == '-');
+	while (ft_isdigit(*str))
+	{
+		old_unum = unum;
+		unum = 10 * unum + (*str + '0');
+		if (unum < old_unum)
+			break ;
+		str++;
+	}
+	*num = (1 - 2 * issigned) * unum;
+	if (*str)
+		return (false);
+	return (true);
+}
+
+void	exec_exit(t_mini *mini, char **argv)
+{
+	int64_t	status;
+
+	if (argv[1] && argv[2])
+	{
+		err_too_many("exit");
+		store_status(SYNTAX_ERR, mini);
+		return ;
+	}
+	ft_putendl_fd("exit", STDERR_FILENO);
+	if (!argv[1])
+		status = SUCCESS;
+	else if (!is_valid_exit_arg(argv[1], &status))
+	{
+		err_exit_numeric(argv[1]);
+		store_status(SYNTAX_ERR, mini);
+		return ;
+	}
+	normal_minishell_exit(mini, &free, argv, (int)status);
 }
 
 bool	exec_builtin(t_mini *mini, char **argv)
@@ -355,10 +466,10 @@ bool	exec_builtin(t_mini *mini, char **argv)
 		return (exec_export(mini, argv), true);
 	if (!ft_strcmp(argv[0], "echo"))
 		return (exec_echo(mini, argv), true);
-	// if (!ft_strcmp(argv[0], "unset"))
-	// 	return (true);
-	// if (!ft_strcmp(argv[0], "exit"))
-	// 	return (true);
+	if (!ft_strcmp(argv[0], "unset"))
+		return (exec_unset(mini, argv), true);
+	if (!ft_strcmp(argv[0], "exit"))
+		return (exec_exit(mini, argv), true);
 	return (false);
 }
 
