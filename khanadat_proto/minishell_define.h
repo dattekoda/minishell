@@ -35,6 +35,7 @@ typedef struct s_mini
 {
 	bool	is_sys_err;
 	bool	is_pipe;
+	bool	signaled;
 	char	**envp;
 	size_t	envp_size; // array's size
 	size_t	envp_len; // actual stored size of envp

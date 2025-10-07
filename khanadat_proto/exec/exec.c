@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/28 14:15:28 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/07 19:47:09 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/08 01:26:15 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,7 +168,6 @@ void	exec_pipe_cmd(t_mini *mini, t_node *node)
 	int		pp[2];
 	pid_t	ret;
 
-	mini->is_pipe = true;
 	if (node->kind == ND_CMD)
 	{
 		exec_cmd(mini, node);
@@ -194,7 +193,7 @@ void	exec_pipe_cmd(t_mini *mini, t_node *node)
 			if (dup2(pp[0], STDIN_FILENO) < 0)
 				systemcall_minishell_exit(mini, "dup2");
 			close(pp[0]);
-			if (node->expand_err)
+			if (mini->signaled)
 				normal_minishell_exit(mini, NULL, NULL, ft_atoi(mini->status));
 			exec_cmd(mini, node->rhs);
 			normal_minishell_exit(mini, NULL, NULL, ft_atoi(mini->status));
@@ -216,9 +215,9 @@ void	expand_pipe_group(t_mini *mini, t_node *node)
 		}
 		if (store_argv(node->word, &node->cmd->argv))
 			systemcall_minishell_exit(mini, "malloc");
-		if (write_heredoc(mini, node->red, node->cmd))
+		if (!mini->signaled && write_heredoc(mini, node->red, node->cmd))
 		{
-			node->expand_err = true;
+			mini->signaled = true;
 			return ;
 		}
 	}
@@ -230,11 +229,13 @@ void	exec_node(t_mini *mini, t_node *node)
 	expand_pipe_group(mini, node);
 	if (node->kind == ND_PIPE)
 	{
+		mini->is_pipe = true;
 		node->rhs->cmd->pid = fork();
 		if (node->rhs->cmd->pid == 0)
 			exec_pipe_cmd(mini, node);
 		else
 			wait_pipe(mini, node->rhs);
+		mini->is_pipe = false;
 	}
 	if (node->kind == ND_CMD)
 	{
@@ -256,6 +257,7 @@ void	exec_node(t_mini *mini, t_node *node)
 		else
 			wait_pipe(mini, node);
 	}
+	mini->signaled = false;
 }
 
 void	exec_prompt(t_mini *mini, t_node *node)
