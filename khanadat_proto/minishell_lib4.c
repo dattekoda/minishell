@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/04 00:40:21 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/05 23:45:19 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/06 14:25:37 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int	add_mini_len(t_mini *mini)
 		mini->envp_size *= 2;
 		tmp = ft_calloc(mini->envp_size + 1, sizeof(char *));
 		if (!tmp)
-			return (err_system_call("malloc"), ERR);
+			return (ERR);
 		ft_memmove(tmp, mini->envp, mini->envp_size / 2 * sizeof(char *));
 		free(mini->envp);
 		mini->envp = tmp;

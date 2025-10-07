@@ -6,15 +6,17 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 16:18:41 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/04 18:06:03 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/07 07:09:10 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
 #include <fcntl.h>
 #include <unistd.h>
+#include <sys/types.h>
 #include <sys/wait.h>
 #include <signal.h>
+#include <stdbool.h>
 #include "minishell_define.h"
 #include "minishell_lib.h"
 #include "minishell_err.h"
@@ -24,12 +26,11 @@
 #define FILENAME_DAFAULT_LEN 13
 #define HEREDOC_FILENAME "/tmp/.heredoc"
 
-static char	*set_heredoc_name(void)
+char	*set_heredoc_name(int num)
 {
-	static unsigned int	num = 0;
-	static char			file_name[FILENAME_MAX];
-	int					tmp;
-	int					i;
+	char	file_name[FILENAME_MAX];
+	int		i;
+	int		tmp;
 
 	tmp = num;
 	ft_strlcpy(file_name, HEREDOC_FILENAME, FILENAME_MAX);
@@ -44,8 +45,8 @@ static char	*set_heredoc_name(void)
 	file_name[i] = '\0';
 	num++;
 	if (!access(file_name, F_OK))
-		return (set_heredoc_name());
-	return (file_name);
+		return (set_heredoc_name(num));
+	return (ft_strdup(file_name));
 }
 
 void	expand_dollar_ready(t_mini *mini, char *line, \
@@ -117,16 +118,14 @@ int	expand_dollar(t_mini *mini, char **line)
 	return (SUCCESS);
 }
 
-void	start_heredoc(t_mini *mini, t_red *red)
+void	start_heredoc(t_mini *mini, t_red *red, int fd)
 {
 	char	*line;
 	int		status;
 	size_t	len;
-	int		fd;
 
 	set_handler(SIGINT, SIG_DFL);
 	len = ft_strlen(red->file);
-	fd = open(mini->heredoc_name, O_RDWR | O_CREAT | O_TRUNC, 0666);
 	while (1)
 	{
 		ft_putstr_fd("> ", STDOUT_FILENO);
@@ -146,60 +145,75 @@ void	start_heredoc(t_mini *mini, t_red *red)
 	}
 }
 
-int	mini_heredoc(t_mini *mini, t_red *red, int *cfd)
+int	mini_heredoc(t_mini *mini, t_red *red, t_cmd *cmd)
 {
 	int		status;
 	pid_t	heredoc_id;
+	int		fd;
+	char	*hd_name;
 
-	if (cfd[0] != STDIN_FILENO)
-		close(cfd[0]);
-	mini->heredoc_name = set_heredoc_name();
+	if (cmd->rfd[0] != STDIN_FILENO)
+		close(cmd->rfd[0]);
+	if (cmd->heredoc_name)
+	{
+		unlink(cmd->heredoc_name);
+		free(cmd->heredoc_name);
+		cmd->heredoc_name = NULL;
+	}
+	hd_name = set_heredoc_name(0);
+	if (!hd_name)
+		systemcall_minishell_exit(mini, "malloc");
+	fd = open(hd_name, O_CREAT | O_RDWR | O_TRUNC, 0600);
+	if (fd < 0)
+		systemcall_minishell_exit((free(hd_name), mini), hd_name);
 	heredoc_id = fork();
 	if (heredoc_id < 0)
-		systemcall_minishell_exit(mini, "fork");
+		systemcall_minishell_exit((close(fd), free(hd_name), mini), "fork");
 	if (heredoc_id == 0)
-		start_heredoc(mini, red);
+		start_heredoc(mini, red, fd);
 	if (waitpid(heredoc_id, &status, 0) < 0)
 		systemcall_minishell_exit(mini, "waitpid");
 	catch_signal(status, mini);
+	close(fd);
 	if (WIFSIGNALED(status))
-		return (unlink(mini->heredoc_name), ERR);
-	cfd[0] = open(mini->heredoc_name, O_RDONLY);
+		return (ERR);
+	cmd->heredoc_name = hd_name;
+	cmd->rfd[0] = open(cmd->heredoc_name, O_RDONLY);
+	if (cmd->rfd[0] < 0)
+		systemcall_minishell_exit(mini, cmd->heredoc_name);
 	return (SUCCESS);
 }
 
-int	set_redirect(t_mini *mini, t_red *red, int *cfd)
+int	set_redirect(t_mini *mini, t_red *red, t_cmd *cmd)
 {
 	while (red)
 	{
 		if (red->kind == RD_APPEND)
 		{
-			if (cfd[1] != STDOUT_FILENO)
-				close(cfd[1]);
-			cfd[1] = open(red->file, O_RDWR | O_CREAT | O_APPEND , 0666);
+			if (cmd->rfd[1] != STDOUT_FILENO)
+				close(cmd->rfd[1]);
+			cmd->rfd[1] = open(red->file, O_RDWR | O_CREAT | O_APPEND , 0666);
 		}
 		else if (red->kind == RD_HEREDOC)
 		{
-			if (mini_heredoc(mini, red, cfd))
+			if (mini_heredoc(mini, red, cmd))
 				return (ERR);
 		}
 		else if (red->kind == RD_IN)
 		{
-			if (cfd[0] != STDIN_FILENO)
-				close(cfd[0]);
-			if (access(red->file, F_OK))
-			{
-				err_no_file(red->file);
-				store_status(1, mini);
-				return (ERR);
-			}
-			cfd[0] = open(red->file, O_RDONLY);
+			if (cmd->rfd[0] != STDIN_FILENO)
+				close(cmd->rfd[0]);
+			cmd->rfd[0] = open(red->file, O_RDONLY);
+			if (cmd->rfd[0] < 0)
+				return (err_file(red->file), \
+				store_status(FAILURE, mini), \
+				ERR);
 		}
 		else if (red->kind == RD_OUT)
 		{
-			if (cfd[1] != STDOUT_FILENO)
-				close(cfd[1]);
-			cfd[1] = open(red->file, O_RDWR | O_CREAT | O_TRUNC, 0666);
+			if (cmd->rfd[1] != STDOUT_FILENO)
+				close(cmd->rfd[1]);
+			cmd->rfd[1] = open(red->file, O_RDWR | O_CREAT | O_TRUNC, 0666);
 		}
 		red = red->next ;
 	}

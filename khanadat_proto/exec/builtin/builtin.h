@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/05 18:15:07 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/05 18:15:50 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/06 16:38:18 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,6 @@
 # include <stdbool.h>
 # include "minishell_define.h"
 
-bool	exec_builtin(t_mini *mini, char **argv);
+bool	exec_builtin(t_mini *mini, t_cmd *cmd);
 
 #endif

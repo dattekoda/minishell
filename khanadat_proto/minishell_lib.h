@@ -8,14 +8,12 @@ int		safe_join(char **joined, char *buffer);
 void	minishell_exit(t_mini *mini);
 void	failure_minishell_exit(t_mini *mini, void (*func)(char *), char *file, int status);
 void	systemcall_minishell_exit(t_mini *mini, char *func);
-void	child_minishell_exit(t_mini *mini, void (*func)(char *), \
-	char **argv, int status);
 
 // lib1
 void	mini_safe_free(void **ptr);
 void	t_mini_free(t_mini *mini);
 char	*access_program_name(char *set);
-void	free_split(char **splited);
+// void	free_split(char **splited);
 
 // lib2
 char	*normal_getenv(char *var, t_mini *mini);

@@ -6,13 +6,14 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 17:51:14 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/04 22:53:16 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/07 11:13:30 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include <stddef.h>
 #include <stdio.h>
+#include <signal.h>
 #include <readline/readline.h>
 #include <readline/history.h>
 #include "libft.h"
@@ -28,6 +29,16 @@ void	mini_safe_free(void **ptr)
 	*ptr = NULL;
 }
 
+void	kill_all(t_node *node)
+{
+	if (!node)
+		return ;
+	kill_all(node->lhs);
+	kill_all(node->rhs);
+	if (node->kind == ND_CMD)
+		kill(node->cmd->pid, SIGINT);
+}
+
 void	t_mini_free(t_mini *mini)
 {
 	size_t	i;
@@ -41,6 +52,8 @@ void	t_mini_free(t_mini *mini)
 	}
 	free(mini->envp);
 	mini_safe_free((void **)&mini->line);
+	// if (mini->is_sys_err)
+	// 	kill_all(mini->node);
 	free_node(&mini->node);
 	rl_clear_history();
 }
@@ -90,12 +103,12 @@ static char	*get_program_name(char *set)
 	return (program_name);
 }
 
-void	free_split(char **splited)
-{
-	size_t	i;
+// void	free_split(char **splited)
+// {
+// 	size_t	i;
 
-	i = 0;
-	while (splited[i])
-		mini_safe_free((void **)&splited[i++]);
-	mini_safe_free((void **)&splited);
-}
+// 	i = 0;
+// 	while (splited[i])
+// 		mini_safe_free((void **)&splited[i++]);
+// 	mini_safe_free((void **)&splited);
+// }

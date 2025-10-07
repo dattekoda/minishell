@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/21 18:15:10 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/04 00:54:20 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/07 09:12:49 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,18 +51,9 @@ void	failure_minishell_exit(t_mini *mini, void (*func)(char *), char *file, int 
 
 void	systemcall_minishell_exit(t_mini *mini, char *func)
 {
+	mini->is_sys_err = true;
 	if (func)
 		err_system_call(func);
 	t_mini_free(mini);
 	exit(SYSTEMCALL_EXITSTATUS);
-}
-
-void	child_minishell_exit(t_mini *mini, void (*func)(char *), \
-	char **argv, int status)
-{
-	if (func)
-		(*func)(argv[0]);
-	free(argv);
-	t_mini_free(mini);
-	exit(status);
 }

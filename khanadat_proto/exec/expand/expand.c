@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 15:35:23 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/04 03:51:17 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/06 21:53:23 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,10 @@
 #include "expand_define.h"
 #include "expand_utils.h"
 
-static int	set_new_word(t_word **new, t_word *before, t_mini *mini);
+static void	set_new_word(t_word **new, t_word *before, t_mini *mini);
 static int	set_new_red(t_red **new, t_red *before, t_mini *mini);
 
-// if system call err, exit
+// if ambiguous redirect, return ERR;
 int	expand_node(t_node *node, t_mini *mini)
 {
 	t_word	*before_word;
@@ -33,8 +33,7 @@ int	expand_node(t_node *node, t_mini *mini)
 	t_red	*new_red;
 
 	before_word = node->word;
-	if (set_new_word(&new_word, before_word, mini))
-		return (ERR);
+	set_new_word(&new_word, before_word, mini);
 	free_word(node->word);
 	node->word = new_word;
 	if (!node->red)
@@ -63,7 +62,7 @@ int	expand_node(t_node *node, t_mini *mini)
 // 	}
 // }
 
-static int	set_new_word(t_word **new, t_word *before, t_mini *mini)
+static void	set_new_word(t_word **new, t_word *before, t_mini *mini)
 {
 	t_word		head;
 	t_word		*cur;
@@ -87,7 +86,6 @@ static int	set_new_word(t_word **new, t_word *before, t_mini *mini)
 		systemcall_minishell_exit((free_word(head.next), \
 		mini), "malloc");
 	*new = head.next;
-	return (SUCCESS);
 }
 
 static int	set_new_red(t_red **new, t_red *before, t_mini *mini)

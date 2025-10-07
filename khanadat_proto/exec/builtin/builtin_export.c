@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/05 18:52:57 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/05 23:34:20 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/06 14:25:18 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,10 @@ void	exec_export(t_mini *mini, char **argv)
 			return ;
 		if (status == PLUS_EXPORT \
 			&& export_plus(mini, argv[i], var_len))
-			normal_minishell_exit(mini, &free, \
-				argv, SYSTEMCALL_EXITSTATUS);
+			systemcall_minishell_exit(mini, "malloc");
 		if (status == NORMAL_EXPORT \
 			&& export_arg(mini, argv[i], var_len))
-			normal_minishell_exit(mini, &free, \
-				argv, SYSTEMCALL_EXITSTATUS);
+			systemcall_minishell_exit(mini, "malloc");
 	}
 	store_status(SUCCESS, mini);
 }
@@ -73,11 +71,11 @@ static int	export_plus(t_mini *mini, char *arg, size_t	var_len)
 	else
 	{
 		if (add_mini_len(mini))
-			return (err_system_call("malloc"), ERR);
+			return (ERR);
 		mini->envp[i] = ft_strdup(arg);
 	}
 	if (!mini->envp[i])
-		return (err_system_call("malloc"), ERR);
+		return (ERR);
 	return (SUCCESS);
 }
 
@@ -89,10 +87,10 @@ static int	export_arg(t_mini *mini, char *arg, size_t var_len)
 	if (mini->envp[i])
 		free(mini->envp[i]);
 	else if (!mini->envp[i] && add_mini_len(mini))
-		return (err_system_call("malloc"), ERR);
+		return (ERR);
 	mini->envp[i] = ft_strdup(arg);
 	if (!mini->envp[i])
-		return (err_system_call("malloc"), ERR);
+		return (ERR);
 	return (SUCCESS);
 }
 

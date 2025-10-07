@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/05 23:46:11 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/06 00:01:23 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/07 14:19:46 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@ void	exec_exit(t_mini *mini, char **argv)
 		store_status(SYNTAX_ERR, mini);
 		return ;
 	}
-	ft_putendl_fd("exit", STDERR_FILENO);
+	if (!mini->is_pipe)
+		ft_putendl_fd("exit", STDERR_FILENO);
 	if (!argv[1])
 		status = SUCCESS;
 	else if (!is_valid_exit_arg(argv[1], &status))
@@ -39,7 +40,7 @@ void	exec_exit(t_mini *mini, char **argv)
 		store_status(SYNTAX_ERR, mini);
 		return ;
 	}
-	normal_minishell_exit(mini, &free, argv, (int)status);
+	normal_minishell_exit(mini, NULL, NULL, (int)status);
 }
 
 static bool	is_valid_exit_arg(char *str, int64_t *num)

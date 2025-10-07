@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/28 14:15:28 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/05 23:37:12 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/07 14:43:23 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,14 +55,6 @@ int	store_argv(t_word *head, char ***argv)
 	return (SUCCESS);
 }
 
-void	close_cfd(int *cfd)
-{
-	if (cfd[0] != STDIN_FILENO)
-		close(cfd[0]);
-	if (cfd[1] != STDOUT_FILENO)
-		close(cfd[1]);
-}
-
 int	set_abs_path(char **dir)
 {
 	size_t	i;
@@ -102,81 +94,179 @@ void    exec_child_proc(t_mini *mini, char **argv)
 	set_handler(SIGQUIT, SIG_DFL);
 	get_path(&path, mini, argv);
 	execve(path, argv, mini->envp);
-	exit(0);
+	systemcall_minishell_exit(mini, "execve");
+}
+
+#define IS_FIRST 1
+#define IS_MIDDLE 2
+#define IS_LAST 3
+
+void	set_rfd(t_mini *mini, t_cmd *cmd)
+{
+	if (cmd->rfd[0] != FD_DFL)
+	{
+		cmd->saved[0] = dup(STDIN_FILENO);
+		if (cmd->rfd[0] != STDOUT_FILENO)
+		{
+			close(STDIN_FILENO);
+			if (dup2(cmd->rfd[0], STDIN_FILENO) < 0)
+				systemcall_minishell_exit(mini, "dup2");
+		}
+	}
+	if (cmd->rfd[1] != FD_DFL)
+	{
+		cmd->saved[1] = dup(STDOUT_FILENO);
+		if (cmd->rfd[1] != STDIN_FILENO)
+		{
+			close(STDOUT_FILENO);
+			if (dup2(cmd->rfd[1], STDOUT_FILENO) < 0)
+				systemcall_minishell_exit(mini, "dup2");
+		}
+	}
+}
+
+int	ready_exec_cmd(t_mini *mini, t_node *node)
+{
+	if (expand_node(node, mini))
+		return (ERR);
+	if (store_argv(node->word, &node->cmd->argv))
+		systemcall_minishell_exit(mini, "malloc");
+	if (set_redirect(mini, node->red, node->cmd))
+		return (ERR);
+	set_rfd(mini, node->cmd);
+	return (SUCCESS);
 }
 
 void	exec_cmd(t_mini *mini, t_node *node)
 {
-	pid_t	cmd_id;
-	int		status;
-	char	**argv;
-	int	 	cfd[2];
-	int		saved[2];
+	if (ready_exec_cmd(mini, node))
+		return ;
+	if (exec_builtin(mini, node->cmd))
+		return ;
+	else
+		exec_child_proc(mini, node->cmd->argv);
+}
 
-	if (expand_node(node, mini))
-		return ;
-	if (store_argv(node->word, &argv))
-		systemcall_minishell_exit(mini, "malloc");
-	cfd[0] = STDIN_FILENO;
-	cfd[1] = STDOUT_FILENO;
-	if (set_redirect(mini, node->red, cfd))
+void	wait_pipe(t_mini *mini, t_node *node)
+{
+	int	status;
+	if (node->cmd->pid != PID_BUILTIN)
 	{
-		close_cfd(cfd);
-		return ;
-	}
-	if (cfd[0] != STDIN_FILENO)
-	{
-		saved[0] = dup(STDIN_FILENO);
-		if (saved[0] < 0)
-			systemcall_minishell_exit(mini, "dup");
-		dup2(cfd[0], STDIN_FILENO);
-	}
-	if (cfd[1] != STDOUT_FILENO)
-	{
-		saved[1] = dup(STDOUT_FILENO);
-		if (saved[1] < 0)
-			systemcall_minishell_exit(mini, "dup");
-		dup2(cfd[1], STDOUT_FILENO);
-	}
-	if (!exec_builtin(mini, argv))
-	{
-		cmd_id = fork();
-		if (cmd_id < 0)
-			systemcall_minishell_exit(mini, "fork");
-		if (cmd_id == 0)
-			exec_child_proc(mini, argv);
-		if (waitpid(cmd_id, &status, 0) < 0)
+		if (waitpid(node->cmd->pid, &status, 0) < 0)
 			systemcall_minishell_exit(mini, "waitpid");
+		store_status(status, mini);
 		catch_signal(status, mini);
 	}
-	if (cfd[0] != STDIN_FILENO)
+	if (node->cmd->rfd[0] != FD_DFL)
 	{
-		close(cfd[0]);
-		if (dup2(saved[0], STDIN_FILENO) < 0)
+		close(node->cmd->rfd[0]);
+		if (dup2(node->cmd->saved[0], STDIN_FILENO) < 0)
 			systemcall_minishell_exit(mini, "dup2");
-		close(saved[0]);
+		close(node->cmd->saved[0]);
 	}
-	if (cfd[1] != STDOUT_FILENO)
+	if (node->cmd->rfd[1] != FD_DFL)
 	{
-		close(cfd[1]);
-		if (dup2(saved[1], STDOUT_FILENO) < 0)
+		close(node->cmd->rfd[1]);
+		if (dup2(node->cmd->saved[1], STDOUT_FILENO) < 0)
 			systemcall_minishell_exit(mini, "dup2");
-		close(saved[1]);
+		close(node->cmd->saved[1]);
 	}
-	free(argv);
-	if (mini->heredoc_name)
+}
+
+void	exec_pipe_cmd(t_mini *mini, t_node *node)
+{
+	int		pp[2];
+	pid_t	ret;
+
+	mini->is_pipe = true;
+	if (node->kind == ND_CMD)
 	{
-		unlink(mini->heredoc_name);
-		mini->heredoc_name = NULL;
+		exec_cmd(mini, node);
+		normal_minishell_exit(mini, NULL, NULL, ft_atoi(mini->status));
 	}
+	else
+	{
+		pipe(pp);
+		ret = fork();
+		if (ret < 0)
+			systemcall_minishell_exit(mini, "fork");
+		if (ret == 0)
+		{
+			close(pp[0]);
+			if (dup2(pp[1], STDOUT_FILENO) < 0)
+				systemcall_minishell_exit(mini, "dup2");
+			close(pp[1]);
+			exec_pipe_cmd(mini, node->lhs);
+		}
+		else
+		{
+			close(pp[1]);
+			if (dup2(pp[0], STDIN_FILENO) < 0)
+				systemcall_minishell_exit(mini, "dup2");
+			close(pp[0]);
+
+			exec_cmd(mini, node->rhs);
+			normal_minishell_exit(mini, NULL, NULL, ft_atoi(mini->status));
+		}
+	}
+}
+
+void	exec_node(t_mini *mini, t_node *node)
+{
+	if (node->kind == ND_PIPE)
+	{
+		node->rhs->cmd->pid = fork();
+		if (node->rhs->cmd->pid == 0)
+			exec_pipe_cmd(mini, node);
+		else
+			wait_pipe(mini, node->rhs);
+	}
+	if (node->kind == ND_CMD)
+	{
+		if (ready_exec_cmd(mini, node))
+			return ;
+		if (exec_builtin(mini, node->cmd))
+		{
+			wait_pipe(mini, node);
+			return ;
+		}
+		node->cmd->pid = fork();
+		if (node->cmd->pid < 0)
+			systemcall_minishell_exit(mini, "fork");
+		if (node->cmd->pid == 0)
+			exec_child_proc(mini, node->cmd->argv);
+		else
+			wait_pipe(mini, node);
+	}
+}
+
+void	classify_and_or(t_mini *mini, t_node *node)
+{
+	if (node->kind == ND_OR)
+	{
+		classify_and_or(mini, node->lhs);
+		if (!ft_strcmp("0", mini->status))
+			return ;
+		classify_and_or(mini, node->rhs);
+	}
+	else if (node->kind == ND_AND)
+	{
+		classify_and_or(mini, node->lhs);
+		if (ft_strcmp("0", mini->status))
+			return ;
+		classify_and_or(mini, node->rhs);
+	}
+	else
+		exec_node(mini, node);
 }
 
 void	exec_prompt(t_mini *mini, t_node *node/* , t_NodeKind nkind */)
 {
 	if (!node)
 		return ;
-	if (node->lhs)
-		exec_prompt(mini, node->lhs/* , node->kind */);
-	if (node->kind == ND_CMD)
-		exec_cmd(mini, node);
+	if (node->kind == ND_AND \
+	|| node->kind == ND_OR)
+		classify_and_or(mini, node);
+	else
+		exec_node(mini, node);
 }

@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/28 13:38:47 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/02 21:15:15 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/06 00:14:16 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,16 +43,13 @@ int	set_node(t_mini *mini)
 	if (status < 0)
 		systemcall_minishell_exit(mini, NULL);
 	if (status == SYNTAX_ERR)
-		return (mini_safe_free \
-			((void **)&(mini->line)), \
-			PROMPT_CONTINUE);
+		return (PROMPT_CONTINUE);
 	status = get_node(&(mini->node), token);
 	if (status < 0)
 		systemcall_minishell_exit \
 		((free_token(&token), mini), NULL);
 	if (status == SYNTAX_ERR)
 		return (free_token(&token), \
-			mini_safe_free((void **)&(mini->line)), \
 			PROMPT_CONTINUE);
 	return (free_token(&token), \
 		mini_safe_free((void **)&(mini->line)), \
