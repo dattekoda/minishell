@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/21 09:58:39 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/01 12:01:57 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/06 15:53:39 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,5 +29,9 @@ t_node	*new_cmd_node(t_token **token);
 // ast_utils_red.c
 int			set_redirection(t_token *token, t_node *new);
 t_RedKind	check_redkind(t_token *token);
+
+// ast_is.c
+bool	is_pipe_or_and(t_token *token);
+bool	is_redirect(t_token *token);
 
 #endif

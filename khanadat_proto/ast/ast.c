@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/21 09:58:37 by khanadat          #+#    #+#             */
-/*   Updated: 2025/09/30 11:20:55 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/07 08:14:29 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,30 +14,49 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 #include <stdbool.h>
+#include <unistd.h>
+#include <signal.h>
 #include "libft.h"
 #include "status.h"
+#include "minishell_define.h"
 #include "minishell_err.h"
 #include "tokenizer.h"
 #include "ast_define.h"
 #include "ast_utils.h"
 #include "ast.h"
 
-static bool	is_pipe_or_and(t_token *token);
-static bool	is_redirect(t_token *token);
+static void	free_cmd(t_cmd *cmd);
 
 void	free_node(t_node **node)
 {
 	if (!*node)
 		return ;
-	free_node(&((*node)->lhs));
-	free_node(&((*node)->rhs));
+	if ((*node)->kind != ND_CMD)
+	{
+		free_node(&((*node)->lhs));
+		free_node(&((*node)->rhs));
+	}
 	if ((*node)->kind == ND_CMD)
 	{
 		free_word((*node)->word);
 		free_red((*node)->red);
+		free_cmd((*node)->cmd);
 	}
 	free(*node);
 	*node = NULL;
+}
+
+static void	free_cmd(t_cmd *cmd)
+{
+	free(cmd->argv);
+	if (cmd->cfd[0] != STDIN_FILENO)
+		close(cmd->cfd[0]);
+	if (cmd->cfd[1] != STDOUT_FILENO)
+		close(cmd->cfd[1]);
+	if (!access(cmd->heredoc_name, F_OK))
+		unlink(cmd->heredoc_name);
+	free(cmd->heredoc_name);
+	free(cmd);
 }
 
 int	validate_token(t_token *token)
@@ -88,23 +107,4 @@ int	get_node(t_node **node, t_token *token)
 		return (free_node(&before), ERR);
 	*node = cur;
 	return (SUCCESS);
-}
-
-static bool	is_pipe_or_and(t_token *token)
-{
-	if (token->kind != TK_OPERATOR)
-		return (false);
-	if (*(token->str) == '|' \
-	|| !ft_strncmp(token->str, "&&", 2))
-		return (true);
-	return (false);
-}
-
-static bool	is_redirect(t_token *token)
-{
-	if (token->kind != TK_OPERATOR)
-		return (false);
-	if (*(token->str) == '>' || *(token->str) == '<')
-		return (true);
-	return (false);
 }

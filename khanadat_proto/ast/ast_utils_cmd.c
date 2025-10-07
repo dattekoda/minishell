@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 15:45:46 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/01 12:03:07 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/07 07:07:47 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 
 static int		set_word(t_token **token, t_node *new);
 static t_word	*add_new_word(t_word *cur, t_token *token);
+static int		set_cmd(t_node *new);
 
 void	free_word(t_word *head)
 {
@@ -48,6 +49,9 @@ t_node	*new_cmd_node(t_token **token)
 		return (free(new), NULL);
 	if (set_word(token, new))
 		return (free_red(new->red), free(new), NULL);
+	if (set_cmd(new))
+		return (free_word(new->word), free_red(new->red), \
+		free(new), NULL);
 	new->kind = ND_CMD;
 	return (new);
 }
@@ -91,4 +95,16 @@ static t_word	*add_new_word(t_word *cur, t_token *token)
 	new->word_len = token->str_len;
 	cur->next = new;
 	return (new);
+}
+
+static int	set_cmd(t_node *new)
+{
+	new->cmd = ft_calloc(1, sizeof(t_cmd));
+	if (!new->cmd)
+		return (ERR);
+	new->cmd->cfd[0] = FD_DFL;
+	new->cmd->cfd[1] = FD_DFL;
+	new->cmd->rfd[0] = FD_DFL;
+	new->cmd->rfd[1] = FD_DFL;
+	return (SUCCESS);
 }

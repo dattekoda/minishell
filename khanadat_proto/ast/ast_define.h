@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/21 09:58:44 by khanadat          #+#    #+#             */
-/*   Updated: 2025/09/28 14:00:53 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/07 08:15:51 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,9 @@
 
 # include <stdbool.h>
 # include <stddef.h>
+# include <sys/types.h>
+
+# define FD_DFL -2
 
 typedef enum s_NodeKind
 {
@@ -48,11 +51,23 @@ typedef struct s_word
 	struct s_word	*next;
 }	t_word;
 
+typedef struct s_cmd
+{
+	pid_t	pid;
+	int		cfd[2];
+	int		saved[2];
+	int		rfd[2];
+	char	**argv;
+	char	*heredoc_name; // need free
+}	t_cmd;
+
 // abstruct syntax tree
 typedef struct s_node
 {
 	t_red			*red;
 	t_word			*word;
+	t_cmd			*cmd;
+	bool			ishead;
 	struct s_node	*lhs;
 	struct s_node	*rhs;
 	t_NodeKind		kind;

@@ -112,14 +112,13 @@ exec_pipeline(struct cmd *cmdhead)
         }
         if (lookup_builtin(cmd->argv[0]) != NULL) {
             cmd->pid = PID_BUILTIN;
-        }
-        else {
+        } else {
             cmd->pid = fork();
             if (cmd->pid < 0) {
                 perror("fork");
                 exit(3);
             }
-            if (cmd->pid > 0) { /* parent */
+			if (cmd->pid > 0) { /* parent */
                 if (fds1[0] != -1) close(fds1[0]);
                 if (fds1[1] != -1) close(fds1[1]);
                 continue;

@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/05 18:19:45 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/06 00:37:10 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/06 14:22:43 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,7 @@ void	exec_cd(t_mini *mini, char **argv)
 		return ;
 	}
 	if (update_pwd(mini))
-		normal_minishell_exit(mini, &free, \
-			argv, SYSTEMCALL_EXITSTATUS);
+		systemcall_minishell_exit(mini, "malloc");
 	store_status(SUCCESS, mini);
 }
 
@@ -57,9 +56,9 @@ static int	update_pwd(t_mini *mini)
 		return (SUCCESS);
 	pwd = mini_getcwd();
 	if (!pwd)
-		return (err_system_call("malloc"), ERR);
+		return (ERR);
 	if (set_mini_envp(ENV_PWD, pwd, &mini->envp[i]))
-		return (free(pwd), err_system_call("malloc"), ERR);
+		return (free(pwd), ERR);
 	return (free(pwd), SUCCESS);
 }
 
@@ -95,14 +94,5 @@ static bool	is_valid_cd(t_mini *mini, char **argv, char *dir)
 	if (argv[1] && argv[2])
 		return (err_too_many("cd"), \
 		store_status(SYNTAX_ERR, mini), false);
-	// if (access(dir, F_OK))
-	// 	return (err_cd(argv[1]), \
-	// 	store_status(FAILURE, mini), false);
-	// if (!mini_is_dir(dir))
-	// 	return (err_not_dir(argv[1]), \
-	// 	store_status(FAILURE, mini), false);
-	// if (access(dir, X_OK))
-	// 	return (err_cd_permission(argv[1]), \
-	// 	store_status(FAILURE, mini), false);
 	return (true);
 }
