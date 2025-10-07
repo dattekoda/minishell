@@ -6,10 +6,11 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/28 13:38:47 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/06 00:14:16 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/07 22:33:21 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdio.h>
 #include <stdlib.h>
 #include "minishell_define.h"
 #include "minishell_lib.h"
@@ -26,6 +27,7 @@ int	set_minishell(t_mini *mini, char *envp[])
 {
 	ft_bzero(mini, sizeof(t_mini));
 	store_status(0, mini);
+	mini->mini_pwd = mini_getcwd();
 	if (set_envp(mini, envp))
 		return (ERR);
 	if (set_prompt(mini))
@@ -56,6 +58,28 @@ int	set_node(t_mini *mini)
 		SUCCESS);
 }
 
+static void	update_shlvl(t_mini *mini)
+{
+	size_t	i;
+	int		num;
+	char	*shlvl_val;
+
+	i = 0;
+	normal_getenv("SHLVL", mini);
+	i = search_envp_i(mini, "SHLVL", SHLVL_LEN);
+	if (!mini->envp[i])
+	{
+		if (add_mini_len(mini))
+			systemcall_minishell_exit(mini, "malloc");
+		set_mini_envp("SHLVL", "1", &mini->envp[i]);
+		return ;
+	}
+	num = atoi(ft_strchr(mini->envp[i], '=') + 1);
+	shlvl_val = ft_itoa(num + 1);
+	set_mini_envp("SHLVL", shlvl_val, &mini->envp[i]);
+	free(shlvl_val);
+}
+
 static int	set_envp(t_mini *mini, char *envp[])
 {
 	size_t	i;
@@ -78,13 +102,14 @@ static int	set_envp(t_mini *mini, char *envp[])
 		}
 		i++;
 	}
+	update_pwd(mini);
+	update_shlvl(mini);
 	return (SUCCESS);
 }
 
 static int	set_prompt(t_mini *mini)
 {
-	mini->prompt = ft_strjoin \
-	(access_program_name(NULL), "$ ");
+	mini->prompt = ft_strdup("$ ");
 	if (!mini->prompt)
 		return (err_system_call("malloc"), ERR);
 	return (SUCCESS);

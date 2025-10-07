@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/28 16:14:49 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/07 08:02:24 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/07 19:21:58 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 
 void	err_cmd_not_found(char *file)
 {
-	ft_putstr_fd(access_program_name(NULL), STDERR_FILENO);
+	ft_putstr_fd(MINISHELL_STR, STDERR_FILENO);
 	ft_putstr_fd(": ", STDERR_FILENO);
 	ft_putstr_fd(file, STDERR_FILENO);
 	ft_putendl_fd(": command not found", STDERR_FILENO);
@@ -27,7 +27,7 @@ void	err_cmd_not_found(char *file)
 
 void	err_tokenizer(t_token *token)
 {
-	ft_putstr_fd(access_program_name(NULL), STDERR_FILENO);
+	ft_putstr_fd(MINISHELL_STR, STDERR_FILENO);
 	ft_putstr_fd(": Error: syntax error near unexpected token `", STDERR_FILENO);
 	if (token->kind == TK_EOF)
 		ft_putstr_fd("new_line", STDERR_FILENO);
@@ -48,14 +48,14 @@ void	err_invalid_arg(char *program_name)
 // Error: malloc failed.\n
 void	err_system_call(char *func)
 {
-	ft_putstr_fd(access_program_name(NULL), STDERR_FILENO);
+	ft_putstr_fd(MINISHELL_STR, STDERR_FILENO);
 	ft_putstr_fd(": Error: ", STDERR_FILENO);
 	perror(func);
 }
 
 void	put_syntax_err(char type)
 {
-	ft_putstr_fd(access_program_name(NULL), STDERR_FILENO);
+	ft_putstr_fd(MINISHELL_STR, STDERR_FILENO);
 	ft_putstr_fd(": ", STDERR_FILENO);
 	ft_putstr_fd("syntax error: ", STDERR_FILENO);
 	if (type == '&')

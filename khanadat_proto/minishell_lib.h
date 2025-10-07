@@ -12,7 +12,9 @@ void	systemcall_minishell_exit(t_mini *mini, char *func);
 // lib1
 void	mini_safe_free(void **ptr);
 void	t_mini_free(t_mini *mini);
-char	*access_program_name(char *set);
+int		update_pwd(t_mini *mini);
+int		set_mini_envp(char *var, char *val, char **envp_i);
+// char	*access_program_name(char *set);
 // void	free_split(char **splited);
 
 // lib2

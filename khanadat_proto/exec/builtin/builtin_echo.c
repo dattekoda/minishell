@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/05 18:37:10 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/05 18:49:07 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/07 16:26:50 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,39 +16,44 @@
 #include "status.h"
 #include "libft.h"
 
-static bool	new_line_checker(char *arg);
+static size_t	need_new_line(char **argv);
 
 void	exec_echo(t_mini *mini, char **argv)
 {
 	size_t	i;
 	bool	print_new_line;
 
-	print_new_line = new_line_checker(argv[1]);
-	i = !print_new_line;
-	while (argv[++i])
+	i = need_new_line(argv);
+	print_new_line = (i == 1);
+	while (argv[i])
 	{
 		ft_putstr_fd(argv[i], STDOUT_FILENO);
 		if (argv[i + 1])
 			ft_putchar_fd(' ', STDOUT_FILENO);
+		i++;
 	}
 	if (print_new_line)
 		ft_putchar_fd('\n', STDOUT_FILENO);
 	store_status(SUCCESS, mini);
 }
 
-static bool	new_line_checker(char *arg)
+static size_t	need_new_line(char **argv)
 {
-	if (!arg)
-		return (true);
-	if (!*arg)
-		return (true);
-	if (*arg++ != '-')
-		return (true);
-	if (*arg != 'n')
-		return (true);
-	while (*arg && *arg == 'n')
-		arg++;
-	if (!*arg)
-		return (false);
-	return (true);
+	size_t	i;
+	size_t	j;
+
+	i = 0;
+	i++;
+	while (argv[i])
+	{
+		j = 0;
+		if (argv[i][j++] != '-')
+			break ;
+		while (argv[i][j] == 'n')
+			j++;
+		if (argv[i][j])
+			break ;
+		i++;
+	}
+	return (i);
 }

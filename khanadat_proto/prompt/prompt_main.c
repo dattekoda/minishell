@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 18:16:59 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/07 07:55:09 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/08 01:18:36 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,8 @@ void	minishell(t_mini *mini)
 			store_status(SYNTAX_ERR, mini);
 			continue ;
 		}
-		exec_prompt(mini, mini->node/* , ND_NOT */);
+		exec_prompt(mini, mini->node);
+		err_sig_msg(mini);
 		free_node(&mini->node);
 	}
 }
@@ -106,9 +107,6 @@ int	main(int argc, char *argv[], char *envp[])
 
 	if (argc != 1)
 		return (err_invalid_arg(argv[1]), FAILURE);
-	// received_sig = 0;
-	if (!access_program_name(argv[0]))
-		exit(FAILURE);
 	if (set_minishell(&mini, envp))
 		exit(FAILURE);
 	minishell(&mini);

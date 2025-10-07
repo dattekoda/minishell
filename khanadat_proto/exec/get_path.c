@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 13:20:01 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/07 07:59:14 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/07 20:44:14 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	get_cwd_path(char **path, char **argv, t_mini *mini)
 	ft_strlcpy(path_buffer, "./", PATH_MAX);
 	ft_strlcat(path_buffer, argv[0], PATH_MAX);
 	if (access(path_buffer, F_OK))
-		failure_minishell_exit(mini, &err_cmd_not_found, \
+		failure_minishell_exit(mini, &err_file, \
 		argv[0], NOT_FOUND_ERR);
 	if (access(path_buffer, X_OK))
 		failure_minishell_exit(mini, &err_file, \

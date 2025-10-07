@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/21 09:58:44 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/07 08:15:51 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/07 19:34:28 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ typedef struct s_node
 	t_red			*red;
 	t_word			*word;
 	t_cmd			*cmd;
-	bool			ishead;
+	bool			expand_err;
 	struct s_node	*lhs;
 	struct s_node	*rhs;
 	t_NodeKind		kind;
