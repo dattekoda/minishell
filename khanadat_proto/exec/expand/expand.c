@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 15:35:23 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/06 21:53:23 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/07 20:15:18 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 static void	set_new_word(t_word **new, t_word *before, t_mini *mini);
 static int	set_new_red(t_red **new, t_red *before, t_mini *mini);
 
-// if ambiguous redirect, return ERR;
+// if ambiguous redirect, return FAILURE;
 int	expand_node(t_node *node, t_mini *mini)
 {
 	t_word	*before_word;
@@ -40,7 +40,7 @@ int	expand_node(t_node *node, t_mini *mini)
 		return (SUCCESS);
 	before_red = node->red;
 	if (set_new_red(&new_red, before_red, mini))
-		return (ERR);
+		return (FAILURE);
 	free_red(before_red);
 	node->red = new_red;
 	return (SUCCESS);

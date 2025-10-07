@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/28 14:15:28 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/07 14:43:23 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/07 19:47:09 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,22 +125,11 @@ void	set_rfd(t_mini *mini, t_cmd *cmd)
 	}
 }
 
-int	ready_exec_cmd(t_mini *mini, t_node *node)
-{
-	if (expand_node(node, mini))
-		return (ERR);
-	if (store_argv(node->word, &node->cmd->argv))
-		systemcall_minishell_exit(mini, "malloc");
-	if (set_redirect(mini, node->red, node->cmd))
-		return (ERR);
-	set_rfd(mini, node->cmd);
-	return (SUCCESS);
-}
-
 void	exec_cmd(t_mini *mini, t_node *node)
 {
-	if (ready_exec_cmd(mini, node))
+	if (set_redirect(mini, node->red, node->cmd))
 		return ;
+	set_rfd(mini, node->cmd);
 	if (exec_builtin(mini, node->cmd))
 		return ;
 	else
@@ -150,6 +139,7 @@ void	exec_cmd(t_mini *mini, t_node *node)
 void	wait_pipe(t_mini *mini, t_node *node)
 {
 	int	status;
+
 	if (node->cmd->pid != PID_BUILTIN)
 	{
 		if (waitpid(node->cmd->pid, &status, 0) < 0)
@@ -204,15 +194,40 @@ void	exec_pipe_cmd(t_mini *mini, t_node *node)
 			if (dup2(pp[0], STDIN_FILENO) < 0)
 				systemcall_minishell_exit(mini, "dup2");
 			close(pp[0]);
-
+			if (node->expand_err)
+				normal_minishell_exit(mini, NULL, NULL, ft_atoi(mini->status));
 			exec_cmd(mini, node->rhs);
 			normal_minishell_exit(mini, NULL, NULL, ft_atoi(mini->status));
 		}
 	}
 }
 
+void	expand_pipe_group(t_mini *mini, t_node *node)
+{
+	if (!node)
+		return ;
+	expand_pipe_group(mini, node->lhs);
+	if (node->kind == ND_CMD)
+	{
+		if (expand_node(node, mini))
+		{
+			node->expand_err = true;
+			return ;
+		}
+		if (store_argv(node->word, &node->cmd->argv))
+			systemcall_minishell_exit(mini, "malloc");
+		if (write_heredoc(mini, node->red, node->cmd))
+		{
+			node->expand_err = true;
+			return ;
+		}
+	}
+	expand_pipe_group(mini, node->rhs);
+}
+
 void	exec_node(t_mini *mini, t_node *node)
 {
+	expand_pipe_group(mini, node);
 	if (node->kind == ND_PIPE)
 	{
 		node->rhs->cmd->pid = fork();
@@ -223,8 +238,11 @@ void	exec_node(t_mini *mini, t_node *node)
 	}
 	if (node->kind == ND_CMD)
 	{
-		if (ready_exec_cmd(mini, node))
+		if (node->expand_err)
 			return ;
+		if (set_redirect(mini, node->red, node->cmd))
+			return ;
+		set_rfd(mini, node->cmd);
 		if (exec_builtin(mini, node->cmd))
 		{
 			wait_pipe(mini, node);
@@ -240,33 +258,24 @@ void	exec_node(t_mini *mini, t_node *node)
 	}
 }
 
-void	classify_and_or(t_mini *mini, t_node *node)
-{
-	if (node->kind == ND_OR)
-	{
-		classify_and_or(mini, node->lhs);
-		if (!ft_strcmp("0", mini->status))
-			return ;
-		classify_and_or(mini, node->rhs);
-	}
-	else if (node->kind == ND_AND)
-	{
-		classify_and_or(mini, node->lhs);
-		if (ft_strcmp("0", mini->status))
-			return ;
-		classify_and_or(mini, node->rhs);
-	}
-	else
-		exec_node(mini, node);
-}
-
-void	exec_prompt(t_mini *mini, t_node *node/* , t_NodeKind nkind */)
+void	exec_prompt(t_mini *mini, t_node *node)
 {
 	if (!node)
 		return ;
-	if (node->kind == ND_AND \
-	|| node->kind == ND_OR)
-		classify_and_or(mini, node);
+	if (node->kind == ND_OR)
+	{
+		exec_prompt(mini, node->lhs);
+		if (!ft_strcmp("0", mini->status))
+			return ;
+		exec_prompt(mini, node->rhs);
+	}
+	else if (node->kind == ND_AND)
+	{
+		exec_prompt(mini, node->lhs);
+		if (ft_strcmp("0", mini->status))
+			return ;
+		exec_prompt(mini, node->rhs);
+	}
 	else
 		exec_node(mini, node);
 }

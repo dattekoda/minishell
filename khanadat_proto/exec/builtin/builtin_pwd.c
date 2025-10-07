@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/05 23:35:22 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/06 14:27:34 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/07 21:48:31 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,32 @@
 #include <unistd.h>
 #include "minishell_define.h"
 #include "minishell_lib.h"
+#include "minishell_err.h"
 #include "libft.h"
+#include "status.h"
 
 void	exec_pwd(t_mini *mini)
 {
 	char	*cwd;
 
 	cwd = mini_getcwd();
+	if (cwd)
+	{
+		ft_putendl_fd(cwd, STDOUT_FILENO);
+		free(cwd);
+		store_status(0, mini);
+		return ;
+	}
 	if (!cwd)
-		systemcall_minishell_exit(mini, "malloc");
+		cwd = normal_getenv("PWD", mini);
+	if (!cwd)
+		cwd = mini->mini_pwd;
+	if (!cwd)
+	{
+		err_pwd();
+		store_status(FAILURE, mini);
+		return ;
+	}
 	ft_putendl_fd(cwd, STDOUT_FILENO);
-	free(cwd);
-	store_status(0, mini);
+	store_status(SUCCESS, mini);
 }

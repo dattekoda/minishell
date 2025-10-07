@@ -14,7 +14,22 @@
 #  define PATH_MAX 1024
 # endif
 
+# ifndef MINISHELL_STR
+#  define MINISHELL_STR "minishell"
+# endif
 // int	received_sig;
+
+# ifndef ENV_PWD
+#  define ENV_PWD "PWD"
+# endif
+
+# ifndef ENV_PWD_LEN
+#  define ENV_PWD_LEN 3
+# endif
+
+# define INT_LEN_MAX 12
+
+# define SHLVL_LEN 5
 
 typedef struct s_mini
 {
@@ -25,6 +40,7 @@ typedef struct s_mini
 	size_t	envp_len; // actual stored size of envp
 	char	*prompt;
 	char	*line;
+	char	*mini_pwd;
 	t_node	*node;
 	char	status[STATUS_SIZE];
 }	t_mini;

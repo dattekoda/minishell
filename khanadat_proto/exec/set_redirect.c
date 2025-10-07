@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 16:18:41 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/07 07:09:10 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/07 19:38:08 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,8 +152,6 @@ int	mini_heredoc(t_mini *mini, t_red *red, t_cmd *cmd)
 	int		fd;
 	char	*hd_name;
 
-	if (cmd->rfd[0] != STDIN_FILENO)
-		close(cmd->rfd[0]);
 	if (cmd->heredoc_name)
 	{
 		unlink(cmd->heredoc_name);
@@ -176,11 +174,8 @@ int	mini_heredoc(t_mini *mini, t_red *red, t_cmd *cmd)
 	catch_signal(status, mini);
 	close(fd);
 	if (WIFSIGNALED(status))
-		return (ERR);
+		return (FAILURE);
 	cmd->heredoc_name = hd_name;
-	cmd->rfd[0] = open(cmd->heredoc_name, O_RDONLY);
-	if (cmd->rfd[0] < 0)
-		systemcall_minishell_exit(mini, cmd->heredoc_name);
 	return (SUCCESS);
 }
 
@@ -190,18 +185,21 @@ int	set_redirect(t_mini *mini, t_red *red, t_cmd *cmd)
 	{
 		if (red->kind == RD_APPEND)
 		{
-			if (cmd->rfd[1] != STDOUT_FILENO)
+			if (cmd->rfd[1] != FD_DFL)
 				close(cmd->rfd[1]);
 			cmd->rfd[1] = open(red->file, O_RDWR | O_CREAT | O_APPEND , 0666);
 		}
 		else if (red->kind == RD_HEREDOC)
 		{
-			if (mini_heredoc(mini, red, cmd))
-				return (ERR);
+			if (cmd->rfd[0] != FD_DFL)
+				close(cmd->rfd[0]);
+			cmd->rfd[0] = open(cmd->heredoc_name, O_RDONLY);
+			if (cmd->rfd[0] < 0)
+				cmd->rfd[0] = FD_DFL;
 		}
 		else if (red->kind == RD_IN)
 		{
-			if (cmd->rfd[0] != STDIN_FILENO)
+			if (cmd->rfd[0] != FD_DFL)
 				close(cmd->rfd[0]);
 			cmd->rfd[0] = open(red->file, O_RDONLY);
 			if (cmd->rfd[0] < 0)
@@ -211,11 +209,23 @@ int	set_redirect(t_mini *mini, t_red *red, t_cmd *cmd)
 		}
 		else if (red->kind == RD_OUT)
 		{
-			if (cmd->rfd[1] != STDOUT_FILENO)
+			if (cmd->rfd[1] != FD_DFL)
 				close(cmd->rfd[1]);
 			cmd->rfd[1] = open(red->file, O_RDWR | O_CREAT | O_TRUNC, 0666);
 		}
 		red = red->next ;
+	}
+	return (SUCCESS);
+}
+
+int	write_heredoc(t_mini *mini, t_red *red, t_cmd *cmd)
+{
+	while (red)
+	{
+		if (red->kind == RD_HEREDOC)
+			if (mini_heredoc(mini, red, cmd))
+				return (ERR);
+		red = red->next;
 	}
 	return (SUCCESS);
 }
