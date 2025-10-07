@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <string.h>
 
 typedef struct s_list
 {
@@ -13,12 +14,19 @@ typedef struct s_list
 
 int		cmd_n = 3;
 
+void	exec_cmd(t_list *lst)
+{
+	if (!strcmp("exit", lst->cmd[0]))
+		exit(0);
+	execvp(lst->cmd[0], lst->cmd);
+}
+
 void	dopipes(t_list *lst)
 {
 	pid_t	ret;
 	int		pp[2] = {};
 	if (!lst->before)
-		execvp(lst->cmd[0], lst->cmd);
+		exec_cmd(lst);
 	else
 	{
 		pipe(pp);
@@ -37,7 +45,7 @@ void	dopipes(t_list *lst)
 			dup2(pp[0], 0);
 			close(pp[0]);
 
-			execvp(lst->cmd[0], lst->cmd);
+			exec_cmd(lst);
 		}
 	}
 }
