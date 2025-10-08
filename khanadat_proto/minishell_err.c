@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/28 16:14:49 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/07 19:21:58 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/08 20:57:57 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,10 @@ void	err_tokenizer(t_token *token)
 // used only at first
 void	err_invalid_arg(char *program_name)
 {
+	ft_putstr_fd(MINISHELL_STR, STDERR_FILENO);
+	ft_putstr_fd(": Error: ", STDERR_FILENO);
 	ft_putstr_fd(program_name, STDERR_FILENO);
-	ft_putendl_fd(": Error: invalid number of arguments", STDERR_FILENO);
+	ft_putendl_fd(": invalid number of arguments", STDERR_FILENO);
 }
 
 // set function's name
