@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 17:51:14 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/07 21:50:04 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/09 08:14:33 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,17 +64,17 @@ void	t_mini_free(t_mini *mini)
 int	update_pwd(t_mini *mini)
 {
 	size_t	i;
-	char	*pwd;
 
+	free(mini->mini_pwd);
+	mini->mini_pwd = mini_getcwd();
+	if (!mini->mini_pwd)
+		return (ERR);
 	i = search_envp_i(mini, ENV_PWD, ENV_PWD_LEN);
 	if (!mini->envp[i])
 		return (SUCCESS);
-	pwd = mini_getcwd();
-	if (!pwd)
+	if (set_mini_envp(ENV_PWD, mini->mini_pwd, &mini->envp[i]))
 		return (ERR);
-	if (set_mini_envp(ENV_PWD, pwd, &mini->envp[i]))
-		return (free(pwd), ERR);
-	return (free(pwd), SUCCESS);
+	return (SUCCESS);
 }
 
 int	set_mini_envp(char *var, char *val, char **envp_i)
