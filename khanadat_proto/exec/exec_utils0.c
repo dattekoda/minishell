@@ -1,16 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_utils.c                                       :+:      :+:    :+:   */
+/*   exec_utils0.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 09:45:04 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/09 11:04:25 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/09 11:48:46 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stddef.h>
+#include <signal.h>
+#include <sys/wait.h>
 #include "minishell_define.h"
 #include "minishell_err.h"
 #include "minishell_lib.h"
@@ -42,7 +44,7 @@ int	store_argv(t_word *head, char ***argv)
 	return (SUCCESS);
 }
 
-void    exec_child_proc(t_mini *mini, char **argv)
+void	exec_child_proc(t_mini *mini, char **argv)
 {
 	char	*path;
 

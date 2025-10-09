@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 09:45:18 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/09 11:17:26 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/09 11:49:01 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 
 // exec_utils0.c
 int		store_argv(t_word *head, char ***argv);
-void    exec_child_proc(t_mini *mini, char **argv);
+void	exec_child_proc(t_mini *mini, char **argv);
 void	set_rfd(t_mini *mini, t_cmd *cmd);
 void	exec_cmd(t_mini *mini, t_node *node);
 void	wait_pipe(t_mini *mini, t_node *node);

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell_lib.h                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/10/09 12:45:32 by khanadat          #+#    #+#             */
+/*   Updated: 2025/10/09 12:45:43 by khanadat         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINISHELL_LIB_H
 # define MINISHELL_LIB_H
 
@@ -6,7 +18,8 @@
 // lib0
 int		safe_join(char **joined, char *buffer);
 void	minishell_exit(t_mini *mini);
-void	failure_minishell_exit(t_mini *mini, void (*func)(char *), char *file, int status);
+void	failure_minishell_exit(t_mini *mini, \
+	void (*func)(char *), char *file, int status);
 void	systemcall_minishell_exit(t_mini *mini, char *func);
 
 // lib1
@@ -35,5 +48,6 @@ void	normal_minishell_exit(t_mini *mini, void (*func)(void *), \
 size_t	search_envp_i(t_mini *mini, char *arg, size_t var_len);
 char	*mini_getcwd(void);
 int		add_mini_len(t_mini *mini);
+void	safe_delete_heredoc_file(t_cmd *cmd);
 
 #endif

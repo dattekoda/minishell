@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 11:08:59 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/09 11:26:33 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/09 12:59:19 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,8 +116,11 @@ static void	exec_nd_cmd(t_mini *mini, t_node *node)
 {
 	if (node->expand_err)
 		return ;
+	if (mini->signaled)
+		return ;
 	if (set_redirect(mini, node->red, node->cmd))
 		return ;
+	set_rfd(mini, node->cmd);
 	if (exec_builtin(mini, node->cmd))
 	{
 		wait_pipe(mini, node);
