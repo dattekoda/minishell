@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 17:51:14 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/09 08:14:33 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/09 09:37:13 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 #include <readline/history.h>
 #include "libft.h"
 #include "minishell_define.h"
+#include "minishell_err.h"
 #include "minishell_lib.h"
 #include "ast.h"
 #include "status.h"
@@ -61,20 +62,30 @@ void	t_mini_free(t_mini *mini)
 	rl_clear_history();
 }
 
-int	update_pwd(t_mini *mini)
+void	update_pwd(t_mini *mini)
 {
 	size_t	i;
 
+	i = search_envp_i(mini, ENV_OLDPWD, ENV_OLDPWD_LEN);
+	if (mini->envp[i] && mini->mini_pwd)
+	{
+		if (set_mini_envp(ENV_OLDPWD, mini->mini_pwd, \
+			&mini->envp[i]))
+			systemcall_minishell_exit(mini, "malloc");
+	}
 	free(mini->mini_pwd);
 	mini->mini_pwd = mini_getcwd();
 	if (!mini->mini_pwd)
-		return (ERR);
+	{
+		err_cd_getcwd();
+		return ;
+	}
 	i = search_envp_i(mini, ENV_PWD, ENV_PWD_LEN);
 	if (!mini->envp[i])
-		return (SUCCESS);
+		return ;
 	if (set_mini_envp(ENV_PWD, mini->mini_pwd, &mini->envp[i]))
-		return (ERR);
-	return (SUCCESS);
+		systemcall_minishell_exit(mini, "malloc");
+	return ;
 }
 
 int	set_mini_envp(char *var, char *val, char **envp_i)

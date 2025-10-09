@@ -27,6 +27,14 @@
 #  define ENV_PWD_LEN 3
 # endif
 
+# ifndef ENV_OLDPWD
+#  define ENV_OLDPWD "OLDPWD"
+# endif
+
+# ifndef ENV_OLDPWD_LEN
+#  define ENV_OLDPWD_LEN 6
+# endif
+
 # define INT_LEN_MAX 12
 
 # define SHLVL_LEN 5

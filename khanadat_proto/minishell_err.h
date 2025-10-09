@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/28 16:14:47 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/07 21:45:58 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/09 09:34:18 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ void	err_ambiguous(char *file);
 
 // minishell_err2.c
 void	err_cd(char *file);
+void	err_cd_getcwd(void);
 void	err_no_home(char *file);
 void	err_too_many(char *file);
 void	err_pwd(void);

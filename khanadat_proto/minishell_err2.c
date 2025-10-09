@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 15:32:17 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/07 21:45:26 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/09 09:34:02 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,13 @@ void	err_cd(char *file)
 	ft_putstr_fd(MINISHELL_STR, STDERR_FILENO);
 	ft_putstr_fd(": cd: ", STDERR_FILENO);
 	perror(file);
+}
+
+void	err_cd_getcwd(void)
+{
+	ft_putstr_fd("cd: error retrieving current directory", STDERR_FILENO);
+	ft_putstr_fd(": getcwd: cannot access parent directories", STDERR_FILENO);
+	ft_putendl_fd(": Permission denied", STDERR_FILENO);
 }
 
 void	err_no_home(char *file)
