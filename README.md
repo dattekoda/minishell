@@ -121,3 +121,6 @@ heredocを複数回行っているときシグナルが飛んできたとき正�
 
 ## 10/8
 カレントディレクトリのパーミッションをなくしたときでも`cd ..`で親ディレクトリに移動できるように修正。   
+norminette修正: exec.c   
+fix: segmentation fault: コマンドを指定せずに、`> file`のようにリダイレクトだけ指定したときにセグフォを起こすバグを修正。   
+norminette fix: すべてのnorminette errorの修正。   

@@ -1,22 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec.h                                             :+:      :+:    :+:   */
+/*   exec_utils.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/28 17:29:53 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/09 12:10:57 by khanadat         ###   ########.fr       */
+/*   Created: 2025/10/09 09:45:18 by khanadat          #+#    #+#             */
+/*   Updated: 2025/10/09 11:49:01 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef EXEC_H
-# define EXEC_H
+#ifndef EXEC_UTILS_H
+# define EXEC_UTILS_H
 
-# include "ast.h"
+# include <stddef.h>
 # include "minishell_define.h"
+# include "ast_define.h"
 
+// exec_utils0.c
+int		store_argv(t_word *head, char ***argv);
+void	exec_child_proc(t_mini *mini, char **argv);
+void	set_rfd(t_mini *mini, t_cmd *cmd);
 void	exec_cmd(t_mini *mini, t_node *node);
-void	exec_prompt(t_mini *mini, t_node *node);
+void	wait_pipe(t_mini *mini, t_node *node);
+
+// exec_utils1.c
+void	exec_node(t_mini *mini, t_node *node);
 
 #endif

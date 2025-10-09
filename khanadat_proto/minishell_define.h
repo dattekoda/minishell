@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell_define.h                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/10/09 12:45:58 by khanadat          #+#    #+#             */
+/*   Updated: 2025/10/09 12:53:28 by khanadat         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINISHELL_DEFINE_H
 # define MINISHELL_DEFINE_H
 # include "ast_define.h"
@@ -14,21 +26,12 @@
 #  define PATH_MAX 1024
 # endif
 
-# ifndef MINISHELL_STR
-#  define MINISHELL_STR "minishell"
-# endif
-// int	received_sig;
-
-# ifndef ENV_PWD
-#  define ENV_PWD "PWD"
-# endif
-
-# ifndef ENV_PWD_LEN
-#  define ENV_PWD_LEN 3
-# endif
-
+# define MINISHELL_STR "minishell"
+# define ENV_PWD "PWD"
+# define ENV_PWD_LEN 3
+# define ENV_OLDPWD "OLDPWD"
+# define ENV_OLDPWD_LEN 6
 # define INT_LEN_MAX 12
-
 # define SHLVL_LEN 5
 
 typedef struct s_mini

@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/05 23:46:11 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/07 20:27:03 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/09 11:44:56 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,9 @@ void	exec_exit(t_mini *mini, char **argv)
 static bool	is_valid_exit_arg(char *str, int64_t *num)
 {
 	bool		issigned;
-	int64_t	unum;
-	int64_t	old_unum;
+	int64_t		old_num;
 
-	unum = 0;
+	*num = 0;
 	issigned = false;
 	while (ft_isspace(*str))
 		str++;
@@ -58,17 +57,17 @@ static bool	is_valid_exit_arg(char *str, int64_t *num)
 		return (false);
 	if (*str == '-' || *str == '+')
 		issigned = (*str++ == '-');
-	if (!*str)
+	if (!*str || ft_isspace(*str))
 		return (false);
 	while (ft_isdigit(*str))
 	{
-		old_unum = unum;
-		unum = 10 * unum + (*str - '0');
-		if (unum < old_unum)
+		old_num = *num;
+		*num = 10 * *num + (*str - '0');
+		if (*num < old_num)
 			break ;
 		str++;
 	}
-	*num = (1 - 2 * issigned) * unum;
+	*num *= (1 - 2 * issigned);
 	if (*str && !ft_isspace(*str))
 		return (false);
 	return (true);

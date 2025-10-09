@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 15:35:23 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/07 20:15:18 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/09 13:55:56 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,13 @@ int	expand_node(t_node *node, t_mini *mini)
 	t_red	*before_red;
 	t_red	*new_red;
 
-	before_word = node->word;
-	set_new_word(&new_word, before_word, mini);
-	free_word(node->word);
-	node->word = new_word;
+	if (node->word)
+	{
+		before_word = node->word;
+		set_new_word(&new_word, before_word, mini);
+		free_word(node->word);
+		node->word = new_word;
+	}
 	if (!node->red)
 		return (SUCCESS);
 	before_red = node->red;

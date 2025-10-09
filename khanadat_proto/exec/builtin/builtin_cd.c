@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/05 18:19:45 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/09 08:14:53 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/09 09:35:41 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 #include "libft.h"
 
 static bool	is_valid_cd(t_mini *mini, char **argv, char *dir);
-static void	cd_upper(t_mini *mini);
+static void	cd_parent_dir(t_mini *mini);
 
 void	exec_cd(t_mini *mini, char **argv)
 {
@@ -33,7 +33,7 @@ void	exec_cd(t_mini *mini, char **argv)
 		return ;
 	if (!ft_strcmp("..", dir))
 	{
-		cd_upper(mini);
+		cd_parent_dir(mini);
 		return ;
 	}
 	if (chdir(dir) < 0)
@@ -42,8 +42,7 @@ void	exec_cd(t_mini *mini, char **argv)
 		store_status(FAILURE, mini);
 		return ;
 	}
-	if (update_pwd(mini))
-		systemcall_minishell_exit(mini, "malloc");
+	update_pwd(mini);
 	store_status(SUCCESS, mini);
 }
 
@@ -58,7 +57,7 @@ static bool	is_valid_cd(t_mini *mini, char **argv, char *dir)
 	return (true);
 }
 
-static void	cd_upper(t_mini *mini)
+static void	cd_parent_dir(t_mini *mini)
 {
 	int		status;
 	char	*tmp;
@@ -81,7 +80,6 @@ static void	cd_upper(t_mini *mini)
 		store_status(FAILURE, mini);
 		return ;
 	}
-	if (update_pwd(mini))
-		systemcall_minishell_exit(mini, "malloc");
 	store_status(SUCCESS, mini);
+	update_pwd(mini);
 }

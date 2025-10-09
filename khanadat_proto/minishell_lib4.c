@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/04 00:40:21 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/06 14:25:37 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/09 12:14:13 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,4 +77,13 @@ int	add_mini_len(t_mini *mini)
 		mini->envp = tmp;
 	}
 	return (SUCCESS);
+}
+
+void	safe_delete_heredoc_file(t_cmd *cmd)
+{
+	if (!cmd->heredoc_name)
+		return ;
+	unlink(cmd->heredoc_name);
+	free(cmd->heredoc_name);
+	cmd->heredoc_name = NULL;
 }
