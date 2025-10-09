@@ -6,12 +6,12 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/21 09:58:54 by khanadat          #+#    #+#             */
-/*   Updated: 2025/09/21 09:58:55 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/09 15:16:29 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include "status.h"
+
 #include "minishell_err.h"
 
 static int	syntax_quote_validate(char *line);

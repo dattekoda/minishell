@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 12:00:23 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/09 12:07:25 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/09 15:17:26 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@
 #include "minishell_err.h"
 #include "minishell_lib.h"
 #include "libft.h"
-#include "status.h"
 
 #define FILENAME_DAFAULT_LEN 13
 #define HEREDOC_FILENAME "/tmp/.heredoc"

@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/21 09:58:37 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/07 08:14:29 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/09 15:16:52 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 #include <unistd.h>
 #include <signal.h>
 #include "libft.h"
-#include "status.h"
 #include "minishell_define.h"
 #include "minishell_err.h"
 #include "tokenizer.h"

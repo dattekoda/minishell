@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/28 13:38:47 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/07 22:33:21 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/09 15:21:22 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 #include "minishell_lib.h"
 #include "minishell_err.h"
 #include "libft.h"
-#include "status.h"
 #include "tokenizer.h"
 #include "ast.h"
 
@@ -74,7 +73,7 @@ static void	update_shlvl(t_mini *mini)
 		set_mini_envp("SHLVL", "1", &mini->envp[i]);
 		return ;
 	}
-	num = atoi(ft_strchr(mini->envp[i], '=') + 1);
+	num = ft_atoi(ft_strchr(mini->envp[i], '=') + 1);
 	shlvl_val = ft_itoa(num + 1);
 	set_mini_envp("SHLVL", shlvl_val, &mini->envp[i]);
 	free(shlvl_val);

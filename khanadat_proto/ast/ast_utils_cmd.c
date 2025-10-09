@@ -6,16 +6,16 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 15:45:46 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/07 07:07:47 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/09 15:18:58 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ast_define.h"
-#include "tokenizer_define.h"
-#include "ast_utils.h"
 #include "ast.h"
+#include "ast_utils.h"
+#include "ast_define.h"
+#include "minishell_define.h"
+#include "tokenizer_define.h"
 #include "libft.h"
-#include "status.h"
 
 #ifndef CMD_END
 # define CMD_END 3

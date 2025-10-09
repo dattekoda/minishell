@@ -6,20 +6,19 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 15:35:23 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/09 13:55:56 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/09 16:23:53 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
 #include "ast.h"
 #include "expand.h"
-#include "status.h"
+#include "expand_define.h"
+#include "expand_utils.h"
 #include "libft.h"
 #include "minishell_define.h"
 #include "minishell_lib.h"
 #include "minishell_err.h"
-#include "expand_define.h"
-#include "expand_utils.h"
 
 static void	set_new_word(t_word **new, t_word *before, t_mini *mini);
 static int	set_new_red(t_red **new, t_red *before, t_mini *mini);

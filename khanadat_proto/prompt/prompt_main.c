@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 18:16:59 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/09 14:15:58 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/09 15:17:54 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@
 #include "minishell_define.h"
 #include "minishell_lib.h"
 #include "prompt_utils.h"
-#include "status.h"
 #include "libft.h"
 #include "ast.h"
 #include "tokenizer.h"

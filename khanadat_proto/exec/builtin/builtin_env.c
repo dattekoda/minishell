@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/05 18:49:42 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/05 18:51:06 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/09 15:16:29 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "minishell_define.h"
 #include "minishell_lib.h"
 #include "minishell_err.h"
-#include "status.h"
+
 #include "libft.h"
 
 void	exec_env(t_mini *mini, char **argv)
