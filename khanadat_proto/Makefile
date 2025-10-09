@@ -6,7 +6,7 @@
 #    By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/09 14:24:07 by khanadat          #+#    #+#              #
-#    Updated: 2025/10/09 22:35:06 by khanadat         ###   ########.fr        #
+#    Updated: 2025/10/09 22:38:36 by khanadat         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -93,7 +93,7 @@ $(NAME): $(OBJS) $(LIBFT_A)
 
 $(OBJS_DIR)/%.o: %.c
 		@mkdir -p $(dir $@)
-		$(CC) $(CCFLAGS) $(INCS_FLAGS) -c $< -o $@
+		@$(CC) $(CCFLAGS) $(INCS_FLAGS) -c $< -o $@
 
 $(LIBFT_A):
 		@$(MAKE) -s bonus -C $(LIBFT_DIR)
