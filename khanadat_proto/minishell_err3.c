@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/04 20:59:55 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/07 21:55:29 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/09 14:14:43 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,14 +40,14 @@ void	err_exit_numeric(char *file)
 	ft_putendl_fd(": numeric argument required", STDERR_FILENO);
 }
 
-void	err_sig_msg(t_mini *mini)
-{
-	if (!ft_strcmp(mini->status, "131"))
-	{
-		ft_putstr_fd("Quit: ", STDERR_FILENO);
-		ft_putnbr_fd(3, STDERR_FILENO);
-		ft_putchar_fd('\n', STDERR_FILENO);
-	}
-	if (!ft_strcmp(mini->status, "130"))
-		ft_putchar_fd('\n', STDERR_FILENO);
-}
+// void	err_sig_msg(t_mini *mini)
+// {
+// 	if (!ft_strcmp(mini->status, "131"))
+// 	{
+// 		ft_putstr_fd("Quit: ", STDERR_FILENO);
+// 		ft_putnbr_fd(3, STDERR_FILENO);
+// 		ft_putchar_fd('\n', STDERR_FILENO);
+// 	}
+// 	if (!ft_strcmp(mini->status, "130"))
+// 		ft_putchar_fd('\n', STDERR_FILENO);
+// }

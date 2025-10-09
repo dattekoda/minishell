@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 18:16:59 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/08 01:18:36 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/09 14:15:58 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ int	receive_prompt(t_mini *mini, int *pfd, pid_t prompt_id)
 	return (SUCCESS);
 }
 
+// err_sig_msg(mini);
 void	minishell(t_mini *mini)
 {
 	pid_t	prompt_id;
@@ -96,7 +97,6 @@ void	minishell(t_mini *mini)
 			continue ;
 		}
 		exec_prompt(mini, mini->node);
-		err_sig_msg(mini);
 		free_node(&mini->node);
 	}
 }

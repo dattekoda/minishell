@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/28 14:15:28 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/09 11:15:24 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/09 14:11:22 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ void	exec_prompt(t_mini *mini, t_node *node)
 	{
 		exec_prompt(mini, node->lhs);
 		if (!ft_strcmp("0", mini->status))
+			return ;
+		if (!ft_strcmp("130", mini->status))
 			return ;
 		exec_prompt(mini, node->rhs);
 	}
