@@ -6,19 +6,20 @@
 #    By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/09 14:24:07 by khanadat          #+#    #+#              #
-#    Updated: 2025/10/09 16:35:17 by khanadat         ###   ########.fr        #
+#    Updated: 2025/10/09 22:35:06 by khanadat         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME		=	minishell
 CC			=	cc
 CCFLAGS		=	-Wall -Wextra -Werror
-RDFLAGS		=	-lreadline -lncurses
+
+RL_FLAGS	:=	-lreadline
 
 LIBFT_DIR	=	libft
 LIBFT_A		=	$(LIBFT_DIR)/libft.a
 
-INCS_FLAGS	=	-I . \
+INCS_FLAGS	:=	-I . \
 				-I ast \
 				-I err \
 				-I exec \
@@ -27,9 +28,18 @@ INCS_FLAGS	=	-I . \
 				-I ast/tokenizer \
 				-I exec/builtin \
 				-I exec/expand \
-				-I $(LIBFT_DIR)/includes
+				-I $(LIBFT_DIR)/includes \
 
-SRCS		=	exec/exec.c \
+SRCS		=	ast/ast_utils_cmd.c \
+				ast/ast_utils_is.c \
+				ast/ast_utils_red.c \
+				ast/ast_utils.c \
+				ast/ast.c \
+				err/minishell_err0.c \
+				err/minishell_err1.c \
+				err/minishell_err2.c \
+				err/minishell_err3.c \
+				exec/exec.c \
 				exec/exec_utils0.c \
 				exec/exec_utils1.c \
 				exec/get_path.c \
@@ -63,19 +73,30 @@ SRCS		=	exec/exec.c \
 OBJS_DIR	=	objs
 OBJS		=	$(addprefix $(OBJS_DIR)/, $(SRCS:.c=.o))
 
+UNAME		=	$(shell uname -s)
+
+ifeq ($(UNAME),Darwin)
+	RL_A		:=	-L /opt/homebrew/opt/readline/lib
+	INCS_FLAGS	+=	-I /opt/homebrew/opt/readline/include
+else ifeq ($(UNAME),Linux)
+	RL_FLAGS	+=	-lncurses
+else
+	$(error Unsupported OS: $(UNAME))
+endif
+
 .PHONY: all clean fclean re
 
 all: $(NAME)
 
 $(NAME): $(OBJS) $(LIBFT_A)
-		$(CC) $(CCFLAGS) $^ $(LIBFT_A) -o $@ $(RDFLAGS)
+		$(CC) $(CCFLAGS) $^ $(RL_A) -o $@ $(RL_FLAGS)
 
 $(OBJS_DIR)/%.o: %.c
 		@mkdir -p $(dir $@)
-		$(CC) $(CCFLAGS) -c $< -o $@ $(INCS_FLAGS)
+		$(CC) $(CCFLAGS) $(INCS_FLAGS) -c $< -o $@
 
 $(LIBFT_A):
-		@$(MAKE) -s -C $(LIBFT_DIR)
+		@$(MAKE) -s bonus -C $(LIBFT_DIR)
 
 clean:
 		@rm -rf $(OBJS_DIR)
