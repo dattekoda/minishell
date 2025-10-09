@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/05 23:46:11 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/09 11:44:56 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/09 15:16:29 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include "minishell_define.h"
 #include "minishell_err.h"
 #include "minishell_lib.h"
-#include "status.h"
+
 #include "libft.h"
 
 static bool	is_valid_exit_arg(char *str, int64_t *num);

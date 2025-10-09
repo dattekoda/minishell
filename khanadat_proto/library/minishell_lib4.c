@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/04 00:40:21 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/09 12:14:13 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/09 15:17:49 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 #include "minishell_define.h"
 #include "minishell_lib.h"
 #include "minishell_err.h"
-#include "status.h"
 #include "libft.h"
 
 #define CWD_INIT_SIZE 4096

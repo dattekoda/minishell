@@ -6,14 +6,13 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 17:07:39 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/09 14:13:04 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/09 15:17:46 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <signal.h>
 #include <stdlib.h>
 #include <unistd.h>
-#include "status.h"
 #include "minishell_define.h"
 #include "minishell_lib.h"
 #include "minishell_err.h"

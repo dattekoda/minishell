@@ -6,12 +6,12 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/21 09:58:51 by khanadat          #+#    #+#             */
-/*   Updated: 2025/09/28 10:59:55 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/09 15:16:29 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
-#include "status.h"
+
 #include "minishell_err.h"
 #include "tokenizer_define.h"
 #include "tokenizer_utils.h"

@@ -6,14 +6,14 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/05 18:37:10 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/07 16:26:50 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/09 15:16:29 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include "minishell_define.h"
 #include "minishell_lib.h"
-#include "status.h"
+
 #include "libft.h"
 
 static size_t	need_new_line(char **argv);

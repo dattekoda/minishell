@@ -1,27 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   status.h                                           :+:      :+:    :+:   */
+/*   ft_memset.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/09 12:46:03 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/09 12:51:32 by khanadat         ###   ########.fr       */
+/*   Created: 2025/04/25 06:47:17 by khanadat          #+#    #+#             */
+/*   Updated: 2025/06/23 20:32:21 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef STATUS_H
-# define STATUS_H
+#include "../includes/libft.h"
 
-# define ERR -1
-# define NO_ERR 0
-# define SUCCESS 0
-# define FAILURE 1
-# define SYNTAX_ERR 2
+void	*ft_memset(void *s, int c, size_t n)
+{
+	unsigned char	*p;
 
-# define IS_DIR_ERR 126
-# define PERMISSION_ERR 126
-# define NOT_FOUND_ERR 127
-# define SYSTEMCALL_EXITSTATUS 255
+	p = (unsigned char *) s;
+	while (n--)
+		*p++ = (unsigned char) c;
+	return (s);
+}
 
-#endif
+/*
+#include <stdio.h>
+
+int main(void) {
+    char   ohayo[10];
+    ft_memset(ohayo, 'a', 5);
+    printf("%s\n", ohayo);
+    return 0;
+}*/

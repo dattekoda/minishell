@@ -2,9 +2,9 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 #include <stdlib.h>
+#include "minishell_define.h"
 #include "tokenizer_define.h"
 #include "tokenizer.h"
-#include "status.h"
 
 static void	print_token(t_token *token);
 

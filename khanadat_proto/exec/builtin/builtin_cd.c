@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/05 18:19:45 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/09 09:35:41 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/09 15:16:29 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include "minishell_define.h"
 #include "minishell_lib.h"
 #include "minishell_err.h"
-#include "status.h"
+
 #include "libft.h"
 
 static bool	is_valid_cd(t_mini *mini, char **argv, char *dir);

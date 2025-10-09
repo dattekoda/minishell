@@ -8,7 +8,7 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 #include "libft.h"
-#include "status.h"
+
 #include "minishell_err.h"
 #include "ast.h"
 

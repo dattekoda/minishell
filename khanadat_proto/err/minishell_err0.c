@@ -1,19 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell_err.c                                    :+:      :+:    :+:   */
+/*   minishell_err0.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/28 16:14:49 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/09 14:18:50 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/09 15:17:02 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "tokenizer.h"
 #include "minishell_lib.h"
 #include "libft.h"
-#include "status.h"
 #include <unistd.h>
 #include <stdio.h>
 

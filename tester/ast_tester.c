@@ -6,7 +6,6 @@
 #include "ast.h"
 #include "tokenizer_define.h"
 #include "tokenizer.h"
-#include "status.h"
 #include "minishell_lib.h"
 
 void	print_node(t_node *node)

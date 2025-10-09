@@ -6,14 +6,14 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 21:58:54 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/07 21:58:55 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/09 15:18:38 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ast_define.h"
 #include "ast_utils.h"
+#include "minishell_define.h"
 #include "tokenizer_define.h"
-#include "status.h"
 #include "libft.h"
 
 static t_red		*add_new_red(t_red *cur, t_token *token, t_RedKind rkind);

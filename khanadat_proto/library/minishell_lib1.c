@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 17:51:14 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/09 09:37:13 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/09 15:17:40 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@
 #include "minishell_err.h"
 #include "minishell_lib.h"
 #include "ast.h"
-#include "status.h"
 
 // static char	*get_program_name(char *set);
 

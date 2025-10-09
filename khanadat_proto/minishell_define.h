@@ -6,13 +6,24 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 12:45:58 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/09 12:53:28 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/09 15:15:53 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_DEFINE_H
 # define MINISHELL_DEFINE_H
 # include "ast_define.h"
+
+# define ERR -1
+# define NO_ERR 0
+# define SUCCESS 0
+# define FAILURE 1
+# define SYNTAX_ERR 2
+
+# define IS_DIR_ERR 126
+# define PERMISSION_ERR 126
+# define NOT_FOUND_ERR 127
+# define SYSTEMCALL_EXITSTATUS 255
 
 # define BUILTIN_NUM 7
 # define NO_NEW_LINE 1

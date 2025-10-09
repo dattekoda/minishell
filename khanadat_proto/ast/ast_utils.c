@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/21 09:58:42 by khanadat          #+#    #+#             */
-/*   Updated: 2025/09/28 11:01:15 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/09 15:16:50 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 #include "ast_define.h"
 #include "ast_utils.h"
 #include "tokenizer.h"
-#include "status.h"
 #include "minishell_err.h"
 #include "libft.h"
 #include "ast.h"

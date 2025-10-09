@@ -6,13 +6,13 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/21 09:58:59 by khanadat          #+#    #+#             */
-/*   Updated: 2025/09/21 09:59:00 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/09 15:16:29 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "tokenizer_define.h"
 #include "libft.h"
-#include "status.h"
+
 #include "minishell_err.h"
 
 t_token	*new_reserved_token(t_token *cur, char **str)

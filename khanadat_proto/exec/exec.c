@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/28 14:15:28 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/09 14:11:22 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/09 15:17:21 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@
 #include "minishell_err.h"
 #include "minishell_define.h"
 #include "minishell_lib.h"
-#include "status.h"
 #include "libft.h"
 #include "get_path.h"
 #include "ast.h"

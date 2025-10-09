@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 16:18:41 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/09 12:42:37 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/09 15:17:29 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@
 #include "minishell_lib.h"
 #include "minishell_err.h"
 #include "libft.h"
-#include "status.h"
 #include "set_redirect_utils.h"
 
 void	start_heredoc(t_mini *mini, t_red *red, int fd)
