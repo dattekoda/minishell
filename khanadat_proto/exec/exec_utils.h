@@ -1,31 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expand.h                                           :+:      :+:    :+:   */
+/*   exec_utils.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/13 01:58:48 by khanadat          #+#    #+#             */
-/*   Updated: 2025/09/16 16:11:17 by khanadat         ###   ########.fr       */
+/*   Created: 2025/10/09 09:45:18 by khanadat          #+#    #+#             */
+/*   Updated: 2025/10/09 11:17:26 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef EXPAND_H
-# define EXPAND_H
+#ifndef EXEC_UTILS_H
+# define EXEC_UTILS_H
 
 # include <stddef.h>
-# include "libft.h"
-# define SPECIALS "$\'\"|"
+# include "minishell_define.h"
+# include "ast_define.h"
 
-typedef struct s_param
-{
-	char	*param;
-	size_t	len;
-}	t_param;
+// exec_utils0.c
+int		store_argv(t_word *head, char ***argv);
+void    exec_child_proc(t_mini *mini, char **argv);
+void	set_rfd(t_mini *mini, t_cmd *cmd);
+void	exec_cmd(t_mini *mini, t_node *node);
+void	wait_pipe(t_mini *mini, t_node *node);
 
-int	expand_params(char *line, char **expanded);
-int	search_params(char *line, t_list **lst, size_t *expanded_len);
-int	store_expanded(char *line, t_list *lst, \
-	char **expanded, size_t expanded_len);
+// exec_utils1.c
+void	exec_node(t_mini *mini, t_node *node);
 
 #endif
