@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   prompt_main.c                                      :+:      :+:    :+:   */
+/*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 18:16:59 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/09 15:17:54 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/10 07:45:52 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 #include "minishell_err.h"
 #include "minishell_define.h"
 #include "minishell_lib.h"
-#include "prompt_utils.h"
+#include "minishell_set.h"
 #include "libft.h"
 #include "ast.h"
 #include "tokenizer.h"
@@ -98,16 +98,4 @@ void	minishell(t_mini *mini)
 		exec_prompt(mini, mini->node);
 		free_node(&mini->node);
 	}
-}
-
-int	main(int argc, char *argv[], char *envp[])
-{
-	t_mini	mini;
-
-	if (argc != 1)
-		return (err_invalid_arg(argv[1]), FAILURE);
-	if (set_minishell(&mini, envp))
-		exit(FAILURE);
-	minishell(&mini);
-	return (FAILURE);
 }

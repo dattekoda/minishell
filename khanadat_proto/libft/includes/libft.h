@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 12:52:23 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/09 07:08:16 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/10 08:57:28 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@
 # define GNL_ERR_READ -1
 # define GNL_EOF 0
 # define GNL_LINE 1
-
 
 typedef struct s_gnl
 {

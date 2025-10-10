@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 16:18:41 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/09 15:17:29 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/10 08:55:56 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,15 +36,15 @@ void	start_heredoc(t_mini *mini, t_red *red, int fd)
 		ft_putstr_fd("> ", STDOUT_FILENO);
 		status = ft_get_next_line(STDIN_FILENO, &line);
 		if (status == -1)
-			systemcall_minishell_exit(mini, "read");
+			exit((err_system_call("read"), SYSTEMCALL_EXITSTATUS));
 		else if (status == -2)
-			systemcall_minishell_exit(mini, "malloc");
+			exit((err_system_call("malloc"), SYSTEMCALL_EXITSTATUS));
 		if (!line)
-			failure_minishell_exit(mini, &err_heredoc, red->file, NO_ERR);
+			exit((err_heredoc(red->file), NO_ERR));
 		if (expand_dollar(mini, &line))
-			systemcall_minishell_exit((free(line), mini), "malloc");
+			exit((free(line), SYSTEMCALL_EXITSTATUS));
 		if (!ft_strncmp(line, red->file, len) && line[len] == '\n')
-			normal_minishell_exit(mini, &free, line, SUCCESS);
+			exit((free(line), SUCCESS));
 		ft_putstr_fd(line, fd);
 		free(line);
 	}

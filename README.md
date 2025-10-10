@@ -115,3 +115,7 @@ norminette修正: exec.c
 fix: segmentation fault: コマンドを指定せずに、`> file`のようにリダイレクトだけ指定したときにセグフォを起こすバグを修正。   
 norminette fix: すべてのnorminette errorの修正。   
 Makefileの追加。   
+
+## 10/9
+heredocの子プロセス上で他のheredocファイルを削除しないように変更。   
+main.cファイルの分離でファイルの整理。   
