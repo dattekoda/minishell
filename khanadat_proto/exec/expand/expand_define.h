@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 13:26:23 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/10 15:34:02 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/11 00:04:42 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ typedef enum s_DollarKind
 {
 	WD_WORD,
 	WD_SPACE,
-	WD_QUOTE,
 	WD_HEAD
 }	t_DollarKind;
 
