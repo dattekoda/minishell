@@ -83,7 +83,7 @@ t_dollar	*add_single(t_dollar *cur, char **word)
 		return (NULL);
 	cur->next = new;
 	new->value = *word + 1;
-	new->dkind = WD_WORD;
+	new->dkind = WD_QUOTE;
 	*word = ft_strchr(new->value, '\'') + 1;
 	new->value_len = (size_t)(*word - 1 - new->value);
 	return (new);

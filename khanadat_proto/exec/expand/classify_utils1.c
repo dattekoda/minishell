@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 01:26:08 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/03 23:50:54 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/10 15:35:16 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ static t_dollar	*add_double(t_dollar *cur, char **word)
 	if (!new)
 		return (NULL);
 	cur->next = new;
-	new->dkind = WD_WORD;
+	new->dkind = WD_QUOTE;
 	new->value = *word + (**word == '\"');
 	while (**word && **word != '\"' \
 	&& **word != '$')

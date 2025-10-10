@@ -11,8 +11,6 @@
 /* ************************************************************************** */
 
 #include <stdio.h>
-#include <readline/readline.h>
-#include <readline/history.h>
 #include <stdbool.h>
 #include <unistd.h>
 #include <signal.h>
@@ -49,13 +47,13 @@ void	free_node(t_node **node)
 static void	free_cmd(t_cmd *cmd)
 {
 	free(cmd->argv);
-	if (cmd->cfd[0] != STDIN_FILENO)
+	if (cmd->cfd[0] != FD_DFL)
 		close(cmd->cfd[0]);
-	if (cmd->cfd[1] != STDOUT_FILENO)
+	if (cmd->cfd[1] != FD_DFL)
 		close(cmd->cfd[1]);
-	if (cmd->rfd[0] != STDIN_FILENO)
+	if (cmd->rfd[0] != FD_DFL)
 		close(cmd->rfd[0]);
-	if (cmd->rfd[1] != STDOUT_FILENO)
+	if (cmd->rfd[1] != FD_DFL)
 		close(cmd->rfd[1]);
 	safe_delete_heredoc_file(cmd);
 	free(cmd);

@@ -63,7 +63,7 @@ int	mini_heredoc(t_mini *mini, t_red *red, t_cmd *cmd)
 		systemcall_minishell_exit(mini, "malloc");
 	fd = open(hd_name, O_CREAT | O_RDWR | O_TRUNC, 0600);
 	if (fd < 0)
-		systemcall_minishell_exit((free(hd_name), mini), hd_name);
+		systemcall_minishell_exit((free(hd_name), mini), "open");
 	heredoc_id = fork();
 	if (heredoc_id < 0)
 		systemcall_minishell_exit((close(fd), free(hd_name), mini), "fork");
