@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 12:45:58 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/09 15:15:53 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/10 08:58:29 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,14 +45,16 @@
 # define INT_LEN_MAX 12
 # define SHLVL_LEN 5
 
+// @envp_size: array's size
+// @envp_len: actual stored size of envp
 typedef struct s_mini
 {
 	bool	is_sys_err;
 	bool	is_pipe;
 	bool	signaled;
 	char	**envp;
-	size_t	envp_size; // array's size
-	size_t	envp_len; // actual stored size of envp
+	size_t	envp_size;
+	size_t	envp_len;
 	char	*prompt;
 	char	*line;
 	char	*mini_pwd;

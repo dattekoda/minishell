@@ -6,7 +6,7 @@
 #    By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/09 14:24:07 by khanadat          #+#    #+#              #
-#    Updated: 2025/10/09 22:38:36 by khanadat         ###   ########.fr        #
+#    Updated: 2025/10/10 09:00:36 by khanadat         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,7 +30,8 @@ INCS_FLAGS	:=	-I . \
 				-I exec/expand \
 				-I $(LIBFT_DIR)/includes \
 
-SRCS		=	ast/ast_utils_cmd.c \
+SRCS		=	main.c \
+				ast/ast_utils_cmd.c \
 				ast/ast_utils_is.c \
 				ast/ast_utils_red.c \
 				ast/ast_utils.c \
@@ -50,8 +51,8 @@ SRCS		=	ast/ast_utils_cmd.c \
 				library/minishell_lib2.c \
 				library/minishell_lib3.c \
 				library/minishell_lib4.c \
-				prompt/prompt_main.c \
-				prompt/prompt_set.c \
+				prompt/prompt.c \
+				prompt/minishell_set.c \
 				ast/tokenizer/tokenizer.c \
 				ast/tokenizer/tokenizer_utils.c \
 				ast/tokenizer/tokenizer_validate.c \
@@ -93,7 +94,7 @@ $(NAME): $(OBJS) $(LIBFT_A)
 
 $(OBJS_DIR)/%.o: %.c
 		@mkdir -p $(dir $@)
-		@$(CC) $(CCFLAGS) $(INCS_FLAGS) -c $< -o $@
+		$(CC) $(CCFLAGS) $(INCS_FLAGS) -c $< -o $@
 
 $(LIBFT_A):
 		@$(MAKE) -s bonus -C $(LIBFT_DIR)
@@ -103,6 +104,6 @@ clean:
 		@$(MAKE) -s fclean -C $(LIBFT_DIR)
 
 fclean: clean
-		@rm -f $(NAME)
+		rm -f $(NAME)
 
 re: fclean all

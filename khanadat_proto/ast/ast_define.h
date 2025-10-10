@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/21 09:58:44 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/07 19:34:28 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/10 08:58:43 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ typedef struct s_cmd
 	int		saved[2];
 	int		rfd[2];
 	char	**argv;
-	char	*heredoc_name; // need free
+	char	*heredoc_name;
 }	t_cmd;
 
 // abstruct syntax tree

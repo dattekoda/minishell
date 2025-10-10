@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 11:08:59 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/09 15:17:17 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/10 08:42:54 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ void	exec_node(t_mini *mini, t_node *node)
 	{
 		mini->is_pipe = true;
 		node->rhs->cmd->pid = fork();
+		if (node->rhs->cmd->pid < 0)
+			systemcall_minishell_exit(mini, "fork");
 		if (node->rhs->cmd->pid == 0)
 			exec_pipe_cmd(mini, node);
 		else

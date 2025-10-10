@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/21 09:58:37 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/09 15:16:52 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/10 08:01:00 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 #include "libft.h"
 #include "minishell_define.h"
 #include "minishell_err.h"
+#include "minishell_lib.h"
 #include "tokenizer.h"
 #include "ast_define.h"
 #include "ast_utils.h"
@@ -52,9 +53,11 @@ static void	free_cmd(t_cmd *cmd)
 		close(cmd->cfd[0]);
 	if (cmd->cfd[1] != STDOUT_FILENO)
 		close(cmd->cfd[1]);
-	if (!access(cmd->heredoc_name, F_OK))
-		unlink(cmd->heredoc_name);
-	free(cmd->heredoc_name);
+	if (cmd->rfd[0] != STDIN_FILENO)
+		close(cmd->rfd[0]);
+	if (cmd->rfd[1] != STDOUT_FILENO)
+		close(cmd->rfd[1]);
+	safe_delete_heredoc_file(cmd);
 	free(cmd);
 }
 
