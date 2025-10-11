@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/21 09:58:37 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/10 08:01:00 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/11 19:20:27 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static void	free_cmd(t_cmd *cmd)
 		close(cmd->rfd[0]);
 	if (cmd->rfd[1] != FD_DFL)
 		close(cmd->rfd[1]);
-	safe_delete_heredoc_file(cmd);
+	safe_delete_heredoc_file(&cmd->heredoc_name);
 	free(cmd);
 }
 
@@ -90,6 +90,7 @@ int	get_node(t_node **node, t_token *token)
 	t_node	*cur;
 	t_node	*before;
 
+	before = NULL;
 	if (token->kind == TK_EOF || validate_token(token))
 		return (SYNTAX_ERR);
 	cur = new_pipe_node(&token);

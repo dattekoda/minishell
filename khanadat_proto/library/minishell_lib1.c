@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 17:51:14 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/11 12:25:26 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/11 18:42:05 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,11 @@ void	update_pwd(t_mini *mini)
 	if (!cwd_path)
 		return ;
 	if (set_mini_envp(ENV_PWD, cwd_path, &mini->envp[pwd_i]))
-		systemcall_minishell_exit((free(cwd_path), mini), "malloc");
+	{
+		free(cwd_path);
+		systemcall_minishell_exit(mini, "malloc");
+		return ;
+	}
 	free(cwd_path);
 	return ;
 }

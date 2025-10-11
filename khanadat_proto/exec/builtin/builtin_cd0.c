@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/05 18:19:45 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/11 12:21:21 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/11 19:26:14 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,11 @@ static void	update_oldpwd(t_mini *mini, char *old_pwd)
 		return ;
 	}
 	if (set_mini_envp(ENV_OLDPWD, old_pwd, &mini->envp[i]))
-		systemcall_minishell_exit((free(old_pwd), mini), "malloc");
+	{
+		free(old_pwd);
+		systemcall_minishell_exit(mini, "malloc");
+		return ;
+	}
 	free(old_pwd);
 	return ;
 }

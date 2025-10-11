@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/28 13:38:47 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/11 12:22:26 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/11 15:56:59 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ static void	update_shlvl(t_mini *mini)
 	int		num;
 	char	*shlvl_val;
 
-	i = 0;
 	normal_getenv("SHLVL", mini);
 	i = search_envp_i(mini, "SHLVL", SHLVL_LEN);
 	if (!mini->envp[i])

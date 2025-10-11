@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 12:05:35 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/09 12:06:34 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/11 19:15:07 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,5 +17,6 @@
 
 char	*set_heredoc_name(int num);
 int		expand_dollar(t_mini *mini, char **line);
+void	sys_hd_exit(t_mini *mini, char *hd_name, int fd, char *func);
 
 #endif

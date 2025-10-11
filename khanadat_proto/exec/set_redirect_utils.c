@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 12:00:23 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/09 15:17:26 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/11 19:20:19 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ char	*set_heredoc_name(int num)
 	int		i;
 	int		tmp;
 
+	if (num == INT_MAX)
+		return (NULL);
 	tmp = num;
 	ft_strlcpy(file_name, HEREDOC_FILENAME, FILENAME_MAX);
 	i = FILENAME_DAFAULT_LEN;
@@ -105,11 +107,21 @@ int	expand_dollar(t_mini *mini, char **line)
 	if (!expanded)
 	{
 		ft_lstclear(&head.next, NULL);
-		systemcall_minishell_exit(mini, "malloc");
+		err_system_call("malloc");
+		return (FAILURE);
 	}
 	list = head.next;
 	expand_dollar_set(list, expanded);
 	free(*line);
 	*line = expanded;
 	return (SUCCESS);
+}
+
+void	sys_hd_exit(t_mini *mini, char *hd_name, int fd, char *func)
+{
+	if (hd_name)
+		safe_delete_heredoc_file(&hd_name);
+	if (fd > 0)
+		close(fd);
+	systemcall_minishell_exit(mini, func);
 }
