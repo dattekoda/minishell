@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/21 09:58:44 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/10 08:58:43 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/12 00:40:31 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ typedef enum s_NodeKind
 	ND_AND,
 	ND_OR,
 	ND_PIPE,
+	ND_PAR_IN,
+	ND_PAR_OUT,
 	ND_NOT
 }	t_NodeKind;
 

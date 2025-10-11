@@ -6,11 +6,12 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 15:53:20 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/06 15:53:28 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/12 00:35:49 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdbool.h>
+#include "ast_utils.h"
 #include "tokenizer_define.h"
 #include "libft.h"
 
@@ -18,17 +19,87 @@ bool	is_pipe_or_and(t_token *token)
 {
 	if (token->kind != TK_OPERATOR)
 		return (false);
-	if (*(token->str) == '|' \
-	|| !ft_strncmp(token->str, "&&", 2))
-		return (true);
-	return (false);
+	return (is_pipe(token) \
+	|| is_or(token) \
+	|| is_and(token));
+}
+
+bool	is_pipe(t_token *token)
+{
+	if (token->kind != TK_OPERATOR)
+		return (false);
+	return (*(token->str) == '|' \
+	&& *(token->str + 1) == '|');
+}
+
+bool	is_and(t_token *token)
+{
+	if (token->kind != TK_OPERATOR)
+		return (false);
+	return (*(token->str) == '&' \
+	&& *(token->str + 1) == '&');
+}
+
+bool	is_or(t_token *token)
+{
+	if (token->kind != TK_OPERATOR)
+		return (false);
+	return (*(token->str) == '|' \
+	&& *(token->str + 1) != '|');
 }
 
 bool	is_redirect(t_token *token)
 {
 	if (token->kind != TK_OPERATOR)
 		return (false);
-	if (*(token->str) == '>' || *(token->str) == '<')
-		return (true);
-	return (false);
+	return (is_red_in(token) \
+	|| is_red_out(token) \
+	|| is_red_append(token) \
+	|| is_red_heredoc(token));
+}
+
+bool	is_red_in(t_token *token)
+{
+	if (token->kind != TK_OPERATOR)
+		return (false);
+	return (*(token->str) == '>' \
+	&& *(token->str + 1) != '>');
+}
+
+bool	is_red_out(t_token *token)
+{
+	if (token->kind != TK_OPERATOR)
+		return (false);
+	return (*(token->str) == '<' \
+	&& *(token->str + 1) != '<');
+}
+
+bool	is_red_append(t_token *token)
+{
+	if (token->kind != TK_OPERATOR)
+		return (false);
+	return (*(token->str) == '>' \
+	&& *(token->str + 1) == '>');
+}
+
+bool	is_red_heredoc(t_token *token)
+{
+	if (token->kind != TK_OPERATOR)
+		return (false);
+	return (*(token->str) == '<' \
+	&& *(token->str + 1) == '<');
+}
+
+bool	is_par_first(t_token *token)
+{
+	if (token->kind != TK_OPERATOR)
+		return (false);
+	return (*(token->str) == '(');
+}
+
+bool	is_par_sec(t_token *token)
+{
+	if (token->kind != TK_OPERATOR)
+		return (false);
+	return (*(token->str) == ')');
 }

@@ -6,11 +6,12 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/21 09:58:51 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/11 19:50:24 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/11 23:03:01 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
+#include <stdio.h>
 
 #include "minishell_err.h"
 #include "tokenizer_define.h"
@@ -53,7 +54,7 @@ int	get_token(t_token **token, char *line)
 		}
 		if (ft_strchr(SPECIAL_CHAR, *line))
 		{
-			cur = new_reserved_token(cur, &line);
+			cur = new_op_token(cur, &line);
 			continue ;
 		}
 		cur = new_word_token(cur, &line);
