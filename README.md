@@ -127,4 +127,7 @@ Linux環境でコンパイルできるように諸々調整。
 ビルトインコマンド`cd`で親ディレクトリに移動するときの挙動を調整。   
 `$OLDPWD`が`getcwd()`で得た情報をもとに更新するように変更。   
 `getcwd()`エラーが発生した時、`pwd`コマンドで環境変数から出力するように変更。   
-scan-build fix: `scan-build: No bugs found.`
+scan-build fix: `scan-build: No bugs found.`   
+バグ発見: echo 'this & goha'   
+`tokenizer_validate.c`: ()のvalidate_parenthesisの追加。   
+バグ発見: `(echo ohayo)`で無限ループになる。   

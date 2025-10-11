@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/21 09:58:51 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/09 15:16:29 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/11 19:50:24 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,9 @@
 #include "tokenizer_define.h"
 #include "tokenizer_utils.h"
 #include "libft.h"
+
+static int	set_token(t_token **token, char *line, \
+	t_token *head, t_token **cur);
 
 void	free_token(t_token **token)
 {
@@ -39,10 +42,8 @@ int	get_token(t_token **token, char *line)
 	t_token	head;
 	t_token	*cur;
 
-	*token = (ft_bzero(&head, sizeof(t_token)), NULL);
-	if (validate_b4_tokenize(line))
+	if (set_token(token, line, &head, &cur))
 		return (SYNTAX_ERR);
-	cur = &head;
 	while (*line && cur)
 	{
 		if (ft_isspace(*line))
@@ -60,5 +61,16 @@ int	get_token(t_token **token, char *line)
 	if (!cur || !new_eof_token(cur))
 		return (free_token(&head.next), ERR);
 	*token = head.next;
+	return (SUCCESS);
+}
+
+static int	set_token(t_token **token, char *line, \
+	t_token *head, t_token **cur)
+{
+	*token = NULL;
+	ft_bzero(head, sizeof(t_token));
+	if (validate_b4_tokenize(line))
+		return (SYNTAX_ERR);
+	*cur = head;
 	return (SUCCESS);
 }

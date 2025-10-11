@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/28 16:14:49 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/09 15:17:02 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/11 21:56:33 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,4 +67,10 @@ void	put_syntax_err(char type)
 		ft_putendl_fd("you need enclose with \'", STDERR_FILENO);
 	else if (type == '\"')
 		ft_putendl_fd("you need enclose with \"", STDERR_FILENO);
+	else if (type == '(' || type == ')')
+	{
+		ft_putstr_fd("near unexpected token `", STDERR_FILENO);
+		ft_putchar_fd(type, STDERR_FILENO);
+		ft_putendl_fd("'", STDERR_FILENO);
+	}
 }

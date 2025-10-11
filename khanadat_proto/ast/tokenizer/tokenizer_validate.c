@@ -6,26 +6,28 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/21 09:58:54 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/09 15:16:29 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/11 22:09:32 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-
+#include "minishell_define.h"
 #include "minishell_err.h"
 
-static int	syntax_quote_validate(char *line);
-static int	syntax_and_valitate(char *line);
+static int	validate_quote(const char *line);
+static int	valitate_and(const char *line);
+static int	validate_parenthesis(const char *line);
 
-int	validate_b4_tokenize(char *line)
+int	validate_b4_tokenize(const char *line)
 {
-	if (syntax_quote_validate(line) \
-	|| syntax_and_valitate(line))
+	if (validate_quote(line) \
+	|| valitate_and(line) \
+	|| validate_parenthesis(line))
 		return (SYNTAX_ERR);
 	return (SUCCESS);
 }
 
-static int	syntax_quote_validate(char *line)
+static int	validate_quote(const char *line)
 {
 	char	*tmp;
 
@@ -44,18 +46,51 @@ static int	syntax_quote_validate(char *line)
 	return (SUCCESS);
 }
 
-static int	syntax_and_valitate(char *line)
+static int	valitate_and(const char *line)
 {
-	char	*tmp;
-
 	while (*line)
 	{
-		tmp = ft_strchr(line, '&');
-		if (!tmp)
-			break ;
-		if (*(tmp + 1) != '&')
-			return (put_syntax_err('&'), SYNTAX_ERR);
-		line = tmp + 2;
+		if (*line == '\'' || *line == '\"')
+			line = ft_strchr(line + 1, *line) + 1;
+		if (*line == '&')
+		{
+			if (*(line + 1) != '&')
+				return (put_syntax_err('&'), SYNTAX_ERR);
+			line++;
+		}
+		line++;
 	}
 	return (SUCCESS);
 }
+
+// check if enclosed with parenthesis correctly
+static int	validate_parenthesis(const char *line)
+{
+	int	checker;
+
+	checker = 0;
+	while (*line)
+	{
+		if (*line == '\'' || *line == '\"')
+			line = ft_strchr(line + 1, *line) + 1;
+		if (*line == '(')
+			checker++;
+		if (*line == ')')
+			checker--;
+		if (checker < 0)
+			return (put_syntax_err(')'), SYNTAX_ERR);
+		line++;
+	}
+	if (checker == 0)
+		return (SUCCESS);
+	return (put_syntax_err('('), SYNTAX_ERR);
+}
+
+// #include <stdio.h>
+// int	main(int argc, char *argv[])
+// {
+// 	if (argc == 1)
+// 		return 1;
+// 	if (!validate_parenthesis(argv[1]))
+// 		printf("valid\n");
+// }
