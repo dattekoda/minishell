@@ -6,7 +6,7 @@
 #    By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/09 14:24:07 by khanadat          #+#    #+#              #
-#    Updated: 2025/10/10 09:00:36 by khanadat         ###   ########.fr        #
+#    Updated: 2025/10/11 11:43:53 by khanadat         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -57,7 +57,8 @@ SRCS		=	main.c \
 				ast/tokenizer/tokenizer_utils.c \
 				ast/tokenizer/tokenizer_validate.c \
 				exec/builtin/builtin.c \
-				exec/builtin/builtin_cd.c \
+				exec/builtin/builtin_cd0.c \
+				exec/builtin/builtin_cd1.c \
 				exec/builtin/builtin_echo.c \
 				exec/builtin/builtin_env.c \
 				exec/builtin/builtin_exit.c \

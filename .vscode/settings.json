@@ -23,6 +23,7 @@
 		"add_new_utils.h": "c",
 		"classify_utils.h": "c",
 		"complex": "c",
-		"expand_define.h": "c"
+		"expand_define.h": "c",
+		"builtin_cd_utils.h": "c"
 	}
 }

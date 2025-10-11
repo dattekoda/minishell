@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   prompt_set.c                                       :+:      :+:    :+:   */
+/*   minishell_set.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/28 13:38:47 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/09 15:21:22 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/11 12:22:26 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,7 @@ static int	set_prompt(t_mini *mini);
 int	set_minishell(t_mini *mini, char *envp[])
 {
 	ft_bzero(mini, sizeof(t_mini));
-	store_status(0, mini);
-	mini->mini_pwd = mini_getcwd();
+	store_status(SUCCESS, mini);
 	if (set_envp(mini, envp))
 		return (ERR);
 	if (set_prompt(mini))

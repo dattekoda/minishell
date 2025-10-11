@@ -1,34 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_pwd.c                                      :+:      :+:    :+:   */
+/*   builtin_cd_utils.h                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/05 23:35:22 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/11 10:58:09 by khanadat         ###   ########.fr       */
+/*   Created: 2025/10/11 12:08:17 by khanadat          #+#    #+#             */
+/*   Updated: 2025/10/11 12:41:36 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-#include <unistd.h>
-#include "minishell_define.h"
-#include "minishell_lib.h"
-#include "minishell_err.h"
-#include "libft.h"
+#ifndef BUILTIN_CD_UTILS_H
+# define BUILTIN_CD_UTILS_H
 
-void	exec_pwd(t_mini *mini)
-{
-	char	*cwd;
+# include "minishell_define.h"
 
-	cwd = mini_getcwd();
-	if (!cwd)
-	{
-		err_pwd();
-		store_status(FAILURE, mini);
-		return ;
-	}
-	ft_putendl_fd(cwd, STDOUT_FILENO);
-	free(cwd);
-	store_status(SUCCESS, mini);
-}
+int	chdir_parent(t_mini *mini);
+
+#endif
