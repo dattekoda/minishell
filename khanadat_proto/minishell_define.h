@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 12:45:58 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/12 13:42:14 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/12 21:43:00 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ typedef struct s_mini
 {
 	bool	is_sys_err;
 	bool	is_pipe;
+	bool	is_inside;
 	bool	signaled;
 	char	**envp;
 	size_t	envp_size;

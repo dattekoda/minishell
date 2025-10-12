@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 17:51:14 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/11 18:42:05 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/12 21:41:16 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,10 +53,10 @@ void	t_mini_free(t_mini *mini)
 		i++;
 	}
 	free(mini->envp);
-	mini_safe_free((void **)&mini->line);
 	if (mini->is_sys_err)
 		kill_all(mini->node);
 	free_node(&mini->node);
+	mini_safe_free((void **)&mini->line);
 	rl_clear_history();
 }
 

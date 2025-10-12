@@ -6,9 +6,13 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/05 23:46:11 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/09 15:16:29 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/12 21:43:16 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include <stdio.h>
+
+
 
 #include <stdbool.h>
 #include <stdlib.h>
@@ -24,24 +28,24 @@ void	exec_exit(t_mini *mini, char **argv)
 {
 	int64_t	status;
 
-	if (!mini->is_pipe)
+	status = SUCCESS;
+	if (!mini->is_pipe && !mini->is_inside)
 		ft_putendl_fd("exit", STDERR_FILENO);
-	if (!argv[1])
-		status = SUCCESS;
-	else if (!is_valid_exit_arg(argv[1], &status))
-	{
-		err_exit_numeric(argv[1]);
-		store_status(SYNTAX_ERR, mini);
-		return ;
-	}
-	store_status((int)status, mini);
 	if (argv[1] && argv[2])
 	{
 		err_too_many("exit");
 		store_status(SYNTAX_ERR, mini);
 		return ;
 	}
-	normal_minishell_exit(mini, NULL, NULL, (int)ft_atoi(mini->status));
+	if (argv[1] && !is_valid_exit_arg(argv[1], &status))
+	{
+		err_exit_numeric(argv[1]);
+		store_status(SYNTAX_ERR, mini);
+		return ;
+	}
+	if (!status)
+		status = (int64_t)ft_atoi(mini->status);
+	normal_minishell_exit(mini, NULL, NULL, (int)status);
 }
 
 static bool	is_valid_exit_arg(char *str, int64_t *num)

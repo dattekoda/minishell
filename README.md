@@ -139,3 +139,6 @@ astに`()`のvalidateを追加。それに伴い`ast_utils_validate.c`ファイ�
 それぞれのstrings終わりのlineへ`\0`を挿入。   
 priorityを調節できる`()`を追加。   
 `()`内で実行されたコマンドは親プロセスに影響を及ぼすことがない。   
+exitで最後のコマンドの終了ステータスで終了するように修正。   
+exit: refactoring   
+()内で行われるexitの際にexitと標準エラー出力されないように修正。

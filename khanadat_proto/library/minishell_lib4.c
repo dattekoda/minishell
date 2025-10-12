@@ -6,9 +6,12 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/04 00:40:21 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/11 19:19:42 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/12 21:38:02 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include <stdio.h>
+
 
 #include <stdlib.h>
 #include "minishell_define.h"

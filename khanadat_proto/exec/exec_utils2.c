@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/12 19:01:50 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/12 19:14:50 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/12 21:43:32 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ void	exec_inside(t_mini *mini, t_node *node)
 		systemcall_minishell_exit(mini, "fork");
 	else if (inside_pid == 0)
 	{
+		mini->is_inside = true;
 		set_handler(SIGINT, SIG_DFL);
 		exec_prompt(mini, node);
 		normal_minishell_exit(mini, NULL, NULL, \
