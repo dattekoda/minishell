@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/04 00:40:21 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/10 08:00:05 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/11 19:19:42 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,11 +78,11 @@ int	add_mini_len(t_mini *mini)
 	return (SUCCESS);
 }
 
-void	safe_delete_heredoc_file(t_cmd *cmd)
+void	safe_delete_heredoc_file(char **hd_name)
 {
-	if (!cmd->heredoc_name)
+	if (!*hd_name)
 		return ;
-	unlink(cmd->heredoc_name);
-	free(cmd->heredoc_name);
-	cmd->heredoc_name = NULL;
+	unlink(*hd_name);
+	free(*hd_name);
+	*hd_name = NULL;
 }

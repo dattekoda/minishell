@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 12:45:58 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/10 08:58:29 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/12 13:42:14 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ typedef struct s_mini
 	size_t	envp_len;
 	char	*prompt;
 	char	*line;
-	char	*mini_pwd;
 	t_node	*node;
 	char	status[STATUS_SIZE];
 }	t_mini;

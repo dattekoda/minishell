@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/21 09:58:44 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/10 08:58:43 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/12 17:49:11 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,9 @@ typedef enum s_NodeKind
 	ND_AND,
 	ND_OR,
 	ND_PIPE,
+	ND_PAR_FIRST,
+	ND_PAR_SEC,
+	ND_INSIDE,
 	ND_NOT
 }	t_NodeKind;
 
@@ -40,6 +43,7 @@ typedef enum s_RedKind
 typedef struct s_red
 {
 	char			*file;
+	size_t			file_len;
 	t_RedKind		kind;
 	struct s_red	*next;
 }	t_red;

@@ -6,13 +6,11 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/21 09:58:37 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/10 08:01:00 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/12 18:16:34 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
-#include <readline/readline.h>
-#include <readline/history.h>
 #include <stdbool.h>
 #include <unistd.h>
 #include <signal.h>
@@ -26,6 +24,7 @@
 #include "ast.h"
 
 static void	free_cmd(t_cmd *cmd);
+void		put_eof_cmd_node(t_node *node);
 
 void	free_node(t_node **node)
 {
@@ -49,40 +48,16 @@ void	free_node(t_node **node)
 static void	free_cmd(t_cmd *cmd)
 {
 	free(cmd->argv);
-	if (cmd->cfd[0] != STDIN_FILENO)
+	if (cmd->cfd[0] != FD_DFL)
 		close(cmd->cfd[0]);
-	if (cmd->cfd[1] != STDOUT_FILENO)
+	if (cmd->cfd[1] != FD_DFL)
 		close(cmd->cfd[1]);
-	if (cmd->rfd[0] != STDIN_FILENO)
+	if (cmd->rfd[0] != FD_DFL)
 		close(cmd->rfd[0]);
-	if (cmd->rfd[1] != STDOUT_FILENO)
+	if (cmd->rfd[1] != FD_DFL)
 		close(cmd->rfd[1]);
-	safe_delete_heredoc_file(cmd);
+	safe_delete_heredoc_file(&cmd->heredoc_name);
 	free(cmd);
-}
-
-int	validate_token(t_token *token)
-{
-	if (is_pipe_or_and(token))
-		return (err_tokenizer(token), SYNTAX_ERR);
-	while (token->kind != TK_EOF)
-	{
-		if (is_redirect(token))
-		{
-			if ((token->next)->kind != TK_WORD)
-				return (err_tokenizer(token->next), SYNTAX_ERR);
-			token = token->next;
-		}
-		else if (is_pipe_or_and(token))
-		{
-			if ((token->next)->kind == TK_EOF \
-			|| is_pipe_or_and(token->next))
-				return (err_tokenizer(token->next), SYNTAX_ERR);
-			token = token->next;
-		}
-		token = token->next;
-	}
-	return (SUCCESS);
 }
 
 // syntax err return 2
@@ -90,23 +65,41 @@ int	validate_token(t_token *token)
 int	get_node(t_node **node, t_token *token)
 {
 	t_node	*cur;
-	t_node	*before;
 
-	if (token->kind == TK_EOF || validate_token(token))
+	if (token->kind == TK_EOF)
+		return (PROMPT_CONTINUE);
+	if (validate_token(token))
 		return (SYNTAX_ERR);
-	cur = new_pipe_node(&token);
-	while (cur)
-	{
-		before = cur;
-		if (consume_node(&token, TK_OPERATOR, ND_OR))
-			cur = new_node(ND_OR, cur, new_pipe_node(&token));
-		else if (consume_node(&token, TK_OPERATOR, ND_AND))
-			cur = new_node(ND_AND, cur, new_pipe_node(&token));
-		else
-			break ;
-	}
+	cur = new_and_or_node(&token);
 	if (!cur)
-		return (free_node(&before), ERR);
+		return (ERR);
+	put_eof_cmd_node(cur);
 	*node = cur;
 	return (SUCCESS);
+}
+
+void	put_eof_cmd_node(t_node *node)
+{
+	t_word	*tmp_word;
+	t_red	*tmp_red;
+
+	if (!node)
+		return ;
+	put_eof_cmd_node(node->lhs);
+	if (node->kind == ND_CMD)
+	{
+		tmp_word = node->word;
+		while (tmp_word)
+		{
+			tmp_word->word[tmp_word->word_len] = '\0';
+			tmp_word = tmp_word->next;
+		}
+		tmp_red = node->red;
+		while (tmp_red)
+		{
+			tmp_red->file[tmp_red->file_len] = '\0';
+			tmp_red = tmp_red->next;
+		}
+	}
+	put_eof_cmd_node(node->rhs);
 }

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   prompt_set.c                                       :+:      :+:    :+:   */
+/*   minishell_set.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/28 13:38:47 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/09 15:21:22 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/12 15:18:06 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,7 @@ static int	set_prompt(t_mini *mini);
 int	set_minishell(t_mini *mini, char *envp[])
 {
 	ft_bzero(mini, sizeof(t_mini));
-	store_status(0, mini);
-	mini->mini_pwd = mini_getcwd();
+	store_status(SUCCESS, mini);
 	if (set_envp(mini, envp))
 		return (ERR);
 	if (set_prompt(mini))
@@ -44,16 +43,19 @@ int	set_node(t_mini *mini)
 	if (status < 0)
 		systemcall_minishell_exit(mini, NULL);
 	if (status == SYNTAX_ERR)
-		return (PROMPT_CONTINUE);
+		return (store_status(SYNTAX_ERR, mini), \
+				PROMPT_CONTINUE);
 	status = get_node(&(mini->node), token);
 	if (status < 0)
 		systemcall_minishell_exit \
 		((free_token(&token), mini), NULL);
+	if (status == PROMPT_CONTINUE)
+		return (free_token(&token), PROMPT_CONTINUE);
 	if (status == SYNTAX_ERR)
 		return (free_token(&token), \
+			store_status(SYNTAX_ERR, mini), \
 			PROMPT_CONTINUE);
 	return (free_token(&token), \
-		mini_safe_free((void **)&(mini->line)), \
 		SUCCESS);
 }
 
@@ -63,7 +65,6 @@ static void	update_shlvl(t_mini *mini)
 	int		num;
 	char	*shlvl_val;
 
-	i = 0;
 	normal_getenv("SHLVL", mini);
 	i = search_envp_i(mini, "SHLVL", SHLVL_LEN);
 	if (!mini->envp[i])

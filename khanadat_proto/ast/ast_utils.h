@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/21 09:58:39 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/07 21:59:28 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/12 18:08:57 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ bool		consume_redirect(t_token **token, \
 bool		consume_node(t_token **token, t_TokenKind tkind, t_NodeKind nkind);
 t_node		*new_pipe_node(t_token **token);
 
-// ast_utils_node.c
+// ast_utils_cmd.c
 t_node		*new_cmd_node(t_token **token);
 
 // ast_utils_red.c
@@ -33,6 +33,24 @@ t_RedKind	check_redkind(t_token *token);
 
 // ast_is.c
 bool		is_pipe_or_and(t_token *token);
+bool		is_pipe(t_token *token);
+bool		is_and(t_token *token);
+bool		is_or(t_token *token);
+
 bool		is_redirect(t_token *token);
+bool		is_red_in(t_token *token);
+bool		is_red_out(t_token *token);
+bool		is_red_append(t_token *token);
+bool		is_red_heredoc(t_token *token);
+
+bool		is_par_first(t_token *token);
+bool		is_par_sec(t_token *token);
+
+// ast_utils_new_node.c
+t_node		*new_and_or_node(t_token **token);
+t_node		*new_inside_node(t_token **token);
+
+// ast_utils_valid.c
+int			validate_token(t_token *token);
 
 #endif

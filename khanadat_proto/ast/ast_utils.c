@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/21 09:58:42 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/09 15:16:50 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/12 18:07:03 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,23 +67,11 @@ bool	consume_node(t_token **token, t_TokenKind tkind, t_NodeKind nkind)
 		if (nkind == ND_PIPE \
 			&& !(*((*token)->str) == '|' && *((*token)->str + 1) != '|'))
 			return (false);
+		if (nkind == ND_PAR_FIRST && !(*((*token)->str) == '('))
+			return (false);
+		if (nkind == ND_PAR_SEC && !(*((*token)->str) == ')'))
+			return (false);
 	}
 	(*token) = (*token)->next;
 	return (true);
-}
-
-t_node	*new_pipe_node(t_token **token)
-{
-	t_node	*node;
-	t_node	*before;
-
-	node = new_cmd_node(token);
-	while (consume_node(token, TK_OPERATOR, ND_PIPE) && node)
-	{
-		before = node;
-		node = new_node(ND_PIPE, node, new_cmd_node(token));
-	}
-	if (!node)
-		return (free_node(&before), NULL);
-	return (node);
 }

@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 16:18:41 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/10 08:55:56 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/11 19:28:10 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,63 +23,10 @@
 #include "libft.h"
 #include "set_redirect_utils.h"
 
-void	start_heredoc(t_mini *mini, t_red *red, int fd)
-{
-	char	*line;
-	int		status;
-	size_t	len;
+static void	start_heredoc(t_mini *mini, t_red *red, int fd);
+static void	mini_heredoc(t_mini *mini, t_red *red, t_cmd *cmd, int *status);
 
-	set_handler(SIGINT, SIG_DFL);
-	len = ft_strlen(red->file);
-	while (1)
-	{
-		ft_putstr_fd("> ", STDOUT_FILENO);
-		status = ft_get_next_line(STDIN_FILENO, &line);
-		if (status == -1)
-			exit((err_system_call("read"), SYSTEMCALL_EXITSTATUS));
-		else if (status == -2)
-			exit((err_system_call("malloc"), SYSTEMCALL_EXITSTATUS));
-		if (!line)
-			exit((err_heredoc(red->file), NO_ERR));
-		if (expand_dollar(mini, &line))
-			exit((free(line), SYSTEMCALL_EXITSTATUS));
-		if (!ft_strncmp(line, red->file, len) && line[len] == '\n')
-			exit((free(line), SUCCESS));
-		ft_putstr_fd(line, fd);
-		free(line);
-	}
-}
-
-int	mini_heredoc(t_mini *mini, t_red *red, t_cmd *cmd)
-{
-	int		status;
-	pid_t	heredoc_id;
-	int		fd;
-	char	*hd_name;
-
-	safe_delete_heredoc_file(cmd);
-	hd_name = set_heredoc_name(0);
-	if (!hd_name)
-		systemcall_minishell_exit(mini, "malloc");
-	fd = open(hd_name, O_CREAT | O_RDWR | O_TRUNC, 0600);
-	if (fd < 0)
-		systemcall_minishell_exit((free(hd_name), mini), hd_name);
-	heredoc_id = fork();
-	if (heredoc_id < 0)
-		systemcall_minishell_exit((close(fd), free(hd_name), mini), "fork");
-	if (heredoc_id == 0)
-		start_heredoc(mini, red, fd);
-	if (waitpid(heredoc_id, &status, 0) < 0)
-		systemcall_minishell_exit(mini, "waitpid");
-	catch_signal(status, mini);
-	close(fd);
-	cmd->heredoc_name = hd_name;
-	if (WIFSIGNALED(status))
-		return (safe_delete_heredoc_file(cmd), FAILURE);
-	return (SUCCESS);
-}
-
-int	set_redirect_in(t_mini *mini, t_red *red, t_cmd *cmd)
+static int	set_redirect_in(t_mini *mini, t_red *red, t_cmd *cmd)
 {
 	char	*file_name;
 
@@ -124,12 +71,74 @@ int	set_redirect(t_mini *mini, t_red *red, t_cmd *cmd)
 
 int	write_heredoc(t_mini *mini, t_red *red, t_cmd *cmd)
 {
+	int	status;
+
+	status = SUCCESS;
 	while (red)
 	{
 		if (red->kind == RD_HEREDOC)
-			if (mini_heredoc(mini, red, cmd))
+		{
+			mini_heredoc(mini, red, cmd, &status);
+			if (WIFSIGNALED(status))
 				return (FAILURE);
+		}
 		red = red->next;
 	}
 	return (SUCCESS);
+}
+
+static void	start_heredoc(t_mini *mini, t_red *red, int fd)
+{
+	char	*line;
+	int		status;
+	size_t	len;
+
+	set_handler(SIGINT, SIG_DFL);
+	len = ft_strlen(red->file);
+	while (1)
+	{
+		ft_putstr_fd("> ", STDOUT_FILENO);
+		status = ft_get_next_line(STDIN_FILENO, &line);
+		if (status == -1)
+			exit((err_system_call("read"), SYSTEMCALL_EXITSTATUS));
+		else if (status == -2)
+			exit((err_system_call("malloc"), SYSTEMCALL_EXITSTATUS));
+		if (!line)
+			exit((err_heredoc(red->file), NO_ERR));
+		if (expand_dollar(mini, &line))
+			exit((free(line), SYSTEMCALL_EXITSTATUS));
+		if (!ft_strncmp(line, red->file, len) && line[len] == '\n')
+			exit((free(line), SUCCESS));
+		ft_putstr_fd(line, fd);
+		free(line);
+	}
+}
+
+static void	mini_heredoc(t_mini *mini, t_red *red, t_cmd *cmd, int *status)
+{
+	pid_t	heredoc_id;
+	int		fd;
+	char	*hd_name;
+
+	hd_name = NULL;
+	safe_delete_heredoc_file(&cmd->heredoc_name);
+	hd_name = set_heredoc_name(0);
+	if (!hd_name)
+	{
+		systemcall_minishell_exit(mini, "malloc");
+		return ;
+	}
+	fd = open(hd_name, O_CREAT | O_RDWR | O_TRUNC, 0600);
+	if (fd < 0)
+		sys_hd_exit(mini, hd_name, fd, "open");
+	heredoc_id = fork();
+	if (heredoc_id < 0)
+		sys_hd_exit(mini, hd_name, fd, "fork");
+	if (heredoc_id == 0)
+		start_heredoc(mini, red, fd);
+	if (waitpid(heredoc_id, status, 0) < 0)
+		sys_hd_exit(mini, hd_name, fd, "waitpid");
+	close(fd);
+	cmd->heredoc_name = hd_name;
+	catch_signal(*status, mini);
 }

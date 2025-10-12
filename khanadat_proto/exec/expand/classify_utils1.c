@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 01:26:08 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/03 23:50:54 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/11 00:05:44 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,17 +23,16 @@ static t_dollar	*add_double(t_dollar *cur, char **word);
 t_dollar	*classify_double(t_dollar **cur, t_mini *mini, char **tmp)
 {
 	(*tmp)++;
-	while (**tmp && **tmp != '\"' && *cur)
+	while (**tmp && *cur)
 	{
 		if (**tmp == '$')
-		{
 			*cur = add_d_dollar(*cur, mini, tmp);
-			continue ;
-		}
-		*cur = add_double(*cur, tmp);
+		else
+			*cur = add_double(*cur, tmp);
+		if (**tmp == '\"')
+			break ;
 	}
-	if (**tmp == '\"')
-		(*tmp)++;
+	(*tmp)++;
 	return (*cur);
 }
 
@@ -63,7 +62,7 @@ static t_dollar	*add_double(t_dollar *cur, char **word)
 		return (NULL);
 	cur->next = new;
 	new->dkind = WD_WORD;
-	new->value = *word + (**word == '\"');
+	new->value = *word;
 	while (**word && **word != '\"' \
 	&& **word != '$')
 	{

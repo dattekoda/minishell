@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 15:45:46 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/09 15:18:58 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/12 18:46:20 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ void	free_word(t_word *head)
 	while (head)
 	{
 		tmp = head->next;
-		free(head->word);
 		free(head);
 		head = tmp;
 	}
@@ -42,6 +41,8 @@ t_node	*new_cmd_node(t_token **token)
 {
 	t_node	*new;
 
+	if (is_par_first(*token))
+		return (new_inside_node(token));
 	new = ft_calloc(1, sizeof(t_node));
 	if (!new)
 		return (NULL);
@@ -89,9 +90,7 @@ static t_word	*add_new_word(t_word *cur, t_token *token)
 	new = ft_calloc(1, sizeof(t_word));
 	if (!new)
 		return (free(new), NULL);
-	new->word = ft_strndup(token->str, token->str_len);
-	if (!new->word)
-		return (free(new), NULL);
+	new->word = token->str;
 	new->word_len = token->str_len;
 	cur->next = new;
 	return (new);

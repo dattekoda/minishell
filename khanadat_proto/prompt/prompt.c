@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 18:16:59 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/10 07:45:52 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/12 15:17:54 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ void	minishell(t_mini *mini)
 
 	while (1)
 	{
+		mini_safe_free((void **)&(mini->line));
 		set_handler(SIGINT, SIG_IGN);
 		set_handler(SIGQUIT, SIG_IGN);
 		if (pipe(pfd))
@@ -90,11 +91,7 @@ void	minishell(t_mini *mini)
 		if (receive_prompt(mini, pfd, prompt_id) == PROMPT_CONTINUE)
 			continue ;
 		if (set_node(mini) == PROMPT_CONTINUE)
-		{
-			mini_safe_free((void **)&(mini->line));
-			store_status(SYNTAX_ERR, mini);
 			continue ;
-		}
 		exec_prompt(mini, mini->node);
 		free_node(&mini->node);
 	}

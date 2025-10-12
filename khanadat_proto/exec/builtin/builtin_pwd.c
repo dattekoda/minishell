@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/05 23:35:22 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/10 08:55:40 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/11 13:06:13 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,10 @@ void	exec_pwd(t_mini *mini)
 	{
 		ft_putendl_fd(cwd, STDOUT_FILENO);
 		free(cwd);
-		store_status(0, mini);
+		store_status(SUCCESS, mini);
 		return ;
 	}
-	if (!cwd)
-		cwd = normal_getenv("PWD", mini);
-	if (!cwd)
-		cwd = mini->mini_pwd;
+	cwd = normal_getenv(ENV_PWD, mini);
 	if (!cwd)
 	{
 		err_pwd();

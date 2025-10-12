@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/21 09:58:59 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/09 15:16:29 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/11 23:07:35 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 #include "minishell_err.h"
 
-t_token	*new_reserved_token(t_token *cur, char **str)
+t_token	*new_op_token(t_token *cur, char **str)
 {
 	t_token	*new;
 
@@ -28,7 +28,8 @@ t_token	*new_reserved_token(t_token *cur, char **str)
 	if (!ft_strncmp(*str, "||", 2) || !ft_strncmp(*str, "&&", 2) \
 		|| !ft_strncmp(*str, "<<", 2) || !ft_strncmp(*str, ">>", 2))
 		(*str) += 2;
-	else if (**str == '|' || **str == '>' || **str == '<')
+	else if (**str == '|' || **str == '>' || **str == '<' \
+		|| **str == '(' || **str == ')')
 		(*str)++;
 	new->str_len = (size_t)((*str) - new->str);
 	return (new);

@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/21 09:59:02 by khanadat          #+#    #+#             */
-/*   Updated: 2025/09/21 09:59:03 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/11 23:10:34 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include <stddef.h>
 
-# define SPECIAL_CHAR "&|<>"
+# define SPECIAL_CHAR "&|<>()"
 
 typedef enum s_TokenKind
 {

@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 12:45:32 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/09 12:45:43 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/11 19:19:50 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,6 @@ void	normal_minishell_exit(t_mini *mini, void (*func)(void *), \
 size_t	search_envp_i(t_mini *mini, char *arg, size_t var_len);
 char	*mini_getcwd(void);
 int		add_mini_len(t_mini *mini);
-void	safe_delete_heredoc_file(t_cmd *cmd);
+void	safe_delete_heredoc_file(char **hd_name);
 
 #endif

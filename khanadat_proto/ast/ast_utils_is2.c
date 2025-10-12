@@ -1,22 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   set_redirect_utils.h                               :+:      :+:    :+:   */
+/*   ast_utils_is2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/09 12:05:35 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/11 19:15:07 by khanadat         ###   ########.fr       */
+/*   Created: 2025/10/12 12:02:55 by khanadat          #+#    #+#             */
+/*   Updated: 2025/10/12 12:04:20 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SET_REDIRECT_UTILS_H
-# define SET_REDIRECT_UTILS_H
+#include <stdbool.h>
+#include "tokenizer_define.h"
+#include "ast_utils.h"
 
-# include "minishell_define.h"
+bool	is_par_first(t_token *token)
+{
+	if (token->kind != TK_OPERATOR)
+		return (false);
+	return (*(token->str) == '(');
+}
 
-char	*set_heredoc_name(int num);
-int		expand_dollar(t_mini *mini, char **line);
-void	sys_hd_exit(t_mini *mini, char *hd_name, int fd, char *func);
-
-#endif
+bool	is_par_sec(t_token *token)
+{
+	if (token->kind != TK_OPERATOR)
+		return (false);
+	return (*(token->str) == ')');
+}

@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 09:45:18 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/09 11:49:01 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/12 19:12:56 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,5 +26,8 @@ void	wait_pipe(t_mini *mini, t_node *node);
 
 // exec_utils1.c
 void	exec_node(t_mini *mini, t_node *node);
+
+// exec_utils2.c
+void	exec_inside(t_mini *mini, t_node *node);
 
 #endif

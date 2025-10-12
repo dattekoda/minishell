@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 03:11:06 by khanadat          #+#    #+#             */
-/*   Updated: 2025/06/23 20:32:56 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/11 18:26:06 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	size_t	s_len;
 	char	*sub;
 
-	copy_len = 0;
 	if (!s)
 		return (NULL);
 	s_len = ft_strlen(s);

@@ -119,3 +119,23 @@ Makefileの追加。
 ## 10/9
 heredocの子プロセス上で他のheredocファイルを削除しないように変更。   
 main.cファイルの分離でファイルの整理。   
+Linux環境でコンパイルできるように諸々調整。   
+`echo a "" a`に対応。   
+
+## 10/10
+構造体`t_mini`から`mini_pwd`を削除。   
+ビルトインコマンド`cd`で親ディレクトリに移動するときの挙動を調整。   
+`$OLDPWD`が`getcwd()`で得た情報をもとに更新するように変更。   
+`getcwd()`エラーが発生した時、`pwd`コマンドで環境変数から出力するように変更。   
+scan-build fix: `scan-build: No bugs found.`   
+`tokenizer_validate.c`: ()のvalidate_parenthesisの追加。   
+
+## 10/11
+astディレクトリでのisシリーズを追加。   
+プロンプトにis_spaceだけ入力されたときに$?=2となるバグを修正。   
+tokenizerのvalidateで()が正しく閉じていないと`syntax error`となる`validate_parenthesis()`を追加。   
+astに`()`のvalidateを追加。それに伴い`ast_utils_validate.c`ファイルを追加。   
+構造体`t_word, t_red`内stringsの領域を動的確保せずに、mini->lineのポインタを持つように変更。   
+それぞれのstrings終わりのlineへ`\0`を挿入。   
+priorityを調節できる`()`を追加。   
+`()`内で実行されたコマンドは親プロセスに影響を及ぼすことがない。   

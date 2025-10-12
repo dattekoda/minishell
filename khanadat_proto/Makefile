@@ -6,7 +6,7 @@
 #    By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/09 14:24:07 by khanadat          #+#    #+#              #
-#    Updated: 2025/10/10 09:00:36 by khanadat         ###   ########.fr        #
+#    Updated: 2025/10/12 19:19:02 by khanadat         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,8 +32,12 @@ INCS_FLAGS	:=	-I . \
 
 SRCS		=	main.c \
 				ast/ast_utils_cmd.c \
-				ast/ast_utils_is.c \
+				ast/ast_utils_is0.c \
+				ast/ast_utils_is1.c \
+				ast/ast_utils_is2.c \
+				ast/ast_utils_new_node.c \
 				ast/ast_utils_red.c \
+				ast/ast_utils_valid.c \
 				ast/ast_utils.c \
 				ast/ast.c \
 				err/minishell_err0.c \
@@ -43,6 +47,7 @@ SRCS		=	main.c \
 				exec/exec.c \
 				exec/exec_utils0.c \
 				exec/exec_utils1.c \
+				exec/exec_utils2.c \
 				exec/get_path.c \
 				exec/set_redirect.c \
 				exec/set_redirect_utils.c \
@@ -57,7 +62,8 @@ SRCS		=	main.c \
 				ast/tokenizer/tokenizer_utils.c \
 				ast/tokenizer/tokenizer_validate.c \
 				exec/builtin/builtin.c \
-				exec/builtin/builtin_cd.c \
+				exec/builtin/builtin_cd0.c \
+				exec/builtin/builtin_cd1.c \
 				exec/builtin/builtin_echo.c \
 				exec/builtin/builtin_env.c \
 				exec/builtin/builtin_exit.c \

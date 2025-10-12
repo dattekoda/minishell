@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 09:45:04 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/09 15:17:14 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/12 19:10:53 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,6 @@ void	wait_pipe(t_mini *mini, t_node *node)
 	{
 		if (waitpid(node->cmd->pid, &status, 0) < 0)
 			systemcall_minishell_exit(mini, "waitpid");
-		store_status(status, mini);
 		catch_signal(status, mini);
 	}
 	if (node->cmd->rfd[0] != FD_DFL)

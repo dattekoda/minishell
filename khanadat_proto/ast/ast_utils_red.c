@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 21:58:54 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/09 15:18:38 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/12 19:18:35 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ void	free_red(t_red *head)
 	while (head)
 	{
 		tmp = head->next;
-		free(head->file);
 		free(head);
 		head = tmp;
 	}
@@ -66,9 +65,8 @@ static t_red	*add_new_red(t_red *cur, t_token *token, t_RedKind rkind)
 	if (!new)
 		return (NULL);
 	new->kind = rkind;
-	new->file = ft_strndup(token->next->str, token->next->str_len);
-	if (!new->file)
-		return (free(new), NULL);
+	new->file = token->next->str;
+	new->file_len = token->next->str_len;
 	cur->next = new;
 	return (new);
 }

@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 11:08:59 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/10 08:42:54 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/12 19:02:08 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,11 @@ static void	exec_nd_cmd(t_mini *mini, t_node *node);
 
 void	exec_node(t_mini *mini, t_node *node)
 {
+	if (node->kind == ND_INSIDE)
+	{
+		exec_inside(mini, node->lhs);
+		return ;
+	}
 	expand_pipe_group(mini, node);
 	if (node->kind == ND_PIPE)
 	{

@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 17:51:14 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/09 15:17:40 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/11 18:42:05 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ void	t_mini_free(t_mini *mini)
 			free(mini->envp[i]);
 		i++;
 	}
-	free(mini->mini_pwd);
 	free(mini->envp);
 	mini_safe_free((void **)&mini->line);
 	if (mini->is_sys_err)
@@ -63,27 +62,22 @@ void	t_mini_free(t_mini *mini)
 
 void	update_pwd(t_mini *mini)
 {
-	size_t	i;
+	size_t	pwd_i;
+	char	*cwd_path;
 
-	i = search_envp_i(mini, ENV_OLDPWD, ENV_OLDPWD_LEN);
-	if (mini->envp[i] && mini->mini_pwd)
-	{
-		if (set_mini_envp(ENV_OLDPWD, mini->mini_pwd, \
-			&mini->envp[i]))
-			systemcall_minishell_exit(mini, "malloc");
-	}
-	free(mini->mini_pwd);
-	mini->mini_pwd = mini_getcwd();
-	if (!mini->mini_pwd)
-	{
-		err_cd_getcwd();
+	pwd_i = search_envp_i(mini, ENV_PWD, ENV_PWD_LEN);
+	if (!mini->envp[pwd_i])
 		return ;
-	}
-	i = search_envp_i(mini, ENV_PWD, ENV_PWD_LEN);
-	if (!mini->envp[i])
+	cwd_path = mini_getcwd();
+	if (!cwd_path)
 		return ;
-	if (set_mini_envp(ENV_PWD, mini->mini_pwd, &mini->envp[i]))
+	if (set_mini_envp(ENV_PWD, cwd_path, &mini->envp[pwd_i]))
+	{
+		free(cwd_path);
 		systemcall_minishell_exit(mini, "malloc");
+		return ;
+	}
+	free(cwd_path);
 	return ;
 }
 

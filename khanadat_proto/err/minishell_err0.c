@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/28 16:14:49 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/09 15:17:02 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/12 14:31:26 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,11 @@ void	err_cmd_not_found(char *file)
 void	err_tokenizer(t_token *token)
 {
 	ft_putstr_fd(MINISHELL_STR, STDERR_FILENO);
-	ft_putstr_fd(": Error: syntax error" \
+	ft_putstr_fd(": syntax error" \
 		" near unexpected token `", STDERR_FILENO);
 	if (token->kind == TK_EOF)
 		ft_putstr_fd("new_line", STDERR_FILENO);
-	else if (token->kind == TK_OPERATOR)
+	else
 		write(STDERR_FILENO, token->str, token->str_len);
 	ft_putendl_fd("\'", STDERR_FILENO);
 }
@@ -67,4 +67,10 @@ void	put_syntax_err(char type)
 		ft_putendl_fd("you need enclose with \'", STDERR_FILENO);
 	else if (type == '\"')
 		ft_putendl_fd("you need enclose with \"", STDERR_FILENO);
+	else if (type == '(' || type == ')')
+	{
+		ft_putstr_fd("near unexpected token `", STDERR_FILENO);
+		ft_putchar_fd(type, STDERR_FILENO);
+		ft_putendl_fd("'", STDERR_FILENO);
+	}
 }
