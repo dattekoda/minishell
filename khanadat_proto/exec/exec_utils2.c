@@ -6,12 +6,13 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/12 19:01:50 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/13 18:00:27 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/13 21:13:55 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include <sys/wait.h>
+#include <signal.h>
 #include "minishell_define.h"
 #include "minishell_utils.h"
 #include "minishell_err.h"

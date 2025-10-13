@@ -147,3 +147,10 @@ exit: refactoring
 `expand_utils_add.c`内の`add_new_red()`関数内で`ft_calloc()`する際のsizeofを`t_word`から`t_red`に修正。   
 libraryをutilsにリネーム。   
 使われていないファイルを削除。   
+バグ発見:ダブルクオーテーション連続で出現したときセグフォ。   
+```
+$ echo "this""is"
+Segmentation fault         (core dumped) ./minishell
+```
+→修正済み。   
+原因は、`validate_b4_tokenize()`の`validate_and()`関数の結果に直接`+1`していたこと。   

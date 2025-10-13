@@ -15,6 +15,11 @@ void	print_node(t_node *node)
 	t_red	*r;
 	t_word	*w;
 
+	if (node->lhs)
+	{
+		// ft_putstr_fd("left\n", 1);
+		print_node(node->lhs);
+	}
 	if (!node)
 		return ;
 	if (node->kind == ND_AND)
@@ -29,32 +34,36 @@ void	print_node(t_node *node)
 	{
 		ft_putstr_fd("cmd: ", 1);
 		w = node->word;
-		while (w)
+		if (w)
 		{
-			ft_putstr_fd(w->word, 1);
-			ft_putchar_fd(' ', 1);
-			w = w->next;
+			while (w)
+			{
+				ft_putstr_fd(w->word, 1);
+				ft_putchar_fd(' ', 1);
+				w = w->next;
+			}
+			ft_putchar_fd('\n', 1);
 		}
-		ft_putchar_fd('\n', 1);
 		r = node->red;
-		while (r)
+		if (r)
 		{
-			if (r->kind == RD_APPEND)
-				ft_putstr_fd("append: ", 1);
-			else if (r->kind == RD_HEREDOC)
-				ft_putstr_fd("heredoc: ", 1);
-			else if (r->kind == RD_IN)
-				ft_putstr_fd("redirect in: ", 1);
-			else if (r->kind == RD_OUT)
-				ft_putstr_fd("redirect_out: ", 1);
-			ft_putendl_fd(r->file, 1);
-			r = r->next;
+			while (r)
+			{
+				if (r->kind == RD_APPEND)
+					ft_putstr_fd("append: ", 1);
+				else if (r->kind == RD_HEREDOC)
+					ft_putstr_fd("heredoc: ", 1);
+				else if (r->kind == RD_IN)
+					ft_putstr_fd("redirect in: ", 1);
+				else if (r->kind == RD_OUT)
+					ft_putstr_fd("redirect_out: ", 1);
+				ft_putstr_fd(r->file, 1);
+				if (r->next)
+					ft_putstr_fd(" -> ", 1);
+				r = r->next;
+			}
+			ft_putchar_fd('\n', 1);
 		}
-	}
-	if (node->lhs)
-	{
-		// ft_putstr_fd("left\n", 1);
-		print_node(node->lhs);
 	}
 	if (node->rhs)
 	{

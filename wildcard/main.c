@@ -22,7 +22,6 @@ bool	is_wildcard(char *arg, char *file)
 				return (true);
 			file++;
 		}
-		return (is_wildcard(arg, file));
 	}
 	if (*file && *arg == *file)
 		return (is_wildcard(arg + 1, file + 1));

@@ -19,6 +19,7 @@
 		"signal.h": "c",
 		"minishell_utils.h": "c",
 		"expand_utils.h": "c",
-		"expand_define.h": "c"
+		"expand_define.h": "c",
+		"tokenizer_utils.h": "c"
 	}
 }
