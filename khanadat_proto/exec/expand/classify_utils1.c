@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 01:26:08 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/13 18:00:27 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/13 20:04:47 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ t_dollar	*classify_double(t_dollar **cur, t_mini *mini, char **tmp)
 	return (*cur);
 }
 
+// dollar expansion inside double quote
 static t_dollar	*add_d_dollar(t_dollar *cur, t_mini *mini, char **word)
 {
 	t_dollar	*new;
@@ -53,6 +54,7 @@ static t_dollar	*add_d_dollar(t_dollar *cur, t_mini *mini, char **word)
 	return (new);
 }
 
+// normally inside double quote
 static t_dollar	*add_double(t_dollar *cur, char **word)
 {
 	t_dollar	*new;

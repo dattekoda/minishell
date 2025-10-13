@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/21 09:58:54 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/11 22:09:32 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/13 21:51:35 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,11 @@ static int	validate_parenthesis(const char *line);
 
 int	validate_b4_tokenize(const char *line)
 {
-	if (validate_quote(line) \
-	|| valitate_and(line) \
-	|| validate_parenthesis(line))
+	if (validate_quote(line))
+		return (SYNTAX_ERR);
+	if (valitate_and(line))
+		return (SYNTAX_ERR);
+	if (validate_parenthesis(line))
 		return (SYNTAX_ERR);
 	return (SUCCESS);
 }
@@ -37,7 +39,7 @@ static int	validate_quote(const char *line)
 		{
 			tmp = ft_strchr(line + 1, *line);
 			if (!tmp)
-				return (put_syntax_err('\''), SYNTAX_ERR);
+				return (put_syntax_err(*line), SYNTAX_ERR);
 			line = tmp + 1;
 			continue ;
 		}
@@ -51,7 +53,7 @@ static int	valitate_and(const char *line)
 	while (*line)
 	{
 		if (*line == '\'' || *line == '\"')
-			line = ft_strchr(line + 1, *line) + 1;
+			line = ft_strchr(line + 1, *line);
 		if (*line == '&')
 		{
 			if (*(line + 1) != '&')
@@ -72,7 +74,7 @@ static int	validate_parenthesis(const char *line)
 	while (*line)
 	{
 		if (*line == '\'' || *line == '\"')
-			line = ft_strchr(line + 1, *line) + 1;
+			line = ft_strchr(line + 1, *line);
 		if (*line == '(')
 			checker++;
 		if (*line == ')')

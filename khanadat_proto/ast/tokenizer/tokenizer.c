@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/21 09:58:51 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/13 19:42:09 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/13 21:45:43 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include "tokenizer_utils.h"
 #include "libft.h"
 
-static int	set_token(t_token **token, char *line, \
+static int	ready_4_get_token(t_token **token, char *line, \
 	t_token *head, t_token **cur);
 
 void	free_token(t_token **token)
@@ -41,7 +41,7 @@ int	get_token(t_token **token, char *line)
 	t_token	head;
 	t_token	*cur;
 
-	if (set_token(token, line, &head, &cur))
+	if (ready_4_get_token(token, line, &head, &cur))
 		return (SYNTAX_ERR);
 	while (*line && cur)
 	{
@@ -63,7 +63,7 @@ int	get_token(t_token **token, char *line)
 	return (SUCCESS);
 }
 
-static int	set_token(t_token **token, char *line, \
+static int	ready_4_get_token(t_token **token, char *line, \
 	t_token *head, t_token **cur)
 {
 	*token = NULL;

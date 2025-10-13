@@ -6,7 +6,7 @@
 #    By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/09 14:24:07 by khanadat          #+#    #+#              #
-#    Updated: 2025/10/13 19:31:52 by khanadat         ###   ########.fr        #
+#    Updated: 2025/10/13 21:54:28 by khanadat         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -110,6 +110,7 @@ debug:	CCFLAGS	+=	-g -O0
 debug:	all
 
 clean:
+		@rm -rf tester
 		@rm -rf $(OBJS_DIR)
 		@$(MAKE) -s fclean -C $(LIBFT_DIR)
 
