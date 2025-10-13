@@ -141,4 +141,9 @@ priorityを調節できる`()`を追加。
 `()`内で実行されたコマンドは親プロセスに影響を及ぼすことがない。   
 exitで最後のコマンドの終了ステータスで終了するように修正。   
 exit: refactoring   
-()内で行われるexitの際にexitと標準エラー出力されないように修正。
+()内で行われるexitの際にexitと標準エラー出力されないように修正。   
+
+## 10/13
+`expand_utils_add.c`内の`add_new_red()`関数内で`ft_calloc()`する際のsizeofを`t_word`から`t_red`に修正。   
+libraryをutilsにリネーム。   
+使われていないファイルを削除。   

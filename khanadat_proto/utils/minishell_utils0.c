@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/21 18:15:10 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/09 15:17:37 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/13 18:00:27 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include <readline/history.h>
 #include "minishell_err.h"
 #include "minishell_define.h"
-#include "minishell_lib.h"
+#include "minishell_utils.h"
 #include "libft.h"
 #include "ast.h"
 

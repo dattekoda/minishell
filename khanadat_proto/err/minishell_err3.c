@@ -6,13 +6,13 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/04 20:59:55 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/09 14:14:43 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/13 18:00:27 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include "minishell_define.h"
-#include "minishell_lib.h"
+#include "minishell_utils.h"
 #include "libft.h"
 
 void	err_msg_env(char *file)

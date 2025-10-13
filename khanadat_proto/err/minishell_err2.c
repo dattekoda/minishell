@@ -6,12 +6,12 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 15:32:17 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/09 09:34:02 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/13 18:00:27 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
-#include "minishell_lib.h"
+#include "minishell_utils.h"
 #include "libft.h"
 
 void	err_cd(char *file)

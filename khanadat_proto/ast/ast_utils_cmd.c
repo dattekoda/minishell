@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 15:45:46 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/12 18:46:20 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/13 17:08:39 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ void	free_word(t_word *head)
 	while (head)
 	{
 		tmp = head->next;
+		free(head->expanded);
 		free(head);
 		head = tmp;
 	}

@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 18:16:59 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/12 15:17:54 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/13 18:24:40 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 #include <signal.h>
 #include "minishell_err.h"
 #include "minishell_define.h"
-#include "minishell_lib.h"
+#include "minishell_utils.h"
 #include "minishell_set.h"
 #include "libft.h"
 #include "ast.h"

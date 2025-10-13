@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 12:00:23 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/11 19:20:19 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/13 19:44:25 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include <fcntl.h>
 #include "minishell_define.h"
 #include "minishell_err.h"
-#include "minishell_lib.h"
+#include "minishell_utils.h"
 #include "libft.h"
 
 #define FILENAME_DAFAULT_LEN 13

@@ -6,18 +6,17 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 15:35:23 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/09 16:23:53 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/13 19:43:45 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
 #include "ast.h"
 #include "expand.h"
 #include "expand_define.h"
 #include "expand_utils.h"
 #include "libft.h"
 #include "minishell_define.h"
-#include "minishell_lib.h"
+#include "minishell_utils.h"
 #include "minishell_err.h"
 
 static void	set_new_word(t_word **new, t_word *before, t_mini *mini);
@@ -47,22 +46,6 @@ int	expand_node(t_node *node, t_mini *mini)
 	node->red = new_red;
 	return (SUCCESS);
 }
-
-// void	dol_checker(t_dollar *dol)
-// {
-// 	while (dol)
-// 	{
-// 		if (dol->dkind == WD_WORD)
-// 		{
-// 			fprintf(stderr, "val:	%s\n", dol->value);
-// 			fprintf(stderr, "len:	%zu\n", dol->value_len);
-// 		}
-// 		else if (dol->dkind == WD_SPACE)
-// 			fprintf(stderr, "space\n");
-// 		fprintf(stderr, "\n");
-// 		dol = dol->next;
-// 	}
-// }
 
 static void	set_new_word(t_word **new, t_word *before, t_mini *mini)
 {
@@ -97,7 +80,7 @@ static int	set_new_red(t_red **new, t_red *before, t_mini *mini)
 	t_dollar	*dol;
 	t_dollar	*dol_head;
 
-	ft_bzero(&head, sizeof(t_word));
+	ft_bzero(&head, sizeof(t_red));
 	cur = &head;
 	while (before && cur)
 	{
@@ -106,9 +89,9 @@ static int	set_new_red(t_red **new, t_red *before, t_mini *mini)
 			mini), "malloc");
 		dol_head = dol;
 		cur = add_new_red(cur, &dol, before->kind);
-		if (dol || !*cur->file)
+		if (dol || !*cur->expanded)
 			return (free_dollar(dol_head), free(head.next), \
-			err_ambiguous(before->file), ERR);
+			err_ambiguous(before->file), FAILURE);
 		before = before->next;
 		free_dollar(dol_head);
 	}

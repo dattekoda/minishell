@@ -6,18 +6,17 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/21 09:58:37 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/12 18:16:34 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/13 18:00:27 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
 #include <stdbool.h>
 #include <unistd.h>
 #include <signal.h>
 #include "libft.h"
 #include "minishell_define.h"
 #include "minishell_err.h"
-#include "minishell_lib.h"
+#include "minishell_utils.h"
 #include "tokenizer.h"
 #include "ast_define.h"
 #include "ast_utils.h"
@@ -85,7 +84,6 @@ void	put_eof_cmd_node(t_node *node)
 
 	if (!node)
 		return ;
-	put_eof_cmd_node(node->lhs);
 	if (node->kind == ND_CMD)
 	{
 		tmp_word = node->word;
@@ -101,5 +99,6 @@ void	put_eof_cmd_node(t_node *node)
 			tmp_red = tmp_red->next;
 		}
 	}
+	put_eof_cmd_node(node->lhs);
 	put_eof_cmd_node(node->rhs);
 }

@@ -6,14 +6,14 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 11:08:59 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/12 19:02:08 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/13 19:48:36 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sys/types.h>
 #include <unistd.h>
 #include "minishell_define.h"
-#include "minishell_lib.h"
+#include "minishell_utils.h"
 #include "exec_utils.h"
 #include "libft.h"
 #include "expand.h"
@@ -105,6 +105,7 @@ static void	expand_pipe_group(t_mini *mini, t_node *node)
 		if (expand_node(node, mini))
 		{
 			node->expand_err = true;
+			store_status(FAILURE, mini);
 			return ;
 		}
 		if (store_argv(node->word, &node->cmd->argv))

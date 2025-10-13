@@ -6,14 +6,14 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/05 23:32:09 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/09 15:16:29 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/13 18:00:27 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include <stddef.h>
 #include "minishell_define.h"
-#include "minishell_lib.h"
+#include "minishell_utils.h"
 
 #include "libft.h"
 

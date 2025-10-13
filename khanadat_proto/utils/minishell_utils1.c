@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 17:51:14 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/12 21:41:16 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/13 18:00:27 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 #include "libft.h"
 #include "minishell_define.h"
 #include "minishell_err.h"
-#include "minishell_lib.h"
+#include "minishell_utils.h"
 #include "ast.h"
 
 // static char	*get_program_name(char *set);
