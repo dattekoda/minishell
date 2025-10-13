@@ -1,6 +1,5 @@
 #include <unistd.h>
 #include <sys/stat.h>
-#include <sys/syslimits.h>
 #include <stdbool.h>
 #include <dirent.h>
 #include <limits.h>
@@ -42,7 +41,10 @@ int	main(int argc, char *argv[])
 		printf("%s\n", argv[1]);
 		return 0;
 	}
-	dir_ptr = opendir(".");
+	if (argv[2])
+		dir_ptr = opendir(argv[2]);
+	else
+		dir_ptr = opendir(".");
 	if (!dir_ptr)
 		perror("opendir");
 	while (1)
@@ -50,7 +52,7 @@ int	main(int argc, char *argv[])
 		dirent_ptr = readdir(dir_ptr);
 		if (!dirent_ptr)
 			break ;
-		if (*argv[1] != '.' && *dirent_ptr->d_name == '.' \
+		if ((*argv[1] != '.' && *dirent_ptr->d_name == '.') \
 			|| !ft_strcmp("..", dirent_ptr->d_name) \
 			|| !ft_strcmp(".", dirent_ptr->d_name))
 			continue ;

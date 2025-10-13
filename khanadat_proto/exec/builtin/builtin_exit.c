@@ -6,19 +6,15 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/05 23:46:11 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/12 21:43:16 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/13 19:43:14 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#include <stdio.h>
-
-
 
 #include <stdbool.h>
 #include <stdlib.h>
 #include "minishell_define.h"
 #include "minishell_err.h"
-#include "minishell_lib.h"
+#include "minishell_utils.h"
 
 #include "libft.h"
 

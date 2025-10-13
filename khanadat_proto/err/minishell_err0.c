@@ -6,12 +6,12 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/28 16:14:49 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/12 14:31:26 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/13 19:42:44 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "tokenizer.h"
-#include "minishell_lib.h"
+#include "minishell_utils.h"
 #include "libft.h"
 #include <unistd.h>
 #include <stdio.h>

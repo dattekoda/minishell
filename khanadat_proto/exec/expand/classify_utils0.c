@@ -12,7 +12,7 @@
 
 #include "expand_utils.h"
 #include "expand_define.h"
-#include "minishell_lib.h"
+#include "minishell_utils.h"
 #include "classify_utils.h"
 #include "libft.h"
 

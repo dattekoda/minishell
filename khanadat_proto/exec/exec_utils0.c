@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 09:45:04 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/12 19:10:53 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/13 18:00:27 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include <sys/wait.h>
 #include "minishell_define.h"
 #include "minishell_err.h"
-#include "minishell_lib.h"
+#include "minishell_utils.h"
 #include "ast_define.h"
 #include "libft.h"
 #include "set_redirect.h"
@@ -37,7 +37,7 @@ int	store_argv(t_word *head, char ***argv)
 	i = 0;
 	while (head)
 	{
-		(*argv)[i++] = head->word;
+		(*argv)[i++] = head->expanded;
 		head = head->next;
 	}
 	return (SUCCESS);

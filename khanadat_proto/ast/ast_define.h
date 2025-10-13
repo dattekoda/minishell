@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/21 09:58:44 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/12 17:49:11 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/13 18:55:24 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ typedef struct s_red
 {
 	char			*file;
 	size_t			file_len;
+	char			*expanded;
+	size_t			exp_len;
 	t_RedKind		kind;
 	struct s_red	*next;
 }	t_red;
@@ -52,6 +54,8 @@ typedef struct s_word
 {
 	char			*word;
 	size_t			word_len;
+	char			*expanded;
+	size_t			exp_len;
 	struct s_word	*next;
 }	t_word;
 
@@ -68,10 +72,10 @@ typedef struct s_cmd
 // abstruct syntax tree
 typedef struct s_node
 {
+	bool			expand_err;
 	t_red			*red;
 	t_word			*word;
 	t_cmd			*cmd;
-	bool			expand_err;
 	struct s_node	*lhs;
 	struct s_node	*rhs;
 	t_NodeKind		kind;

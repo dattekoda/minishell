@@ -6,11 +6,10 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 16:18:41 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/11 19:28:10 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/13 19:43:29 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
 #include <fcntl.h>
 #include <unistd.h>
 #include <sys/types.h>
@@ -18,7 +17,7 @@
 #include <signal.h>
 #include <stdbool.h>
 #include "minishell_define.h"
-#include "minishell_lib.h"
+#include "minishell_utils.h"
 #include "minishell_err.h"
 #include "libft.h"
 #include "set_redirect_utils.h"
@@ -35,7 +34,7 @@ static int	set_redirect_in(t_mini *mini, t_red *red, t_cmd *cmd)
 	if (red->kind == RD_HEREDOC)
 		file_name = cmd->heredoc_name;
 	if (red->kind == RD_IN)
-		file_name = red->file;
+		file_name = red->expanded;
 	cmd->rfd[0] = open(file_name, O_RDONLY);
 	if (cmd->rfd[0] == -1)
 		return (err_file(file_name), \
@@ -51,12 +50,12 @@ int	set_redirect(t_mini *mini, t_red *red, t_cmd *cmd)
 		{
 			if (cmd->rfd[1] != FD_DFL)
 				close(cmd->rfd[1]);
-			cmd->rfd[1] = open(red->file, \
+			cmd->rfd[1] = open(red->expanded, \
 				O_RDWR | O_CREAT | \
 				O_APPEND * (red->kind == RD_APPEND) | \
 				O_TRUNC * (red->kind == RD_OUT), 0666);
 			if (cmd->rfd[1] == -1)
-				return (err_file(red->file), \
+				return (err_file(red->expanded), \
 				store_status(FAILURE, mini), FAILURE);
 		}
 		else if (red->kind == RD_IN || red->kind == RD_HEREDOC)
@@ -94,7 +93,7 @@ static void	start_heredoc(t_mini *mini, t_red *red, int fd)
 	size_t	len;
 
 	set_handler(SIGINT, SIG_DFL);
-	len = ft_strlen(red->file);
+	len = red->exp_len;
 	while (1)
 	{
 		ft_putstr_fd("> ", STDOUT_FILENO);
@@ -104,10 +103,10 @@ static void	start_heredoc(t_mini *mini, t_red *red, int fd)
 		else if (status == -2)
 			exit((err_system_call("malloc"), SYSTEMCALL_EXITSTATUS));
 		if (!line)
-			exit((err_heredoc(red->file), NO_ERR));
+			exit((err_heredoc(red->expanded), NO_ERR));
 		if (expand_dollar(mini, &line))
 			exit((free(line), SYSTEMCALL_EXITSTATUS));
-		if (!ft_strncmp(line, red->file, len) && line[len] == '\n')
+		if (!ft_strncmp(line, red->expanded, len) && line[len] == '\n')
 			exit((free(line), SUCCESS));
 		ft_putstr_fd(line, fd);
 		free(line);

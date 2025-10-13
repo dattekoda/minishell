@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/21 09:59:02 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/11 23:10:34 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/13 17:50:29 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ typedef enum s_TokenKind
 {
 	TK_WORD,
 	TK_OPERATOR,
-	TK_EOF,
+	TK_EOF
 }	t_TokenKind;
 
 typedef struct s_token

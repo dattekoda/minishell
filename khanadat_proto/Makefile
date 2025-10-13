@@ -6,13 +6,13 @@
 #    By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/09 14:24:07 by khanadat          #+#    #+#              #
-#    Updated: 2025/10/12 19:19:02 by khanadat         ###   ########.fr        #
+#    Updated: 2025/10/13 19:31:52 by khanadat         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME		=	minishell
 CC			=	cc
-CCFLAGS		=	-Wall -Wextra -Werror
+CCFLAGS		:=	-Wall -Wextra -Werror
 
 RL_FLAGS	:=	-lreadline
 
@@ -23,11 +23,12 @@ INCS_FLAGS	:=	-I . \
 				-I ast \
 				-I err \
 				-I exec \
-				-I library \
+				-I utils \
 				-I prompt \
 				-I ast/tokenizer \
 				-I exec/builtin \
 				-I exec/expand \
+				-I exec/set_redirect \
 				-I $(LIBFT_DIR)/includes \
 
 SRCS		=	main.c \
@@ -49,13 +50,8 @@ SRCS		=	main.c \
 				exec/exec_utils1.c \
 				exec/exec_utils2.c \
 				exec/get_path.c \
-				exec/set_redirect.c \
-				exec/set_redirect_utils.c \
-				library/minishell_lib0.c \
-				library/minishell_lib1.c \
-				library/minishell_lib2.c \
-				library/minishell_lib3.c \
-				library/minishell_lib4.c \
+				exec/set_redirect/set_redirect.c \
+				exec/set_redirect/set_redirect_utils.c \
 				prompt/prompt.c \
 				prompt/minishell_set.c \
 				ast/tokenizer/tokenizer.c \
@@ -75,7 +71,12 @@ SRCS		=	main.c \
 				exec/expand/classify_utils1.c \
 				exec/expand/expand.c \
 				exec/expand/expand_utils_add.c \
-				exec/expand/expand_utils.c
+				exec/expand/expand_utils.c \
+				utils/minishell_utils0.c \
+				utils/minishell_utils1.c \
+				utils/minishell_utils2.c \
+				utils/minishell_utils3.c \
+				utils/minishell_utils4.c
 
 OBJS_DIR	=	objs
 OBJS		=	$(addprefix $(OBJS_DIR)/, $(SRCS:.c=.o))
@@ -104,6 +105,9 @@ $(OBJS_DIR)/%.o: %.c
 
 $(LIBFT_A):
 		@$(MAKE) -s bonus -C $(LIBFT_DIR)
+
+debug:	CCFLAGS	+=	-g -O0
+debug:	all
 
 clean:
 		@rm -rf $(OBJS_DIR)

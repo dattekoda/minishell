@@ -17,7 +17,8 @@
 		"tokenizer_define.h": "c",
 		"ast_define.h": "c",
 		"signal.h": "c",
-		"minishell_lib.h": "c",
-		"expand_utils.h": "c"
+		"minishell_utils.h": "c",
+		"expand_utils.h": "c",
+		"expand_define.h": "c"
 	}
 }

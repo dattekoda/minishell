@@ -7,7 +7,7 @@
 #include "ast.h"
 #include "tokenizer_define.h"
 #include "tokenizer.h"
-#include "minishell_lib.h"
+#include "minishell_utils.h"
 #include "libft.h"
 
 void	print_node(t_node *node)
