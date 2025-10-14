@@ -18,6 +18,9 @@
 		"ast_define.h": "c",
 		"signal.h": "c",
 		"minishell_lib.h": "c",
-		"expand_utils.h": "c"
+		"expand_utils.h": "c",
+		"stdio.h": "c",
+		"history.h": "c",
+		"minishell_utils.h": "c"
 	}
 }

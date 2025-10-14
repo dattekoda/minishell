@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/05 18:13:37 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/09 11:48:10 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/14 17:01:17 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ bool	exec_builtin(t_mini *mini, t_cmd *cmd)
 		return (exec_echo(mini, cmd->argv), \
 		cmd->pid = PID_BUILTIN, true);
 	if (!ft_strcmp(cmd->argv[0], "env"))
-		return (exec_env(mini, cmd->argv), \
+		return (exec_env(mini, cmd->argv, false), \
 		cmd->pid = PID_BUILTIN, true);
 	if (!ft_strcmp(cmd->argv[0], "exit"))
 		return (exec_exit(mini, cmd->argv), \
