@@ -6,12 +6,12 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 12:45:32 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/14 16:30:46 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/14 16:37:14 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_LIB_H
-# define MINISHELL_LIB_H
+#ifndef MINISHELL_UTILS_H
+# define MINISHELL_UTILS_H
 
 # include "minishell_define.h"
 
