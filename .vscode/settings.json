@@ -23,6 +23,7 @@
 		"tokenizer_utils.h": "c",
 		"history.h": "c",
 		"stdio.h": "c",
-		"stddef.h": "c"
+		"stddef.h": "c",
+		"set_redirect.h": "c"
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 18:16:59 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/14 16:28:44 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/14 16:55:57 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,51 +24,8 @@
 #include "tokenizer.h"
 #include "exec.h"
 
-void	send_prompt(t_mini *mini, int *pfd)
-{
-	char	*child_line;
-	size_t	line_len;
-
-	close(pfd[0]);
-	set_handler(SIGINT, SIG_DFL);
-	child_line = readline(mini->prompt);
-	if (!child_line)
-		exit((close(pfd[1]), NO_NEW_LINE));
-	line_len = ft_strlen(child_line);
-	if (write(pfd[1], &line_len, sizeof(size_t)) < 0)
-		exit((close(pfd[1]), free(child_line), ERR));
-	if (write(pfd[1], child_line, line_len) < 0)
-		exit((close(pfd[1]), free(child_line), ERR));
-	exit((close(pfd[1]), free(child_line), SUCCESS));
-}
-
-int	receive_prompt(t_mini *mini, int *pfd, pid_t prompt_id)
-{
-	int		prompt_status;
-	size_t	line_len;
-
-	waitpid(prompt_id, &prompt_status, 0);
-	close(pfd[1]);
-	if (WIFSIGNALED(prompt_status))
-		return (store_status(WTERMSIG(prompt_status) + 128, mini), \
-		close(pfd[0]), ft_putchar_fd('\n', STDERR_FILENO), PROMPT_CONTINUE);
-	if (WEXITSTATUS(prompt_status) == NO_NEW_LINE)
-		minishell_exit((close(pfd[0]), mini));
-	if (WEXITSTATUS(prompt_status) == ERR)
-		systemcall_minishell_exit((close(pfd[0]), mini), "write");
-	if (read(pfd[0], &line_len, sizeof(size_t)) != sizeof(size_t))
-		systemcall_minishell_exit((close(pfd[0]), mini), "read");
-	mini->line = ft_calloc(line_len + 1, sizeof(char));
-	if (!mini->line)
-		systemcall_minishell_exit((close(pfd[0]), mini), "malloc");
-	if (read(pfd[0], mini->line, line_len) != (ssize_t)line_len)
-		systemcall_minishell_exit((close(pfd[0]), mini), "read");
-	close(pfd[0]);
-	if (!*(mini->line))
-		return (mini_safe_free((void **)&(mini->line)), PROMPT_CONTINUE);
-	add_history(mini->line);
-	return (SUCCESS);
-}
+static void	send_prompt(t_mini *mini, int *pfd);
+static int	receive_prompt(t_mini *mini, int *pfd, pid_t prompt_id);
 
 void	minishell(t_mini *mini)
 {
@@ -94,6 +51,52 @@ void	minishell(t_mini *mini)
 		exec_prompt(mini, mini->node);
 		free_node(&mini->node);
 	}
+}
+
+static void	send_prompt(t_mini *mini, int *pfd)
+{
+	char	*child_line;
+	size_t	line_len;
+
+	close(pfd[0]);
+	set_handler(SIGINT, SIG_DFL);
+	child_line = readline(mini->prompt);
+	if (!child_line)
+		exit((close(pfd[1]), NO_NEW_LINE));
+	line_len = ft_strlen(child_line);
+	if (write(pfd[1], &line_len, sizeof(size_t)) < 0)
+		exit((close(pfd[1]), free(child_line), ERR));
+	if (write(pfd[1], child_line, line_len) < 0)
+		exit((close(pfd[1]), free(child_line), ERR));
+	exit((close(pfd[1]), free(child_line), SUCCESS));
+}
+
+static int	receive_prompt(t_mini *mini, int *pfd, pid_t prompt_id)
+{
+	int		prompt_status;
+	size_t	line_len;
+
+	waitpid(prompt_id, &prompt_status, 0);
+	close(pfd[1]);
+	if (WIFSIGNALED(prompt_status))
+		return (store_status(WTERMSIG(prompt_status) + 128, mini), \
+		close(pfd[0]), ft_putchar_fd('\n', STDERR_FILENO), PROMPT_CONTINUE);
+	if (WEXITSTATUS(prompt_status) == NO_NEW_LINE)
+		minishell_exit((close(pfd[0]), mini));
+	if (WEXITSTATUS(prompt_status) == ERR)
+		systemcall_minishell_exit((close(pfd[0]), mini), "write");
+	if (read(pfd[0], &line_len, sizeof(size_t)) != sizeof(size_t))
+		systemcall_minishell_exit((close(pfd[0]), mini), "read");
+	mini->line = ft_calloc(line_len + 1, sizeof(char));
+	if (!mini->line)
+		systemcall_minishell_exit((close(pfd[0]), mini), "malloc");
+	if (read(pfd[0], mini->line, line_len) != (ssize_t)line_len)
+		systemcall_minishell_exit((close(pfd[0]), mini), "read");
+	close(pfd[0]);
+	if (!*(mini->line))
+		return (mini_safe_free((void **)&(mini->line)), PROMPT_CONTINUE);
+	add_history(mini->line);
+	return (SUCCESS);
 }
 
 // int	received_sig;
