@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 18:16:59 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/13 21:41:40 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/14 16:28:44 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,6 @@ int	receive_prompt(t_mini *mini, int *pfd, pid_t prompt_id)
 	return (SUCCESS);
 }
 
-// err_sig_msg(mini);
 void	minishell(t_mini *mini)
 {
 	pid_t	prompt_id;
@@ -96,3 +95,36 @@ void	minishell(t_mini *mini)
 		free_node(&mini->node);
 	}
 }
+
+// int	received_sig;
+
+// void	restart_prompt(int sig)
+// {
+// 	received_sig = (int)sig;
+// 	ft_putchar_fd('\n', STDOUT_FILENO);
+// }
+
+// void    minishell(t_mini *mini)
+// {
+// 	while (1)
+// 	{
+// 		mini_safe_free((void **)&(mini->line));
+// 		set_handler(SIGQUIT, SIG_IGN);
+// 		set_handler(SIGINT, &restart_prompt);
+// 		mini->line = readline(mini->prompt);
+// 		if (received_sig)
+// 			store_status(128 + received_sig, mini);
+// 		if (mini->line == NULL)
+// 			minishell_exit(mini);
+// 		if (mini->line[0] == '\0')
+// 			continue;
+// 		add_history(mini->line);
+// 		set_handler(SIGINT, SIG_IGN);
+// 		if (set_node(mini) == PROMPT_CONTINUE)
+// 			continue ;
+// 		exec_prompt(mini, mini->node);
+// 		free_node(&mini->node);
+// 		mini_safe_free((void **)&(mini->line));
+// 		received_sig = 0;
+// 	}
+// }

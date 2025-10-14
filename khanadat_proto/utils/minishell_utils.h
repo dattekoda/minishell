@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell_lib.h                                    :+:      :+:    :+:   */
+/*   minishell_utils.h                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 12:45:32 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/13 18:00:36 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/14 16:30:46 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,14 @@
 
 # include "minishell_define.h"
 
-// lib0
+// utils0
 int		safe_join(char **joined, char *buffer);
 void	minishell_exit(t_mini *mini);
 void	failure_minishell_exit(t_mini *mini, \
 	void (*func)(char *), char *file, int status);
 void	systemcall_minishell_exit(t_mini *mini, char *func);
 
-// lib1
+// utils1
 void	mini_safe_free(void **ptr);
 void	t_mini_free(t_mini *mini);
 void	update_pwd(t_mini *mini);
@@ -30,19 +30,19 @@ int		set_mini_envp(char *var, char *val, char **envp_i);
 // char	*access_program_name(char *set);
 // void	free_split(char **splited);
 
-// lib2
+// utils2
 char	*normal_getenv(char *var, t_mini *mini);
 char	*mini_getenv(char **var, t_mini *mini);
 void	store_status(unsigned char status, t_mini *mini);
 bool	mini_is_dir(char *file);
 
-// lib3
+// utils3
 void	catch_signal(int status, t_mini *mini);
 int		set_handler(int sig, void handler(int));
-void	quit_cmd(int sig);
-void	restart_prompt(int sig);
+// void	quit_cmd(int sig);
+// void	restart_prompt(int sig);
 
-// lib4
+// utils4
 void	normal_minishell_exit(t_mini *mini, void (*func)(void *), \
 	void *ptr, int status);
 size_t	search_envp_i(t_mini *mini, char *arg, size_t var_len);
