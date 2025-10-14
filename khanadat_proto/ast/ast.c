@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/21 09:58:37 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/13 18:00:27 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/14 22:31:42 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,10 @@ void	free_node(t_node **node)
 static void	free_cmd(t_cmd *cmd)
 {
 	free(cmd->argv);
-	if (cmd->cfd[0] != FD_DFL)
-		close(cmd->cfd[0]);
-	if (cmd->cfd[1] != FD_DFL)
-		close(cmd->cfd[1]);
+	if (cmd->pfd[0] != FD_DFL)
+		close(cmd->pfd[0]);
+	if (cmd->pfd[1] != FD_DFL)
+		close(cmd->pfd[1]);
 	if (cmd->rfd[0] != FD_DFL)
 		close(cmd->rfd[0]);
 	if (cmd->rfd[1] != FD_DFL)

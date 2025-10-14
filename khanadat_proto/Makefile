@@ -6,7 +6,7 @@
 #    By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/09 14:24:07 by khanadat          #+#    #+#              #
-#    Updated: 2025/10/13 21:54:28 by khanadat         ###   ########.fr        #
+#    Updated: 2025/10/14 22:46:50 by khanadat         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,7 +47,8 @@ SRCS		=	main.c \
 				err/minishell_err3.c \
 				exec/exec.c \
 				exec/exec_utils0.c \
-				exec/exec_utils1.c \
+				exec/exec_pipe.c \
+				exec/exec_pipe_utils.c \
 				exec/exec_utils2.c \
 				exec/get_path.c \
 				exec/set_redirect/set_redirect.c \

@@ -21,6 +21,9 @@
 		"expand_utils.h": "c",
 		"stdio.h": "c",
 		"history.h": "c",
-		"minishell_utils.h": "c"
+		"minishell_utils.h": "c",
+		"set_redirect.h": "c",
+		"builtin.h": "c",
+		"exec_pipe_utils.h": "c"
 	}
 }

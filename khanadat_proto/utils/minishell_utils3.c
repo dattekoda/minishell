@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 17:07:39 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/14 16:41:32 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/14 21:16:11 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	catch_signal(int status, t_mini *mini)
 	store_status(exit_status, mini);
 }
 
-int	set_handler(int sig, void handler(int))
+void	set_handler(t_mini *mini, int sig, void handler(int))
 {
 	struct sigaction	sa;
 
@@ -55,8 +55,7 @@ int	set_handler(int sig, void handler(int))
 	sa.sa_handler = handler;
 	sa.sa_flags = 0;
 	if (sigaction(sig, &sa, (struct sigaction *)0))
-		return (err_system_call("sigaction"), ERR);
-	return (SUCCESS);
+		systemcall_minishell_exit(mini, "sigaction");
 }
 
 // void	quit_cmd(int sig)

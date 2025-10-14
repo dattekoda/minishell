@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 18:16:59 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/14 16:55:57 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/14 21:18:30 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@ void	minishell(t_mini *mini)
 	while (1)
 	{
 		mini_safe_free((void **)&(mini->line));
-		set_handler(SIGINT, SIG_IGN);
-		set_handler(SIGQUIT, SIG_IGN);
+		set_handler(mini, SIGINT, SIG_IGN);
+		set_handler(mini, SIGQUIT, SIG_IGN);
 		if (pipe(pfd))
 			systemcall_minishell_exit(mini, "pipe");
 		prompt_id = fork();
@@ -59,7 +59,7 @@ static void	send_prompt(t_mini *mini, int *pfd)
 	size_t	line_len;
 
 	close(pfd[0]);
-	set_handler(SIGINT, SIG_DFL);
+	set_handler(mini, SIGINT, SIG_DFL);
 	child_line = readline(mini->prompt);
 	if (!child_line)
 		exit((close(pfd[1]), NO_NEW_LINE));
@@ -79,7 +79,7 @@ static int	receive_prompt(t_mini *mini, int *pfd, pid_t prompt_id)
 	waitpid(prompt_id, &prompt_status, 0);
 	close(pfd[1]);
 	if (WIFSIGNALED(prompt_status))
-		return (store_status(WTERMSIG(prompt_status) + 128, mini), \
+		return (store_status(WTERMSIG(prompt_status) + 128, mini),
 		close(pfd[0]), ft_putchar_fd('\n', STDERR_FILENO), PROMPT_CONTINUE);
 	if (WEXITSTATUS(prompt_status) == NO_NEW_LINE)
 		minishell_exit((close(pfd[0]), mini));
@@ -99,12 +99,23 @@ static int	receive_prompt(t_mini *mini, int *pfd, pid_t prompt_id)
 	return (SUCCESS);
 }
 
-// int	received_sig;
+// static volatile sig_atomic_t signal_handled = 0;
 
-// void	restart_prompt(int sig)
-// {
-// 	received_sig = (int)sig;
-// 	ft_putchar_fd('\n', STDOUT_FILENO);
+// static void handle_signal(int signo) {
+//     signal_handled = signo;
+// }
+
+// /* readline()内から定期的に呼ばれる関数 */
+// static int check_state(void) {
+//     if (signal_handled) {
+//         signal_handled = 0;
+// 		// rl_done = 1;
+// 		// rl_replace_line();
+// 		// rl_on_new_line();
+// 		// rl_redisplay();
+// 		ft_putstr_fd("\n$ ", 1);
+//     }
+//     return 0;
 // }
 
 // void    minishell(t_mini *mini)
@@ -112,22 +123,23 @@ static int	receive_prompt(t_mini *mini, int *pfd, pid_t prompt_id)
 // 	while (1)
 // 	{
 // 		mini_safe_free((void **)&(mini->line));
-// 		set_handler(SIGQUIT, SIG_IGN);
-// 		set_handler(SIGINT, &restart_prompt);
+// 		set_handler(mini, SIGQUIT, SIG_IGN);
+// 		set_handler(mini, SIGINT, &handle_signal);
+// 		if (signal_handled)
+// 			store_status(130, mini);
+// 		rl_event_hook = check_state;
 // 		mini->line = readline(mini->prompt);
-// 		if (received_sig)
-// 			store_status(128 + received_sig, mini);
 // 		if (mini->line == NULL)
 // 			minishell_exit(mini);
 // 		if (mini->line[0] == '\0')
 // 			continue;
 // 		add_history(mini->line);
-// 		set_handler(SIGINT, SIG_IGN);
+// 		set_handler(mini, SIGINT, SIG_IGN);
 // 		if (set_node(mini) == PROMPT_CONTINUE)
 // 			continue ;
 // 		exec_prompt(mini, mini->node);
 // 		free_node(&mini->node);
 // 		mini_safe_free((void **)&(mini->line));
-// 		received_sig = 0;
+// 		signal_handled = 0;
 // 	}
 // }

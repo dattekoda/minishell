@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 16:18:41 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/13 19:43:29 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/14 21:16:39 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ static void	start_heredoc(t_mini *mini, t_red *red, int fd)
 	int		status;
 	size_t	len;
 
-	set_handler(SIGINT, SIG_DFL);
+	set_handler(mini, SIGINT, SIG_DFL);
 	len = red->exp_len;
 	while (1)
 	{

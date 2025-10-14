@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 15:45:46 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/13 17:08:39 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/14 19:32:08 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,8 +102,8 @@ static int	set_cmd(t_node *new)
 	new->cmd = ft_calloc(1, sizeof(t_cmd));
 	if (!new->cmd)
 		return (ERR);
-	new->cmd->cfd[0] = FD_DFL;
-	new->cmd->cfd[1] = FD_DFL;
+	new->cmd->pfd[0] = FD_DFL;
+	new->cmd->pfd[1] = FD_DFL;
 	new->cmd->rfd[0] = FD_DFL;
 	new->cmd->rfd[1] = FD_DFL;
 	return (SUCCESS);
