@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   classify_utils1.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: iokuno <iokuno@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 01:26:08 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/13 20:04:47 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/15 22:20:36 by iokuno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "classify_utils.h"
 #include "expand_define.h"
+#include "libft.h"
 #include "minishell_define.h"
 #include "minishell_utils.h"
-#include "classify_utils.h"
-#include "libft.h"
 
 static t_dollar	*add_d_dollar(t_dollar *cur, t_mini *mini, char **word);
 static t_dollar	*add_double(t_dollar *cur, char **word);
@@ -65,8 +65,8 @@ static t_dollar	*add_double(t_dollar *cur, char **word)
 	cur->next = new;
 	new->dkind = WD_WORD;
 	new->value = *word;
-	while (**word && **word != '\"' \
-	&& **word != '$')
+	new->is_quoted = true;
+	while (**word && **word != '\"' && **word != '$')
 	{
 		(*word)++;
 		new->value_len++;

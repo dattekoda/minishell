@@ -10,11 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "expand_utils.h"
-#include "expand_define.h"
-#include "minishell_utils.h"
 #include "classify_utils.h"
+#include "expand_define.h"
+#include "expand_utils.h"
 #include "libft.h"
+#include "minishell_utils.h"
 
 static t_dollar	*add_space(t_dollar *cur, char **value);
 static t_dollar	*add_dollar(t_dollar *cur, char **value);
@@ -84,6 +84,7 @@ t_dollar	*add_single(t_dollar *cur, char **word)
 	cur->next = new;
 	new->value = *word + 1;
 	new->dkind = WD_WORD;
+	new->is_quoted = true;
 	*word = ft_strchr(new->value, '\'') + 1;
 	new->value_len = (size_t)(*word - 1 - new->value);
 	return (new);

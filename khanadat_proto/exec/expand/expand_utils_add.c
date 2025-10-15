@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   expand_utils_add.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: iokuno <iokuno@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 12:25:08 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/13 19:05:34 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/15 22:56:38 by iokuno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "expand_define.h"
-#include "minishell_define.h"
 #include "add_new_utils.h"
+#include "expand_define.h"
 #include "libft.h"
+#include "minishell_define.h"
 
 t_word	*add_new_word(t_word *cur, t_dollar **dol)
 {
@@ -48,6 +48,12 @@ t_red	*add_new_red(t_red *cur, t_dollar **dol, t_RedKind rk)
 	new_red->expanded = ft_calloc(new_red->exp_len + 1, sizeof(char));
 	if (!new_red->expanded)
 		return (NULL);
+	if (is_quoted(dol_tail))
+	{
+		cur->is_queted = true;
+#include <stdio.h>
+		fprintf(stderr, "展開しない！!\n");
+	}
 	set_new_str(new_red->expanded, dol_tail);
 	return (new_red);
 }

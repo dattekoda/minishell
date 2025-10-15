@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: iokuno <iokuno@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 15:35:23 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/13 21:41:07 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/15 22:33:26 by iokuno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,13 @@
 #include "expand_utils.h"
 #include "libft.h"
 #include "minishell_define.h"
-#include "minishell_utils.h"
 #include "minishell_err.h"
+#include "minishell_utils.h"
 
 static void	set_new_word(t_word **new, t_word *before, t_mini *mini);
 static int	set_new_red(t_red **new, t_red *before, t_mini *mini);
 
-// if ambiguous redirect, return FAILURE;
+// if ambiguous redirect, return (FAILURE);
 int	expand_node(t_node *node, t_mini *mini)
 {
 	t_word	*before_word;
@@ -59,8 +59,7 @@ static void	set_new_word(t_word **new, t_word *before, t_mini *mini)
 	while (before && cur)
 	{
 		if (get_dollar(before->word, mini, &dol))
-			systemcall_minishell_exit((free_word(head.next), \
-			mini), "malloc");
+			systemcall_minishell_exit((free_word(head.next), mini), "malloc");
 		dol_head = dol;
 		while (dol && cur)
 			cur = add_new_word(cur, &dol);
@@ -68,8 +67,7 @@ static void	set_new_word(t_word **new, t_word *before, t_mini *mini)
 		free_dollar(dol_head);
 	}
 	if (!cur)
-		systemcall_minishell_exit((free_word(head.next), \
-		mini), "malloc");
+		systemcall_minishell_exit((free_word(head.next), mini), "malloc");
 	*new = head.next;
 }
 
@@ -85,19 +83,17 @@ static int	set_new_red(t_red **new, t_red *before, t_mini *mini)
 	while (before && cur)
 	{
 		if (get_dollar(before->file, mini, &dol))
-			systemcall_minishell_exit((free_red(head.next), \
-			mini), "malloc");
+			systemcall_minishell_exit((free_red(head.next), mini), "malloc");
 		dol_head = dol;
 		cur = add_new_red(cur, &dol, before->kind);
 		if (dol || !*cur->expanded)
-			return (free_dollar(dol_head), free(head.next), \
-			err_ambiguous(before->file), FAILURE);
+			return (free_dollar(dol_head), free(head.next),
+				err_ambiguous(before->file), FAILURE);
 		before = before->next;
 		free_dollar(dol_head);
 	}
 	if (!cur)
-		systemcall_minishell_exit((free_red(head.next), \
-		mini), "malloc");
+		systemcall_minishell_exit((free_red(head.next), mini), "malloc");
 	*new = head.next;
 	return (SUCCESS);
 }

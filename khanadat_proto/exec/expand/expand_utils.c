@@ -3,19 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   expand_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: iokuno <iokuno@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 13:28:31 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/09 15:16:29 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/15 22:28:12 by iokuno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-#include "minishell_define.h"
-
-#include "libft.h"
-#include "expand_define.h"
 #include "classify_utils.h"
+#include "expand_define.h"
+#include "libft.h"
+#include "minishell_define.h"
+#include <stdlib.h>
 
 static void	classify_dollar(t_dollar **cur, t_mini *mini, char **tmp);
 
@@ -31,7 +30,7 @@ void	free_dollar(t_dollar *head)
 	}
 }
 
-int	get_dollar(char *str, t_mini *mini, t_dollar **dol)
+int	get_dollar(char *file, t_mini *mini, t_dollar **dol)
 {
 	t_dollar	head;
 	t_dollar	*cur;
@@ -39,7 +38,7 @@ int	get_dollar(char *str, t_mini *mini, t_dollar **dol)
 	ft_bzero(&head, sizeof(t_dollar));
 	cur = &head;
 	head.dkind = WD_HEAD;
-	classify_dollar(&cur, mini, &str);
+	classify_dollar(&cur, mini, &file);
 	if (!cur)
 		return (free_dollar(head.next), ERR);
 	*dol = head.next;

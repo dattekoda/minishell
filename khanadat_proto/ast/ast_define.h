@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast_define.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: iokuno <iokuno@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/21 09:58:44 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/13 18:55:24 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/15 21:56:50 by iokuno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ typedef enum s_NodeKind
 	ND_PAR_SEC,
 	ND_INSIDE,
 	ND_NOT
-}	t_NodeKind;
+}					t_NodeKind;
 
 typedef enum s_RedKind
 {
@@ -38,7 +38,7 @@ typedef enum s_RedKind
 	RD_HEREDOC,
 	RD_APPEND,
 	RD_NOT
-}	t_RedKind;
+}					t_RedKind;
 
 typedef struct s_red
 {
@@ -48,7 +48,8 @@ typedef struct s_red
 	size_t			exp_len;
 	t_RedKind		kind;
 	struct s_red	*next;
-}	t_red;
+	bool			is_queted;
+}					t_red;
 
 typedef struct s_word
 {
@@ -57,17 +58,17 @@ typedef struct s_word
 	char			*expanded;
 	size_t			exp_len;
 	struct s_word	*next;
-}	t_word;
+}					t_word;
 
 typedef struct s_cmd
 {
-	pid_t	pid;
-	int		cfd[2];
-	int		saved[2];
-	int		rfd[2];
-	char	**argv;
-	char	*heredoc_name;
-}	t_cmd;
+	pid_t			pid;
+	int				cfd[2];
+	int				saved[2];
+	int				rfd[2];
+	char			**argv;
+	char			*heredoc_name;
+}					t_cmd;
 
 // abstruct syntax tree
 typedef struct s_node
@@ -79,6 +80,6 @@ typedef struct s_node
 	struct s_node	*lhs;
 	struct s_node	*rhs;
 	t_NodeKind		kind;
-}	t_node;
+}					t_node;
 
 #endif
