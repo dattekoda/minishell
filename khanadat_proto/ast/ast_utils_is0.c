@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/12 12:02:03 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/12 12:04:06 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/14 22:32:11 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,19 @@ bool	is_pipe_or_and(t_token *token)
 	|| is_and(token));
 }
 
+bool	is_or_and(t_token *token)
+{
+	if (token->kind != TK_OPERATOR)
+		return (false);
+	return (is_or(token) || is_and(token));
+}
+
 bool	is_pipe(t_token *token)
 {
 	if (token->kind != TK_OPERATOR)
 		return (false);
 	return (*(token->str) == '|' \
-	&& *(token->str + 1) == '|');
+	&& *(token->str + 1) != '|');
 }
 
 bool	is_and(t_token *token)
@@ -44,5 +51,5 @@ bool	is_or(t_token *token)
 	if (token->kind != TK_OPERATOR)
 		return (false);
 	return (*(token->str) == '|' \
-	&& *(token->str + 1) != '|');
+	&& *(token->str + 1) == '|');
 }

@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/12 13:50:11 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/12 19:18:20 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/14 22:30:12 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 
 static int	validate_inside(t_token **token);
 static int	token_checker(t_token **token);
+static int	tk_checker_first(t_token **token);
 
 int	validate_token(t_token *token)
 {
@@ -49,12 +50,32 @@ static int	validate_inside(t_token **token)
 
 static int	token_checker(t_token **token)
 {
+	if (tk_checker_first(token))
+		return (SYNTAX_ERR);
+	else if (is_pipe(*token))
+	{
+		if (((*token)->next)->kind == TK_EOF \
+		|| is_par_first((*token)->next) \
+		|| is_pipe_or_and((*token)->next) \
+		|| is_par_sec((*token)->next))
+			return (err_tokenizer((*token)->next), SYNTAX_ERR);
+	}
+	else if ((*token)->kind == TK_WORD)
+	{
+		if (is_par_first((*token)->next))
+			return (err_tokenizer((*token)->next->next), SYNTAX_ERR);
+	}
+	return (SUCCESS);
+}
+
+static int	tk_checker_first(t_token **token)
+{
 	if (is_redirect((*token)))
 	{
 		if (((*token)->next)->kind != TK_WORD)
 			return (err_tokenizer((*token)->next), SYNTAX_ERR);
 	}
-	else if (is_pipe_or_and((*token)))
+	else if (is_or_and((*token)))
 	{
 		if (((*token)->next)->kind == TK_EOF \
 		|| is_pipe_or_and((*token)->next) || is_par_sec((*token)->next))
@@ -66,11 +87,6 @@ static int	token_checker(t_token **token)
 			return (SYNTAX_ERR);
 		if (is_par_first((*token)->next) || (*token)->next->kind == TK_WORD)
 			return (err_tokenizer((*token)->next), SYNTAX_ERR);
-	}
-	else if ((*token)->kind == TK_WORD)
-	{
-		if (is_par_first((*token)->next))
-			return (err_tokenizer((*token)->next->next), SYNTAX_ERR);
 	}
 	return (SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/21 09:58:39 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/12 18:08:57 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/14 22:08:09 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ t_RedKind	check_redkind(t_token *token);
 
 // ast_is.c
 bool		is_pipe_or_and(t_token *token);
+bool		is_or_and(t_token *token);
 bool		is_pipe(t_token *token);
 bool		is_and(t_token *token);
 bool		is_or(t_token *token);

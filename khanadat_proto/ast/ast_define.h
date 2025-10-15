@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/21 09:58:44 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/13 18:55:24 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/14 19:32:08 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ typedef struct s_word
 typedef struct s_cmd
 {
 	pid_t	pid;
-	int		cfd[2];
+	int		pfd[2];
 	int		saved[2];
 	int		rfd[2];
 	char	**argv;

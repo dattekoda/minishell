@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/28 14:15:28 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/13 18:00:27 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/15 14:27:18 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,28 +27,45 @@
 #include "builtin.h"
 #include "exec_utils.h"
 
+static void	exec_or_group(t_mini *mini, t_node *node);
+static void	exec_and_group(t_mini *mini, t_node *node);
+
 void	exec_prompt(t_mini *mini, t_node *node)
 {
 	if (!node)
 		return ;
 	if (node->kind == ND_OR)
-	{
-		exec_prompt(mini, node->lhs);
-		if (!ft_strcmp("0", mini->status))
-			return ;
-		if (!ft_strcmp("130", mini->status))
-			return ;
-		exec_prompt(mini, node->rhs);
-	}
+		exec_or_group(mini, node);
 	else if (node->kind == ND_AND)
-	{
-		exec_prompt(mini, node->lhs);
-		if (ft_strcmp("0", mini->status))
-			return ;
-		exec_prompt(mini, node->rhs);
-	}
+		exec_and_group(mini, node);
 	else
 		exec_node(mini, node);
+}
+
+static void	exec_or_group(t_mini *mini, t_node *node)
+{
+	exec_prompt(mini, node->lhs);
+	if (mini->signaled)
+	{
+		store_status(130, mini);
+		return ;
+	}
+	if (!ft_strcmp("0", mini->status))
+		return ;
+	exec_prompt(mini, node->rhs);
+}
+
+static void	exec_and_group(t_mini *mini, t_node *node)
+{
+	exec_prompt(mini, node->lhs);
+	if (mini->signaled)
+	{
+		store_status(130, mini);
+		return ;
+	}
+	if (ft_strcmp("0", mini->status))
+		return ;
+	exec_prompt(mini, node->rhs);
 }
 
 // int	set_abs_path(char **dir)

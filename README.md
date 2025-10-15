@@ -154,3 +154,39 @@ Segmentation fault         (core dumped) ./minishell
 ```
 →修正済み。   
 原因は、`validate_b4_tokenize()`の`validate_and()`関数の結果に直接`+1`していたこと。   
+
+## 10/14
+`pipe|`を挟んで()を受け入れないように方針固め。   
+
+## 10/15
+`pipe`をwhileループで実行するように修正。   
+```
+sleep 10 | echo hello
+```
+等のコマンドに対応。   
+シグナルハンドリングの調整。   
+```
+sleep 10 | sleep 1
+```
+上記のコマンドで1秒待ったあとにCtrl+cすると$?=0となるが、   
+```
+sleep 10 | sleep 1 && echo hello
+```
+このコマンドで1秒待ったとにCtrl+cすると$?=130となるように調整。   
+Ctrl+cすると新しいプロンプトが改行後に正しく表示されるように修正。   
+```
+cat < file | cat
+```
+で存在しないファイルがあったときに正しく終了するように修正。   
+```
+$ cat < file | cat
+minishell: file: No such file or directory
+$ echo $?
+0
+
+ref_bash-5.3$ cat < file | cat
+ref_bash: file: No such file or directory
+ref_bash-5.3$ echo $?
+0
+```
+上記がテストコマンド。   

@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 09:45:04 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/13 18:00:27 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/15 14:50:25 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,8 @@ void	exec_child_proc(t_mini *mini, char **argv)
 {
 	char	*path;
 
-	set_handler(SIGINT, SIG_DFL);
-	set_handler(SIGQUIT, SIG_DFL);
+	set_handler(mini, SIGINT, SIG_DFL);
+	set_handler(mini, SIGQUIT, SIG_DFL);
 	get_path(&path, mini, argv);
 	execve(path, argv, mini->envp);
 	systemcall_minishell_exit(mini, "execve");
@@ -81,26 +81,17 @@ void	set_rfd(t_mini *mini, t_cmd *cmd)
 void	exec_cmd(t_mini *mini, t_node *node)
 {
 	if (set_redirect(mini, node->red, node->cmd))
-		return ;
+		normal_minishell_exit(mini, NULL, NULL, ft_atoi(mini->status));
 	if (!*node->cmd->argv)
-		return ;
+		normal_minishell_exit(mini, NULL, NULL, ft_atoi(mini->status));
 	set_rfd(mini, node->cmd);
 	if (exec_builtin(mini, node->cmd))
-		return ;
-	else
-		exec_child_proc(mini, node->cmd->argv);
+		normal_minishell_exit(mini, NULL, NULL, ft_atoi(mini->status));
+	exec_child_proc(mini, node->cmd->argv);
 }
 
-void	wait_pipe(t_mini *mini, t_node *node)
+void	reset_rfd(t_mini *mini, t_node *node)
 {
-	int	status;
-
-	if (node->cmd->pid != PID_BUILTIN)
-	{
-		if (waitpid(node->cmd->pid, &status, 0) < 0)
-			systemcall_minishell_exit(mini, "waitpid");
-		catch_signal(status, mini);
-	}
 	if (node->cmd->rfd[0] != FD_DFL)
 	{
 		close(node->cmd->rfd[0]);
