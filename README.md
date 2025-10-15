@@ -156,5 +156,11 @@ Segmentation fault         (core dumped) ./minishell
 原因は、`validate_b4_tokenize()`の`validate_and()`関数の結果に直接`+1`していたこと。   
 
 ## 10/14
-楽しいご飯を食べましょう。の歌が始まるよ。たのしいな♪楽しいな♪楽しい楽しいたのしいな♪   
 `pipe|`を挟んで()を受け入れないように方針固め。   
+
+## 10/15
+`pipe`をwhileループで実行するように修正。   
+```
+sleep 10 | echo hello
+```
+等のコマンドに対応。   

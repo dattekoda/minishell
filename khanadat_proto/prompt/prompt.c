@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 18:16:59 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/14 21:18:30 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/15 13:34:24 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ static int	receive_prompt(t_mini *mini, int *pfd, pid_t prompt_id)
 	waitpid(prompt_id, &prompt_status, 0);
 	close(pfd[1]);
 	if (WIFSIGNALED(prompt_status))
-		return (store_status(WTERMSIG(prompt_status) + 128, mini),
+		return (store_status(WTERMSIG(prompt_status) + 128, mini), \
 		close(pfd[0]), ft_putchar_fd('\n', STDERR_FILENO), PROMPT_CONTINUE);
 	if (WEXITSTATUS(prompt_status) == NO_NEW_LINE)
 		minishell_exit((close(pfd[0]), mini));

@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 17:07:39 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/14 21:16:11 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/15 13:21:43 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,13 +34,13 @@ void	catch_signal(int status, t_mini *mini)
 	else if (WIFSIGNALED(status))
 	{
 		sig = WTERMSIG(status);
-		if (sig == SIGQUIT)
+		if (!mini->is_pipe && sig == SIGQUIT)
 		{
 			ft_putstr_fd("Quit: ", STDERR_FILENO);
 			ft_putnbr_fd(sig, STDERR_FILENO);
 			ft_putchar_fd('\n', STDERR_FILENO);
 		}
-		if (sig == SIGINT)
+		if (!mini->is_pipe && sig == SIGINT)
 			ft_putchar_fd('\n', STDERR_FILENO);
 		exit_status = WTERMSIG(status) + 128;
 	}
