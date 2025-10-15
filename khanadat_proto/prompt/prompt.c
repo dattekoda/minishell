@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 18:16:59 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/15 13:34:24 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/15 14:12:47 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ void	minishell(t_mini *mini)
 		if (set_node(mini) == PROMPT_CONTINUE)
 			continue ;
 		exec_prompt(mini, mini->node);
+		mini->signaled = false;
 		free_node(&mini->node);
 	}
 }

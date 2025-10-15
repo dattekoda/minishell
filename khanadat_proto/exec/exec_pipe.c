@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/14 19:15:17 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/15 13:35:01 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/15 14:12:29 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ void	exec_node(t_mini *mini, t_node *node)
 		exec_nd_pipe(mini, node);
 		mini->is_pipe = false;
 	}
-	mini->signaled = false;
 }
 
 static void	exec_nd_cmd(t_mini *mini, t_node *node)

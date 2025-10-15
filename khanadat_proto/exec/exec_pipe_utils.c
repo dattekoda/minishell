@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/14 21:44:49 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/15 13:34:35 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/15 14:16:54 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,6 @@ void	wait_pipe_group(t_mini *mini, t_node *node)
 	{
 		if (waitpid(node->cmd->pid, &status, 0) < 0)
 			systemcall_minishell_exit(mini, "waitpid");
-		if (!node->rhs)
-			mini->is_pipe = false;
 		catch_signal(status, mini);
 		node = node->rhs;
 	}

@@ -164,3 +164,13 @@ Segmentation fault         (core dumped) ./minishell
 sleep 10 | echo hello
 ```
 等のコマンドに対応。   
+シグナルハンドリングの調整。   
+```
+sleep 10 | sleep 1
+```
+上記のコマンドで1秒待ったあとにCtrl+cすると$?=0となるが、   
+```
+sleep 10 | sleep 1 && echo hello
+```
+このコマンドで1秒待ったとにCtrl+cすると$?=130となるように調整。   
+Ctrl+cすると新しいプロンプトが改行後に正しく表示されるように修正。   
