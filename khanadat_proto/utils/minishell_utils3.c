@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 17:07:39 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/15 14:16:42 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/15 15:00:43 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,11 @@
 #include "minishell_err.h"
 #include "libft.h"
 
-void	catch_signal(int status, t_mini *mini)
+static void	set_signaled(bool *signaled, int status, \
+	int *exit_status);
+
+void	catch_final_status(int status, t_mini *mini)
 {
-	int	sig;
 	int	exit_status;
 
 	exit_status = 0;
@@ -32,20 +34,26 @@ void	catch_signal(int status, t_mini *mini)
 		exit_status = WEXITSTATUS(status);
 	}
 	else if (WIFSIGNALED(status))
-	{
-		sig = WTERMSIG(status);
-		if (!mini->signaled && sig == SIGQUIT)
-		{
-			ft_putstr_fd("Quit: ", STDERR_FILENO);
-			ft_putnbr_fd(sig, STDERR_FILENO);
-			ft_putchar_fd('\n', STDERR_FILENO);
-		}
-		if (!mini->signaled && sig == SIGINT)
-			ft_putchar_fd('\n', STDERR_FILENO);
-		exit_status = WTERMSIG(status) + 128;
-		mini->signaled = true;
-	}
+		set_signaled(&mini->signaled, status, &exit_status);
 	store_status(exit_status, mini);
+}
+
+static void	set_signaled(bool *signaled, int status, \
+	int *exit_status)
+{
+	int	sig;
+
+	sig = WTERMSIG(status);
+	if (!(*signaled) && sig == SIGQUIT)
+	{
+		ft_putstr_fd("Quit: ", STDERR_FILENO);
+		ft_putnbr_fd(sig, STDERR_FILENO);
+		ft_putchar_fd('\n', STDERR_FILENO);
+	}
+	if (!(*signaled) && sig == SIGINT)
+		ft_putchar_fd('\n', STDERR_FILENO);
+	*exit_status = WTERMSIG(status) + 128;
+	(*signaled) = true;
 }
 
 void	set_handler(t_mini *mini, int sig, void handler(int))

@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 12:45:32 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/15 13:20:56 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/15 14:56:49 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	store_status(unsigned char status, t_mini *mini);
 bool	mini_is_dir(char *file);
 
 // utils3
-void	catch_signal(int status, t_mini *mini);
+void	catch_final_status(int status, t_mini *mini);
 void	set_handler(t_mini *mini, int sig, void handler(int));
 // void	quit_cmd(int sig);
 // void	restart_prompt(int sig);

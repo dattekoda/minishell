@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 09:45:04 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/15 13:21:07 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/15 14:50:25 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,9 +81,9 @@ void	set_rfd(t_mini *mini, t_cmd *cmd)
 void	exec_cmd(t_mini *mini, t_node *node)
 {
 	if (set_redirect(mini, node->red, node->cmd))
-		return ;
+		normal_minishell_exit(mini, NULL, NULL, ft_atoi(mini->status));
 	if (!*node->cmd->argv)
-		return ;
+		normal_minishell_exit(mini, NULL, NULL, ft_atoi(mini->status));
 	set_rfd(mini, node->cmd);
 	if (exec_builtin(mini, node->cmd))
 		normal_minishell_exit(mini, NULL, NULL, ft_atoi(mini->status));

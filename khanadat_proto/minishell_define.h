@@ -6,14 +6,13 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 12:45:58 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/15 13:54:16 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/15 14:55:33 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_DEFINE_H
 # define MINISHELL_DEFINE_H
 
-#include <stdio.h>
 # include "ast_define.h"
 
 # define ERR -1

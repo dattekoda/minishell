@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_utils2.c                                      :+:      :+:    :+:   */
+/*   exec_utils1.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/12 19:01:50 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/14 21:16:39 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/15 14:56:49 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	exec_inside(t_mini *mini, t_node *node)
 	{
 		if (waitpid(inside_pid, &status, 0) < 0)
 			systemcall_minishell_exit(mini, "waitpid");
-		catch_signal(status, mini);
+		catch_final_status(status, mini);
 	}
 }
 
@@ -54,7 +54,7 @@ void	wait_node(t_mini *mini, t_node *node)
 	{
 		if (waitpid(node->cmd->pid, &status, 0) < 0)
 			systemcall_minishell_exit(mini, "waitpid");
-		catch_signal(status, mini);
+		catch_final_status(status, mini);
 	}
 	reset_rfd(mini, node);
 }

@@ -174,3 +174,19 @@ sleep 10 | sleep 1 && echo hello
 ```
 このコマンドで1秒待ったとにCtrl+cすると$?=130となるように調整。   
 Ctrl+cすると新しいプロンプトが改行後に正しく表示されるように修正。   
+```
+cat < file | cat
+```
+で存在しないファイルがあったときに正しく終了するように修正。   
+```
+$ cat < file | cat
+minishell: file: No such file or directory
+$ echo $?
+0
+
+ref_bash-5.3$ cat < file | cat
+ref_bash: file: No such file or directory
+ref_bash-5.3$ echo $?
+0
+```
+上記がテストコマンド。   
