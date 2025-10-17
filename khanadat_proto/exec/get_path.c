@@ -6,12 +6,11 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 13:20:01 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/13 18:00:27 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/17 16:02:13 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sys/stat.h>
-#include <stdio.h>
 #include <unistd.h>
 #include "libft.h"
 #include "minishell_define.h"

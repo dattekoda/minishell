@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 16:18:41 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/15 14:56:49 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/17 21:13:25 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 #include <sys/wait.h>
 #include <signal.h>
 #include <stdbool.h>
+#include <stdio.h>
+#include <readline/readline.h>
 #include "minishell_define.h"
 #include "minishell_utils.h"
 #include "minishell_err.h"
@@ -89,26 +91,19 @@ int	write_heredoc(t_mini *mini, t_red *red, t_cmd *cmd)
 static void	start_heredoc(t_mini *mini, t_red *red, int fd)
 {
 	char	*line;
-	int		status;
-	size_t	len;
 
 	set_handler(mini, SIGINT, SIG_DFL);
-	len = red->exp_len;
 	while (1)
 	{
-		ft_putstr_fd("> ", STDOUT_FILENO);
-		status = ft_get_next_line(STDIN_FILENO, &line);
-		if (status == -1)
-			exit((err_system_call("read"), SYSTEMCALL_EXITSTATUS));
-		else if (status == -2)
-			exit((err_system_call("malloc"), SYSTEMCALL_EXITSTATUS));
+		line = readline("> ");
 		if (!line)
 			exit((err_heredoc(red->expanded), NO_ERR));
-		if (expand_dollar(mini, &line))
-			exit((free(line), SYSTEMCALL_EXITSTATUS));
-		if (!ft_strncmp(line, red->expanded, len) && line[len] == '\n')
+		if (!ft_strcmp(red->file, line))
 			exit((free(line), SUCCESS));
+		if (!red->is_quoted && expand_dollar(mini, &line))
+			exit((free(line), SYSTEMCALL_EXITSTATUS));
 		ft_putstr_fd(line, fd);
+		ft_putchar_fd('\n', fd);
 		free(line);
 	}
 }

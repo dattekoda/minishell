@@ -6,11 +6,10 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/28 14:15:28 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/15 14:27:18 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/17 16:01:46 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <sys/wait.h>

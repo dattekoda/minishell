@@ -6,12 +6,11 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 14:37:46 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/14 16:41:36 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/17 16:04:23 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stddef.h>
-#include <stdio.h>
 #include <sys/stat.h>
 #include "minishell_define.h"
 #include "libft.h"
@@ -52,7 +51,7 @@ char	*mini_getenv(char **var, t_mini *mini)
 
 	i = 0;
 	start = *var;
-	while (**var && !ft_strchr("\'\"$", **var)
+	while (**var && !ft_strchr(DOL_DELIMITER, **var)
 		&& !ft_isspace(**var))
 		(*var)++;
 	len = (size_t)(*var - start);

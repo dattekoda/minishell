@@ -1,17 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   set_redirect_utils.c                               :+:      :+:    :+:   */
+/*   set_redirect_utils0.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 12:00:23 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/13 19:44:25 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/17 16:02:29 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
-#include <stdio.h>
 #include <stdlib.h>
 #include <fcntl.h>
 #include "minishell_define.h"

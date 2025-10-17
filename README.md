@@ -1,6 +1,6 @@
 ## 使い方
 `khanadat_proto/prompt`ディレクトリ内で`make`でコンパイル
-作成された実行ファイル、`minishell`を`./minishell`で実行できます。
+作成された実行ファイル、`./minishell`で実行できます。
 
 ## 9/8
 hyamamot/input.cのレビュー   
@@ -190,3 +190,28 @@ ref_bash-5.3$ echo $?
 0
 ```
 上記がテストコマンド。   
+ambiguous redirect時にゴミが出るバグを修正。   
+
+## 10/16
+ヒアドキュメントの展開決定をクオーテーションの有無で判別するように修正。   
+例:
+```
+$ cat << 'eof'
+> $SHELL
+> eof
+$SHELL
+```
+また、変数展開後の文字列を比較せずに単純な文字列の比較を行うよう修正。   
+```
+$ cat << $SHELL
+> /bin/zsh
+> $SHELL
+/bin/zsh
+$ echo $SHELL
+/bin/zsh
+```
+
+## 10/17
+pipeで繋がれているコマンドを適切に連結リストへとつなげるように`exec_pipe_utils.c`ファイル内`set_cmd_order()`を修正。   
+従来は`A|B|C`だと`A->C`となり`B`を飛ばすような形になっていた。   
+heredocをrealine()で行うように変更。   

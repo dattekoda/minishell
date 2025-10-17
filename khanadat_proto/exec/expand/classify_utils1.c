@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 01:26:08 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/13 20:04:47 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/16 21:46:43 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ static t_dollar	*add_d_dollar(t_dollar *cur, t_mini *mini, char **word)
 		return (NULL);
 	cur->next = new;
 	new->dkind = WD_WORD;
+	new->orig = (*word - 1);
+	new->is_quoted = true;
 	new->value = mini_getenv(word, mini);
 	new->value_len = ft_strlen(new->value);
 	return (new);
@@ -65,6 +67,7 @@ static t_dollar	*add_double(t_dollar *cur, char **word)
 	cur->next = new;
 	new->dkind = WD_WORD;
 	new->value = *word;
+	new->is_quoted = true;
 	while (**word && **word != '\"' \
 	&& **word != '$')
 	{
@@ -84,7 +87,7 @@ t_dollar	*add_outside(t_dollar *cur, char **word)
 	cur->next = new;
 	new->dkind = WD_WORD;
 	new->value = *word;
-	while (**word && !ft_strchr("\'\"$", **word))
+	while (**word && !ft_strchr(DOL_DELIMITER, **word))
 	{
 		(*word)++;
 		new->value_len++;

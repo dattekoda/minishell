@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 15:35:23 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/13 21:41:07 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/16 22:55:13 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ static int	set_new_red(t_red **new, t_red *before, t_mini *mini)
 			systemcall_minishell_exit((free_red(head.next), \
 			mini), "malloc");
 		dol_head = dol;
-		cur = add_new_red(cur, &dol, before->kind);
+		cur = add_new_red(cur, &dol, before);
 		if (dol || !*cur->expanded)
 			return (free_dollar(dol_head), free(head.next), \
 			err_ambiguous(before->file), FAILURE);

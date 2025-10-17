@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 12:45:58 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/15 14:55:33 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/17 11:29:33 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define MINISHELL_DEFINE_H
 
 # include "ast_define.h"
+#include <stdio.h>
 
 # define ERR -1
 # define NO_ERR 0
@@ -45,6 +46,8 @@
 # define ENV_OLDPWD_LEN 6
 # define INT_LEN_MAX 12
 # define SHLVL_LEN 5
+
+# define DOL_DELIMITER "\'\"$"
 
 // @envp_size: array's size
 // @envp_len: actual stored size of envp

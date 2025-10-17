@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/21 09:58:44 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/14 19:32:08 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/16 21:25:26 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ typedef enum s_RedKind
 
 typedef struct s_red
 {
+	bool			is_quoted;
 	char			*file;
 	size_t			file_len;
 	char			*expanded;

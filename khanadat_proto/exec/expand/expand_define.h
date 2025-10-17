@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 13:26:23 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/11 00:04:42 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/16 21:32:44 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define EXPAND_DEFINE_H
 
 # include <stddef.h>
+# include <stdbool.h>
 
 typedef enum s_DollarKind
 {
@@ -24,6 +25,8 @@ typedef enum s_DollarKind
 
 typedef struct s_dollar
 {
+	bool			is_quoted;
+	char			*orig;
 	char			*value;
 	size_t			value_len;
 	t_DollarKind	dkind;

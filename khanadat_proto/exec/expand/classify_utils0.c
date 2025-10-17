@@ -17,16 +17,18 @@
 #include "libft.h"
 
 static t_dollar	*add_space(t_dollar *cur, char **value);
-static t_dollar	*add_dollar(t_dollar *cur, char **value);
+static t_dollar	*add_dollar(t_dollar *cur, char **value, char *word_ptr);
 
-t_dollar	*classify_more_dollar(t_dollar **cur, t_mini *mini, char **tmp)
+t_dollar	*classify_more_dollar(t_dollar **cur, t_mini *mini, char **word)
 {
 	char	*value;
+	char	*word_ptr;
 
-	(*tmp)++;
-	if (**tmp == '?')
-		return (add_status(*cur, mini, tmp));
-	value = mini_getenv(tmp, mini);
+	word_ptr = *word;
+	(*word)++;
+	if (**word == '?')
+		return (add_status(*cur, mini, word));
+	value = mini_getenv(word, mini);
 	while (*value && *cur)
 	{
 		if (ft_isspace(*value))
@@ -34,7 +36,7 @@ t_dollar	*classify_more_dollar(t_dollar **cur, t_mini *mini, char **tmp)
 			*cur = add_space(*cur, &value);
 			continue ;
 		}
-		*cur = add_dollar(*cur, &value);
+		*cur = add_dollar(*cur, &value, word_ptr);
 	}
 	return (*cur);
 }
@@ -56,7 +58,7 @@ static t_dollar	*add_space(t_dollar *cur, char **value)
 	return (new);
 }
 
-static t_dollar	*add_dollar(t_dollar *cur, char **value)
+static t_dollar	*add_dollar(t_dollar *cur, char **value, char *word_ptr)
 {
 	t_dollar	*new;
 
@@ -66,6 +68,7 @@ static t_dollar	*add_dollar(t_dollar *cur, char **value)
 	cur->next = new;
 	new->value = *value;
 	new->dkind = WD_WORD;
+	new->orig = word_ptr;
 	while (**value && !ft_isspace(**value))
 	{
 		new->value_len++;
@@ -84,6 +87,7 @@ t_dollar	*add_single(t_dollar *cur, char **word)
 	cur->next = new;
 	new->value = *word + 1;
 	new->dkind = WD_WORD;
+	new->is_quoted = true;
 	*word = ft_strchr(new->value, '\'') + 1;
 	new->value_len = (size_t)(*word - 1 - new->value);
 	return (new);
@@ -99,6 +103,7 @@ t_dollar	*add_status(t_dollar *cur, t_mini *mini, char **word)
 	cur->next = new;
 	new->dkind = WD_WORD;
 	new->value = mini->status;
+	new->orig = (*word - 1);
 	(*word)++;
 	new->value_len = ft_strlen(new->value);
 	return (new);

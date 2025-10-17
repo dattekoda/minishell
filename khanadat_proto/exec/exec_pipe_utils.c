@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/14 21:44:49 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/15 14:56:49 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/17 15:55:13 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,21 @@
 #include "ast_define.h"
 #include "libft.h"
 
-static t_node	*connect_cmd(t_node *node);
 static void		exec_pipe_child(t_mini *mini, t_node *before, t_node *node);
 
 t_node	*set_cmd_order(t_node *node)
 {
-	connect_cmd(node);
-	while (node->lhs)
-		node = node->lhs;
-	return (node);
+	t_node	*head;
+	t_node	*tail;
+
+	if (node->kind == ND_CMD)
+		return (node);
+	head = set_cmd_order(node->lhs);
+	tail = head;
+	while (tail->rhs)
+		tail = tail->rhs;
+	tail->rhs = node->rhs;
+	return (head);
 }
 
 void	start_pipe_group(t_mini *mini, t_node *node)
@@ -67,26 +73,12 @@ void	wait_pipe_group(t_mini *mini, t_node *node)
 	}
 }
 
-static t_node	*connect_cmd(t_node *node)
-{
-	t_node	*tmp;
-
-	if (node->lhs->kind == ND_CMD)
-	{
-		node->lhs->rhs = node->rhs;
-		return (node->lhs);
-	}
-	if (node->lhs->kind == ND_PIPE)
-	{
-		tmp = connect_cmd(node->lhs);
-		tmp->rhs = node->rhs;
-		return (node->rhs);
-	}
-	return (NULL);
-}
-
 static void	exec_pipe_child(t_mini *mini, t_node *before, t_node *node)
 {
+	if (mini->signaled)
+		normal_minishell_exit(mini, NULL, NULL, ft_atoi(mini->status));
+	if (node->expand_err)
+		normal_minishell_exit(mini, NULL, NULL, ft_atoi(mini->status));
 	if (before)
 	{
 		close(before->cmd->pfd[1]);
@@ -101,7 +93,5 @@ static void	exec_pipe_child(t_mini *mini, t_node *before, t_node *node)
 			systemcall_minishell_exit(mini, "dup2");
 		close(node->cmd->pfd[1]);
 	}
-	if (mini->signaled)
-		normal_minishell_exit(mini, NULL, NULL, ft_atoi(mini->status));
 	exec_cmd(mini, node);
 }
