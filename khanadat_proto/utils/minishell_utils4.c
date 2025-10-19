@@ -6,15 +6,15 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/04 00:40:21 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/14 16:36:22 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/19 19:32:24 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
 #include "minishell_define.h"
 #include "minishell_utils.h"
 #include "minishell_err.h"
 #include "libft.h"
+#include <stdlib.h>
 
 #define CWD_INIT_SIZE 4096
 
@@ -35,7 +35,8 @@ size_t	search_envp_i(t_mini *mini, char *arg, size_t var_len)
 	while (mini->envp[i])
 	{
 		if (!ft_strncmp(arg, mini->envp[i], var_len) \
-			&& mini->envp[i][var_len] == '=')
+			&& (mini->envp[i][var_len] == '=' \
+			|| !mini->envp[i][var_len]))
 			break ;
 		i++;
 	}

@@ -6,17 +6,17 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/28 13:38:47 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/17 16:03:09 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/19 11:56:11 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
 #include "minishell_define.h"
 #include "minishell_utils.h"
 #include "minishell_err.h"
 #include "libft.h"
 #include "tokenizer.h"
 #include "ast.h"
+#include <stdlib.h>
 
 static int	set_envp(t_mini *mini, char *envp[]);
 static int	set_prompt(t_mini *mini);

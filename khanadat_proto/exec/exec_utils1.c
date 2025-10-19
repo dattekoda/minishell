@@ -6,13 +6,10 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/12 19:01:50 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/15 14:56:49 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/19 11:55:48 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
-#include <sys/wait.h>
-#include <signal.h>
 #include "minishell_define.h"
 #include "minishell_utils.h"
 #include "minishell_err.h"
@@ -20,6 +17,9 @@
 #include "exec_utils.h"
 #include "exec.h"
 #include "libft.h"
+#include <unistd.h>
+#include <sys/wait.h>
+#include <signal.h>
 
 void	exec_inside(t_mini *mini, t_node *node)
 {

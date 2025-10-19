@@ -6,14 +6,14 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 14:37:46 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/17 16:04:23 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/19 19:41:31 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stddef.h>
-#include <sys/stat.h>
 #include "minishell_define.h"
 #include "libft.h"
+#include <stddef.h>
+#include <sys/stat.h>
 
 // found var then return value
 // else return NULL

@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 01:16:09 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/03 21:26:44 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/19 10:20:58 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@
 // classify_utils0.c
 t_dollar	*classify_more_dollar(t_dollar **cur, t_mini *mini, char **tmp);
 t_dollar	*add_single(t_dollar *cur, char **word);
-t_dollar	*add_status(t_dollar *cur, t_mini *mini, char **word);
+t_dollar	*add_status(t_dollar *cur, t_mini *mini, \
+	char **word, bool is_quoted);
 
 // classify_utils1.c
 t_dollar	*classify_double(t_dollar **cur, t_mini *mini, char **tmp);

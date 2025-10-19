@@ -6,21 +6,21 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 17:51:14 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/17 16:04:08 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/19 11:56:33 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
+#include "minishell_define.h"
+#include "minishell_err.h"
+#include "minishell_utils.h"
+#include "ast.h"
 #include <unistd.h>
 #include <stddef.h>
 #include <stdio.h>
 #include <signal.h>
 #include <readline/readline.h>
 #include <readline/history.h>
-#include "libft.h"
-#include "minishell_define.h"
-#include "minishell_err.h"
-#include "minishell_utils.h"
-#include "ast.h"
 
 // static char	*get_program_name(char *set);
 

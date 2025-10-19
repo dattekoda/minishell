@@ -27,7 +27,7 @@ t_dollar	*classify_more_dollar(t_dollar **cur, t_mini *mini, char **word)
 	word_ptr = *word;
 	(*word)++;
 	if (**word == '?')
-		return (add_status(*cur, mini, word));
+		return (add_status(*cur, mini, word, false));
 	value = mini_getenv(word, mini);
 	while (*value && *cur)
 	{
@@ -93,7 +93,8 @@ t_dollar	*add_single(t_dollar *cur, char **word)
 	return (new);
 }
 
-t_dollar	*add_status(t_dollar *cur, t_mini *mini, char **word)
+t_dollar	*add_status(t_dollar *cur, t_mini *mini, \
+	char **word, bool is_quoted)
 {
 	t_dollar	*new;
 
@@ -104,6 +105,7 @@ t_dollar	*add_status(t_dollar *cur, t_mini *mini, char **word)
 	new->dkind = WD_WORD;
 	new->value = mini->status;
 	new->orig = (*word - 1);
+	new->is_quoted = is_quoted;
 	(*word)++;
 	new->value_len = ft_strlen(new->value);
 	return (new);

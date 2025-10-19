@@ -6,16 +6,16 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 13:20:01 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/17 16:02:13 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/19 11:56:03 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <sys/stat.h>
-#include <unistd.h>
 #include "libft.h"
 #include "minishell_define.h"
 #include "minishell_utils.h"
 #include "minishell_err.h"
+#include <sys/stat.h>
+#include <unistd.h>
 
 void	get_cwd_path(char **path, char **argv, t_mini *mini)
 {

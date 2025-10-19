@@ -6,13 +6,10 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 09:45:04 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/15 14:50:25 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/19 11:55:41 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stddef.h>
-#include <signal.h>
-#include <sys/wait.h>
 #include "minishell_define.h"
 #include "minishell_err.h"
 #include "minishell_utils.h"
@@ -21,6 +18,9 @@
 #include "set_redirect.h"
 #include "builtin.h"
 #include "get_path.h"
+#include <stddef.h>
+#include <signal.h>
+#include <sys/wait.h>
 
 int	store_argv(t_word *head, char ***argv)
 {

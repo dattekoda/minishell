@@ -6,13 +6,10 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/14 19:15:17 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/17 15:55:49 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/19 11:55:34 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <sys/types.h>
-#include <sys/wait.h>
-#include <unistd.h>
 #include "minishell_define.h"
 #include "minishell_utils.h"
 #include "exec_utils.h"
@@ -21,6 +18,9 @@
 #include "expand.h"
 #include "builtin.h"
 #include "set_redirect.h"
+#include <sys/types.h>
+#include <sys/wait.h>
+#include <unistd.h>
 
 static void	exec_nd_cmd(t_mini *mini, t_node *node);
 static void	exec_nd_pipe(t_mini *mini, t_node *node);

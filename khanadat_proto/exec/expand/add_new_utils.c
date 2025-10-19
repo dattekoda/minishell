@@ -10,11 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stddef.h>
-#include <stdbool.h>
 #include "minishell_define.h"
 #include "expand_define.h"
 #include "libft.h"
+#include <stddef.h>
+#include <stdbool.h>
 
 void	set_new_str(char *str, t_dollar *dol_tail)
 {
@@ -25,6 +25,20 @@ void	set_new_str(char *str, t_dollar *dol_tail)
 	{
 		ft_memmove(str + i, \
 			dol_tail->value, dol_tail->value_len);
+		i += dol_tail->value_len;
+		dol_tail = dol_tail->next;
+	}
+}
+
+void	set_wild_checker(bool *wild_checker, t_dollar *dol_tail)
+{
+	size_t	i;
+
+	i = 0;
+	while (dol_tail && dol_tail->dkind != WD_SPACE)
+	{
+		if (!dol_tail->is_quoted)
+			ft_memset(wild_checker + i, true, dol_tail->value_len);
 		i += dol_tail->value_len;
 		dol_tail = dol_tail->next;
 	}

@@ -1,29 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ast_utils_is2.c                                    :+:      :+:    :+:   */
+/*   expand_wc_utils.h                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/12 12:02:55 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/19 12:05:35 by khanadat         ###   ########.fr       */
+/*   Created: 2025/10/19 14:30:09 by khanadat          #+#    #+#             */
+/*   Updated: 2025/10/19 14:33:27 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "tokenizer_define.h"
-#include "ast_utils.h"
-#include <stdbool.h>
+#ifndef EXPAND_WC_UTILS_H
+# define EXPAND_WC_UTILS_H
 
-bool	is_par_first(t_token *token)
-{
-	if (token->kind != TK_OPERATOR)
-		return (false);
-	return (*(token->str) == '(');
-}
+# include <stdbool.h>
+# include <stddef.h>
 
-bool	is_par_sec(t_token *token)
-{
-	if (token->kind != TK_OPERATOR)
-		return (false);
-	return (*(token->str) == ')');
-}
+bool	need_expand_wild(bool *wild_checker, char *expanded, size_t exp_len);
+bool	is_wildcard(char *pattern, char *d_name);
+
+#endif

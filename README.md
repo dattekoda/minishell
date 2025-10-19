@@ -215,3 +215,9 @@ $ echo $SHELL
 pipeで繋がれているコマンドを適切に連結リストへとつなげるように`exec_pipe_utils.c`ファイル内`set_cmd_order()`を修正。   
 従来は`A|B|C`だと`A->C`となり`B`を飛ばすような形になっていた。   
 heredocをrealine()で行うように変更。   
+
+## 10/19
+環境変数の区切り文字にアスタリスク*を追加。   
+wildcardを展開する雛形の完成。   
+redirectを展開する雛形の完成。   
+ほぼwildcard完成しました。   

@@ -6,19 +6,19 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/21 09:58:42 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/12 18:07:03 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/19 12:05:46 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdbool.h>
-#include <stdlib.h>
-#include <unistd.h>
 #include "ast_define.h"
 #include "ast_utils.h"
 #include "tokenizer.h"
 #include "minishell_err.h"
 #include "libft.h"
 #include "ast.h"
+#include <stdbool.h>
+#include <stdlib.h>
+#include <unistd.h>
 
 t_node	*new_node(t_NodeKind kind, t_node *lhs, t_node *rhs)
 {

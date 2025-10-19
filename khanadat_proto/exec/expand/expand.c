@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 15:35:23 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/16 22:55:13 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/19 15:27:56 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,25 +25,24 @@ static int	set_new_red(t_red **new, t_red *before, t_mini *mini);
 // if ambiguous redirect, return FAILURE;
 int	expand_node(t_node *node, t_mini *mini)
 {
-	t_word	*before_word;
 	t_word	*new_word;
-	t_red	*before_red;
 	t_red	*new_red;
 
 	if (node->word)
 	{
-		before_word = node->word;
-		set_new_word(&new_word, before_word, mini);
+		set_new_word(&new_word, node->word, mini);
 		free_word(node->word);
 		node->word = new_word;
+		set_wild_word(mini, &node->word);
 	}
 	if (!node->red)
 		return (SUCCESS);
-	before_red = node->red;
-	if (set_new_red(&new_red, before_red, mini))
+	if (set_new_red(&new_red, node->red, mini))
 		return (FAILURE);
-	free_red(before_red);
+	free_red(node->red);
 	node->red = new_red;
+	if (set_wild_red(mini, &node->red))
+		return (FAILURE);
 	return (SUCCESS);
 }
 

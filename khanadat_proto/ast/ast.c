@@ -6,13 +6,10 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/21 09:58:37 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/14 22:31:42 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/19 12:05:59 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdbool.h>
-#include <unistd.h>
-#include <signal.h>
 #include "libft.h"
 #include "minishell_define.h"
 #include "minishell_err.h"
@@ -21,6 +18,9 @@
 #include "ast_define.h"
 #include "ast_utils.h"
 #include "ast.h"
+#include <stdbool.h>
+#include <unistd.h>
+#include <signal.h>
 
 static void	free_cmd(t_cmd *cmd);
 void		put_eof_cmd_node(t_node *node);

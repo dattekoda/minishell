@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/21 09:58:44 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/16 21:25:26 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/19 10:47:20 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,16 +47,19 @@ typedef struct s_red
 	size_t			file_len;
 	char			*expanded;
 	size_t			exp_len;
+	bool			*wild_checker;
 	t_RedKind		kind;
 	struct s_red	*next;
 }	t_red;
 
+// wild_checker for judge if necessary to expand asterisk
 typedef struct s_word
 {
 	char			*word;
 	size_t			word_len;
 	char			*expanded;
 	size_t			exp_len;
+	bool			*wild_checker;
 	struct s_word	*next;
 }	t_word;
 

@@ -6,19 +6,19 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/21 18:15:10 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/17 16:03:30 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/19 11:56:25 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-#include <stdio.h>
-#include <readline/readline.h>
-#include <readline/history.h>
 #include "minishell_err.h"
 #include "minishell_define.h"
 #include "minishell_utils.h"
 #include "libft.h"
 #include "ast.h"
+#include <stdlib.h>
+#include <stdio.h>
+#include <readline/readline.h>
+#include <readline/history.h>
 
 // free join and joined first and buffer
 // if malloc failed, put error

@@ -6,10 +6,15 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 16:18:41 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/17 21:13:25 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/19 11:55:22 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "minishell_define.h"
+#include "minishell_utils.h"
+#include "minishell_err.h"
+#include "libft.h"
+#include "set_redirect_utils.h"
 #include <fcntl.h>
 #include <unistd.h>
 #include <sys/types.h>
@@ -18,11 +23,6 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include <readline/readline.h>
-#include "minishell_define.h"
-#include "minishell_utils.h"
-#include "minishell_err.h"
-#include "libft.h"
-#include "set_redirect_utils.h"
 
 static void	start_heredoc(t_mini *mini, t_red *red, int fd);
 static void	mini_heredoc(t_mini *mini, t_red *red, t_cmd *cmd, int *status);
