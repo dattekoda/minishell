@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 21:58:54 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/13 18:29:00 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/19 16:55:00 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ void	free_red(t_red *head)
 	{
 		tmp = head->next;
 		free(head->expanded);
+		free(head->wild_checker);
 		free(head);
 		head = tmp;
 	}

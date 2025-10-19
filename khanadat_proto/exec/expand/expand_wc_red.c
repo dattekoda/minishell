@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/19 14:41:12 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/19 15:34:49 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/19 17:45:03 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,9 @@ int	set_wild_red(t_mini *mini, t_red **red)
 
 	before = NULL;
 	cur = *red;
+	ambigous = false;
+	// fprintf(stderr, "file: %s\n", (*red)->file);
+	// fprintf(stderr, "exp: %s\n", (*red)->expanded);
 	while (cur)
 	{
 		if (need_expand_wild(cur->wild_checker, cur->expanded, cur->exp_len))
@@ -46,6 +49,7 @@ int	set_wild_red(t_mini *mini, t_red **red)
 		before = cur;
 		cur = cur->next;
 	}
+	// fprintf(stderr, "exp: %s\n", (*red)->expanded);
 	return (SUCCESS);
 }
 
@@ -64,7 +68,7 @@ t_red	*insert_wild_red(t_red *before, t_red **red, \
 	set_new_wild_red(cur, &new, dir_ptr, ambigous);
 	if (!new)
 		return (free_red(head.next), NULL);
-	if (!head.next || ambigous)
+	if (!head.next || *ambigous)
 		return (free_red(head.next), cur);
 	if (before)
 		before->next = head.next;
@@ -94,8 +98,8 @@ static void	set_new_wild_red(t_red *orig, t_red **new, \
 			continue ;
 		if (is_wildcard(orig->expanded, dirent_ptr->d_name))
 		{
-			i++;
 			*new = add_new_wild_red(orig, new, dirent_ptr->d_name);
+			i++;
 		}
 	}
 	closedir(dir_ptr);
@@ -114,6 +118,7 @@ static t_red	*add_new_wild_red(t_red *orig, t_red **cur, char *d_name)
 	(*cur)->next = new;
 	new->expanded = ft_strdup(d_name);
 	new->exp_len = ft_strlen(d_name);
+	new->wild_checker = NULL;
 	new->next = NULL;
 	return (new);
 }

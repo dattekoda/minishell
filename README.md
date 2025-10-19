@@ -220,3 +220,4 @@ heredocをrealine()で行うように変更。
 環境変数の区切り文字にアスタリスク*を追加。   
 wildcardを展開する雛形の完成。   
 redirectを展開する雛形の完成。   
+ほぼwildcard完成しました。   
