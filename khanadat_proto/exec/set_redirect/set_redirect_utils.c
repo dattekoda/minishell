@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 12:00:23 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/19 11:55:14 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/19 19:59:24 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "minishell_err.h"
 #include "minishell_utils.h"
 #include "libft.h"
+#include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
 #include <fcntl.h>

@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/05 18:49:42 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/14 18:54:18 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/19 19:44:41 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,10 @@ void	exec_env(t_mini *mini, char **argv, bool exp)
 		i++;
 	}
 	while (!exp && i < mini->envp_len)
-		ft_putendl_fd(mini->envp[i++], STDOUT_FILENO);
+	{
+		if (ft_strchr(mini->envp[i], '='))
+			ft_putendl_fd(mini->envp[i], STDOUT_FILENO);
+		i++;
+	}
 	store_status(SUCCESS, mini);
 }

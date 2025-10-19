@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/19 14:41:12 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/19 17:45:03 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/19 19:58:26 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@
 #include <stdbool.h>
 #include <dirent.h>
 
-t_red		*insert_wild_red(t_red *before, t_red **red, \
+t_red			*insert_wild_red(t_red *before, t_red **red, \
 	t_red *cur, bool *ambigous);
-static void	set_new_wild_red(t_red *orig, t_red **new, \
+static void		set_new_wild_red(t_red *orig, t_red **new, \
 	DIR *dir_ptr, bool *ambigous);
 static t_red	*add_new_wild_red(t_red *orig, t_red **cur, \
 	char *d_name);
@@ -36,8 +36,6 @@ int	set_wild_red(t_mini *mini, t_red **red)
 	before = NULL;
 	cur = *red;
 	ambigous = false;
-	// fprintf(stderr, "file: %s\n", (*red)->file);
-	// fprintf(stderr, "exp: %s\n", (*red)->expanded);
 	while (cur)
 	{
 		if (need_expand_wild(cur->wild_checker, cur->expanded, cur->exp_len))
@@ -49,7 +47,6 @@ int	set_wild_red(t_mini *mini, t_red **red)
 		before = cur;
 		cur = cur->next;
 	}
-	// fprintf(stderr, "exp: %s\n", (*red)->expanded);
 	return (SUCCESS);
 }
 

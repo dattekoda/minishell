@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 12:45:58 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/19 15:04:07 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/19 19:57:44 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 # define MINISHELL_DEFINE_H
 
 # include "ast_define.h"
-#include <stdio.h>
 
 # define ERR -1
 # define NO_ERR 0
