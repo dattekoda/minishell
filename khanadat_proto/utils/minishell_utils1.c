@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 17:51:14 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/19 11:56:33 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/19 20:29:12 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ void	t_mini_free(t_mini *mini)
 	free(mini->envp);
 	if (mini->is_sys_err)
 		kill_all(mini->node);
+	free(mini->prompt);
 	free_node(&mini->node);
 	mini_safe_free((void **)&mini->line);
 	rl_clear_history();

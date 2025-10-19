@@ -221,3 +221,4 @@ heredocをrealine()で行うように変更。
 wildcardを展開する雛形の完成。   
 redirectを展開する雛形の完成。   
 ほぼwildcard完成しました。   
+mini->promptをfree()するように修正。   

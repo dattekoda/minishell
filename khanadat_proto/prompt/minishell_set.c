@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/28 13:38:47 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/19 11:56:11 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/19 20:25:42 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ static void	update_shlvl(t_mini *mini)
 		set_mini_envp("SHLVL", "1", &mini->envp[i]);
 		return ;
 	}
+	
 	num = ft_atoi(ft_strchr(mini->envp[i], '=') + 1);
 	shlvl_val = ft_itoa(num + 1);
 	set_mini_envp("SHLVL", shlvl_val, &mini->envp[i]);
