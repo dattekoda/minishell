@@ -6,14 +6,14 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/10 07:46:03 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/11 12:32:47 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/19 11:56:59 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
 #include "minishell_err.h"
 #include "minishell_set.h"
 #include "prompt.h"
+#include <stdlib.h>
 
 int	main(int argc, char *argv[], char *envp[])
 {

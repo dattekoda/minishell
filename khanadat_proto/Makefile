@@ -6,7 +6,7 @@
 #    By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/09 14:24:07 by khanadat          #+#    #+#              #
-#    Updated: 2025/10/17 21:14:33 by khanadat         ###   ########.fr        #
+#    Updated: 2025/10/19 13:03:13 by khanadat         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -70,6 +70,7 @@ SRCS		=	main.c \
 				exec/expand/add_new_utils.c \
 				exec/expand/classify_utils0.c \
 				exec/expand/classify_utils1.c \
+				exec/expand/expand_wild_card.c \
 				exec/expand/expand.c \
 				exec/expand/expand_utils_add.c \
 				exec/expand/expand_utils.c \

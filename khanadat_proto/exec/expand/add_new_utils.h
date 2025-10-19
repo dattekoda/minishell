@@ -17,6 +17,7 @@
 # include "expand_define.h"
 
 void	set_new_str(char *str, t_dollar *dol_tail);
+void	set_wild_checker(bool *wild_checker, t_dollar *dol_tail);
 size_t	count_word_len(t_dollar **dol);
 
 #endif

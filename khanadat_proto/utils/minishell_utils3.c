@@ -6,17 +6,17 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 17:07:39 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/15 15:00:43 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/19 11:56:45 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <signal.h>
-#include <stdlib.h>
-#include <unistd.h>
 #include "minishell_define.h"
 #include "minishell_utils.h"
 #include "minishell_err.h"
 #include "libft.h"
+#include <signal.h>
+#include <stdlib.h>
+#include <unistd.h>
 
 static void	set_signaled(bool *signaled, int status, \
 	int *exit_status);

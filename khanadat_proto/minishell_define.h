@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 12:45:58 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/17 11:29:33 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/19 11:08:00 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,8 @@
 # define INT_LEN_MAX 12
 # define SHLVL_LEN 5
 
-# define DOL_DELIMITER "\'\"$"
+# define DOL_DELIMITER "\'\"$*"
+# define OUTSIDE_DELIMITER "\'\"$"
 
 // @envp_size: array's size
 // @envp_len: actual stored size of envp

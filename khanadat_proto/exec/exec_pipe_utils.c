@@ -6,18 +6,18 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/14 21:44:49 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/17 15:55:13 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/19 11:55:04 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <sys/types.h>
-#include <sys/wait.h>
-#include <unistd.h>
 #include "minishell_define.h"
 #include "minishell_utils.h"
 #include "exec_utils.h"
 #include "ast_define.h"
 #include "libft.h"
+#include <sys/types.h>
+#include <sys/wait.h>
+#include <unistd.h>
 
 static void		exec_pipe_child(t_mini *mini, t_node *before, t_node *node);
 

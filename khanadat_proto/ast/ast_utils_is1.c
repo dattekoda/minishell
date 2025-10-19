@@ -6,13 +6,13 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/12 12:02:31 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/12 12:04:16 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/19 12:05:30 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdbool.h>
 #include "tokenizer_define.h"
 #include "ast_utils.h"
+#include <stdbool.h>
 
 bool	is_redirect(t_token *token)
 {

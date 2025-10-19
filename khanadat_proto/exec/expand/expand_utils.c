@@ -6,16 +6,15 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 13:28:31 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/09 15:16:29 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/19 11:54:28 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
 #include "minishell_define.h"
-
 #include "libft.h"
 #include "expand_define.h"
 #include "classify_utils.h"
+#include <stdlib.h>
 
 static void	classify_dollar(t_dollar **cur, t_mini *mini, char **tmp);
 

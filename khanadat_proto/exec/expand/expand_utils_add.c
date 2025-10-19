@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 12:25:08 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/16 23:22:06 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/19 10:51:44 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,11 @@ t_word	*add_new_word(t_word *cur, t_dollar **dol)
 	new_word->expanded = ft_calloc(new_word->exp_len + 1, sizeof(char));
 	if (!new_word->expanded)
 		return (NULL);
+	new_word->wild_checker = ft_calloc(new_word->exp_len, sizeof(bool));
+	if (!new_word->wild_checker)
+		return (NULL);
 	set_new_str(new_word->expanded, dol_tail);
+	set_wild_checker(new_word->wild_checker, dol_tail);
 	return (new_word);
 }
 
@@ -49,13 +53,17 @@ t_red	*add_new_red(t_red *cur, t_dollar **dol, t_red *before)
 	new_red->kind = before->kind;
 	new_red->exp_len = count_word_len(dol);
 	new_red->expanded = ft_calloc(new_red->exp_len + 1, sizeof(char));
+	if (!new_red->expanded)
+		return (NULL);
+	new_red->wild_checker = ft_calloc(new_red->exp_len, sizeof(bool));
+	if (!new_red->wild_checker)
+		return (NULL);
 	if (check_is_quoted(dol_tail))
 		new_red->is_quoted = true;
 	new_red->file = before->file;
 	set_orig_file(new_red, dol_tail);
-	if (!new_red->expanded)
-		return (NULL);
 	set_new_str(new_red->expanded, dol_tail);
+	set_wild_checker(new_red->wild_checker, dol_tail);
 	return (new_red);
 }
 

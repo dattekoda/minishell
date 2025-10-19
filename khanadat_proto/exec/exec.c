@@ -6,16 +6,10 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/28 14:15:28 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/17 16:01:46 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/19 11:55:56 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <sys/wait.h>
-#include <unistd.h>
-#include <signal.h>
-#include <fcntl.h>
 #include "minishell_err.h"
 #include "minishell_define.h"
 #include "minishell_utils.h"
@@ -25,6 +19,12 @@
 #include "set_redirect.h"
 #include "builtin.h"
 #include "exec_utils.h"
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <sys/wait.h>
+#include <unistd.h>
+#include <signal.h>
+#include <fcntl.h>
 
 static void	exec_or_group(t_mini *mini, t_node *node);
 static void	exec_and_group(t_mini *mini, t_node *node);
