@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 15:35:23 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/19 13:02:11 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/19 15:27:56 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ int	expand_node(t_node *node, t_mini *mini)
 		return (FAILURE);
 	free_red(node->red);
 	node->red = new_red;
+	if (set_wild_red(mini, &node->red))
+		return (FAILURE);
 	return (SUCCESS);
 }
 

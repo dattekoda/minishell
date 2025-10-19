@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 12:45:58 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/19 11:08:00 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/19 15:04:07 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@
 
 # define DOL_DELIMITER "\'\"$*"
 # define OUTSIDE_DELIMITER "\'\"$"
+
+# define CURRENT_DIR "."
 
 // @envp_size: array's size
 // @envp_len: actual stored size of envp

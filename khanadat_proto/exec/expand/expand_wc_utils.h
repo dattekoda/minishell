@@ -1,20 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expand.h                                           :+:      :+:    :+:   */
+/*   expand_wc_utils.h                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/29 16:58:13 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/19 15:28:16 by khanadat         ###   ########.fr       */
+/*   Created: 2025/10/19 14:30:09 by khanadat          #+#    #+#             */
+/*   Updated: 2025/10/19 14:33:27 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef EXPAND_H
-# define EXPAND_H
+#ifndef EXPAND_WC_UTILS_H
+# define EXPAND_WC_UTILS_H
 
-# include "minishell_define.h"
+# include <stdbool.h>
+# include <stddef.h>
 
-int		expand_node(t_node *node, t_mini *mini);
+bool	need_expand_wild(bool *wild_checker, char *expanded, size_t exp_len);
+bool	is_wildcard(char *pattern, char *d_name);
 
 #endif
