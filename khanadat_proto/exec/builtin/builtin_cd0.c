@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/05 18:19:45 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/13 18:00:27 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/21 15:03:06 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ static bool	not_valid_cd(t_mini *mini, char **argv, char *dir)
 
 static void	cd_parent_dir(t_mini *mini, char *old_pwd)
 {
-	if (!chdir(".."))
+	if (chdir("..") == SUCCESS)
 	{
 		update_success_cd(mini, old_pwd);
 		return ;
@@ -73,6 +73,7 @@ static void	cd_parent_dir(t_mini *mini, char *old_pwd)
 		store_status(FAILURE, mini);
 		return ;
 	}
+	free(old_pwd);
 	store_status(SUCCESS, mini);
 	update_pwd(mini);
 }

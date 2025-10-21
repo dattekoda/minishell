@@ -222,3 +222,8 @@ wildcardを展開する雛形の完成。
 redirectを展開する雛形の完成。   
 ほぼwildcard完成しました。   
 mini->promptをfree()するように修正。   
+
+## 10/21
+””コマンドが来たときにpermission deniedと表示されてエラーステータスが127に設定されるように修正。   
+builtin_cd0.cファイルの76行目でold_pwdをfreeするように修正。   
+envのエラーメッセージでenvが表示されるように修正。   

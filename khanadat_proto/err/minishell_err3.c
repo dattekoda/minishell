@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/04 20:59:55 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/13 18:00:27 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/21 15:00:20 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 void	err_msg_env(char *file)
 {
 	ft_putstr_fd(MINISHELL_STR, STDERR_FILENO);
-	ft_putstr_fd(": cd: ", STDERR_FILENO);
+	ft_putstr_fd(": env: ", STDERR_FILENO);
 	ft_putstr_fd(file, STDERR_FILENO);
 	ft_putendl_fd(": Options and arguments" \
 		" are not supported", STDERR_FILENO);

@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 13:20:01 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/19 11:56:03 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/21 14:48:59 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,9 @@ void	get_path(char **path, t_mini *mini, char **argv)
 
 	if (PATH_MAX < 1024)
 		return ;
+	if (!argv[0][0])
+		failure_minishell_exit(mini, &err_cmd_not_found, \
+			"\'\'", NOT_FOUND_ERR);
 	if (ft_strchr(argv[0], '/'))
 	{
 		get_abs_path(path, argv, mini);
