@@ -227,3 +227,4 @@ mini->promptをfree()するように修正。
 ””コマンドが来たときにpermission deniedと表示されてエラーステータスが127に設定されるように修正。   
 builtin_cd0.cファイルの76行目でold_pwdをfreeするように修正。   
 envのエラーメッセージでenvが表示されるように修正。   
+指定したファイルが実行可能ファイルではなかったときに、`bash`と同様の挙動をするように`exec_utils1.c`ファイルに`not_valid_execve_file()`を追加。   

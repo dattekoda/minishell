@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/12 19:01:50 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/19 11:55:48 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/21 19:31:51 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,18 @@
 #include "exec_utils.h"
 #include "exec.h"
 #include "libft.h"
+#include <fcntl.h>
 #include <unistd.h>
 #include <sys/wait.h>
 #include <signal.h>
+
+#if defined(__APPLE__)
+# define OS_ELF "\xCF\xFA\xED\xFE"
+#elif defined(__linux__)
+# define OS_ELF "\x7FELF"
+#endif
+
+#define OS_ELF_LEN 4
 
 void	exec_inside(t_mini *mini, t_node *node)
 {
@@ -57,4 +66,23 @@ void	wait_node(t_mini *mini, t_node *node)
 		catch_final_status(status, mini);
 	}
 	reset_rfd(mini, node);
+}
+
+int	not_valid_execve_file(t_mini *mini, char *path)
+{
+	char	buf[16];
+	int		fd;
+
+	fd = open(path, O_RDONLY);
+	if (fd == -1)
+		failure_minishell_exit(mini, &err_file, \
+			path, PERMISSION_ERR);
+	ft_bzero(&buf, 16);
+	if (read(fd, buf, 15) < 0)
+	{
+		close(fd);
+		systemcall_minishell_exit(mini, "read");
+	}
+	close(fd);
+	return ((ft_strncmp(buf, OS_ELF, OS_ELF_LEN) != 0));
 }

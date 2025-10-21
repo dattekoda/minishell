@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 09:45:04 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/19 11:55:41 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/21 19:27:17 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 #include "set_redirect.h"
 #include "builtin.h"
 #include "get_path.h"
+#include "exec_utils.h"
 #include <stddef.h>
 #include <signal.h>
 #include <sys/wait.h>
@@ -51,6 +52,8 @@ void	exec_child_proc(t_mini *mini, char **argv)
 	set_handler(mini, SIGQUIT, SIG_DFL);
 	get_path(&path, mini, argv);
 	execve(path, argv, mini->envp);
+	if (not_valid_execve_file(mini, path))
+		normal_minishell_exit(mini, NULL, NULL, SUCCESS);
 	systemcall_minishell_exit(mini, "execve");
 }
 

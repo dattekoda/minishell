@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 09:45:18 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/15 14:19:10 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/21 19:27:25 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,10 @@ void	set_rfd(t_mini *mini, t_cmd *cmd);
 void	exec_cmd(t_mini *mini, t_node *node);
 void	reset_rfd(t_mini *mini, t_node *node);
 
-// exec_utils2.c
+// exec_utils1.c
 void	exec_inside(t_mini *mini, t_node *node);
 void	wait_node(t_mini *mini, t_node *node);
+int		not_valid_execve_file(t_mini *mini, char *path);
 
 // exec_pipe.c
 void	exec_node(t_mini *mini, t_node *node);
