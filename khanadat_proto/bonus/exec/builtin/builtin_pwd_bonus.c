@@ -1,0 +1,41 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtin_pwd_bonus.c                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/10/05 23:35:22 by khanadat          #+#    #+#             */
+/*   Updated: 2025/10/24 20:55:23 by khanadat         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include <stdlib.h>
+#include <unistd.h>
+#include "minishell_define_bonus.h"
+#include "minishell_utils_bonus.h"
+#include "minishell_err_bonus.h"
+#include "libft.h"
+
+void	exec_pwd(t_mini *mini)
+{
+	char	*cwd;
+
+	cwd = mini_getcwd();
+	if (cwd)
+	{
+		ft_putendl_fd(cwd, STDOUT_FILENO);
+		free(cwd);
+		store_status(SUCCESS, mini);
+		return ;
+	}
+	cwd = normal_getenv(ENV_PWD, mini);
+	if (!cwd)
+	{
+		err_pwd();
+		store_status(FAILURE, mini);
+		return ;
+	}
+	ft_putendl_fd(cwd, STDOUT_FILENO);
+	store_status(SUCCESS, mini);
+}

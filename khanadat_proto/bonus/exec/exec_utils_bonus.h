@@ -1,0 +1,35 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exec_utils_bonus.h                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/10/09 09:45:18 by khanadat          #+#    #+#             */
+/*   Updated: 2025/10/24 20:59:29 by khanadat         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#ifndef EXEC_UTILS_BONUS_H
+# define EXEC_UTILS_BONUS_H
+
+# include <stddef.h>
+# include "minishell_define_bonus.h"
+# include "ast_define_bonus.h"
+
+// exec_utils0.c
+int		store_argv(t_word *head, char ***argv);
+void	exec_child_proc(t_mini *mini, char **argv);
+void	set_rfd(t_mini *mini, t_cmd *cmd);
+void	exec_cmd(t_mini *mini, t_node *node);
+void	reset_rfd(t_mini *mini, t_node *node);
+
+// exec_utils1.c
+void	exec_inside(t_mini *mini, t_node *node);
+void	wait_node(t_mini *mini, t_node *node);
+int		not_valid_execve_file(t_mini *mini, char *path);
+
+// exec_pipe.c
+void	exec_node(t_mini *mini, t_node *node);
+
+#endif

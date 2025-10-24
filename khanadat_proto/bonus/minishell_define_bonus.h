@@ -1,19 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell_define.h                                 :+:      :+:    :+:   */
+/*   minishell_define_bonus.h                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 12:45:58 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/24 20:49:40 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/24 20:55:23 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_DEFINE_H
-# define MINISHELL_DEFINE_H
+#ifndef MINISHELL_DEFINE_BONUS_H
+# define MINISHELL_DEFINE_BONUS_H
 
-# include "ast_define.h"
+# include "ast_define_bonus.h"
 
 # define ERR -1
 # define NO_ERR 0

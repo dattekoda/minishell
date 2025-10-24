@@ -24,6 +24,7 @@
 		"minishell_utils.h": "c",
 		"set_redirect.h": "c",
 		"builtin.h": "c",
-		"exec_pipe_utils.h": "c"
+		"exec_pipe_utils.h": "c",
+		"minishell_define_bonus.h": "c"
 	}
 }

@@ -1,21 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_export.c                                   :+:      :+:    :+:   */
+/*   builtin_export_bonus.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/05 18:52:57 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/24 21:08:41 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/24 21:09:39 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stddef.h>
 #include <stdlib.h>
-#include "builtin_utils.h"
-#include "minishell_define.h"
-#include "minishell_utils.h"
-#include "minishell_err.h"
+#include "builtin_utils_bonus.h"
+#include "minishell_define_bonus.h"
+#include "minishell_utils_bonus.h"
+#include "minishell_err_bonus.h"
 
 #include "libft.h"
 

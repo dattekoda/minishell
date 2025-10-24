@@ -1,21 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell_set.c                                    :+:      :+:    :+:   */
+/*   minishell_set_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/28 13:38:47 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/24 21:09:28 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/24 21:09:49 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell_define.h"
-#include "minishell_utils.h"
-#include "minishell_err.h"
+#include "minishell_define_bonus.h"
+#include "minishell_utils_bonus.h"
+#include "minishell_err_bonus.h"
 #include "libft.h"
-#include "tokenizer.h"
-#include "ast.h"
+#include "tokenizer_bonus.h"
+#include "ast_bonus.h"
 #include <stdlib.h>
 
 static int	set_envp(t_mini *mini, char *envp[]);

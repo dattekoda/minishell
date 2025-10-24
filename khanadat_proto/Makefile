@@ -6,7 +6,7 @@
 #    By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/09 14:24:07 by khanadat          #+#    #+#              #
-#    Updated: 2025/10/21 15:48:10 by khanadat         ###   ########.fr        #
+#    Updated: 2025/10/24 21:07:23 by khanadat         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -151,9 +151,6 @@ OBJS			=	$(addprefix $(OBJS_DIR)/, $(SRCS:.c=.o))
 BONUS_OBJS_DIR	=	bonus_objs
 BONUS_OBJS		=	$(addprefix $(BONUS_OBJS_DIR)/, $(BONUS_SRCS:.c=.o))
 
-OBJS_DIR	=	objs
-OBJS		=	$(addprefix $(OBJS_DIR)/, $(SRCS:.c=.o))
-
 UNAME		=	$(shell uname -s)
 
 ifeq ($(UNAME),Darwin)
@@ -165,16 +162,30 @@ else
 	$(error Unsupported OS: $(UNAME))
 endif
 
-.PHONY: all clean fclean re
+ifeq ($(MAKECMDGOALS),bonus)
+	BUILD_OBJS	:= $(BONUS_OBJS)
+else ifeq ($(MAKECMDGOALS),rebonus)
+	BUILD_OBJS	:= $(BONUS_OBJS)
+else
+	BUILD_OBJS	:= $(OBJS)
+endif
+
+.PHONY: all clean fclean re bonus rebonus
 
 all: $(NAME)
 
-$(NAME): $(OBJS) $(LIBFT_A)
+bonus: $(NAME)
+
+$(NAME): $(BUILD_OBJS) $(LIBFT_A)
 		$(CC) $(CCFLAGS) $^ $(RL_A) -o $@ $(RL_FLAGS)
 
 $(OBJS_DIR)/%.o: %.c
 		@mkdir -p $(dir $@)
 		$(CC) $(CCFLAGS) $(INCS_FLAGS) -c $< -o $@
+
+$(BONUS_OBJS_DIR)/%.o: %.c
+		@mkdir -p $(dir $@)
+		$(CC) $(CCFLAGS) $(BONUS_INCS_FLAGS) -c $< -o $@
 
 $(LIBFT_A):
 		@$(MAKE) -s bonus -C $(LIBFT_DIR)
@@ -185,9 +196,12 @@ debug:	all
 clean:
 		@rm -rf tester
 		@rm -rf $(OBJS_DIR)
+		@rm -rf $(BONUS_OBJS_DIR)
 		@$(MAKE) -s fclean -C $(LIBFT_DIR)
 
 fclean: clean
 		rm -f $(NAME)
 
 re: fclean all
+
+rebonus: fclean bonus
