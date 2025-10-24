@@ -230,4 +230,6 @@ envのエラーメッセージでenvが表示されるように修正。
 指定したファイルが実行可能ファイルではなかったときに、`bash`と同様の挙動をするように`exec_utils1.c`ファイルに`not_valid_execve_file()`を追加。   
 
 ## 10/24
-make bonusnの追加。   
+make bonusの追加。   
+LINUX_ELFの修正。   
+子プロセスは基本的にexit()で終了するように変更。   

@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 12:45:32 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/24 20:59:29 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/24 22:41:20 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,7 @@
 // utils0
 int		safe_join(char **joined, char *buffer);
 void	minishell_exit(t_mini *mini);
-void	failure_minishell_exit(t_mini *mini, \
-	void (*func)(char *), char *file, int status);
+void	failure_minishell_exit(void (*func)(char *), char *file, int status);
 void	systemcall_minishell_exit(t_mini *mini, char *func);
 
 // utils1

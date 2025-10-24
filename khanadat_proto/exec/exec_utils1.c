@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/12 19:01:50 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/21 19:31:51 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/24 22:34:57 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 #if defined(__APPLE__)
 # define OS_ELF "\xCF\xFA\xED\xFE"
 #elif defined(__linux__)
-# define OS_ELF "\x7FELF"
+# define OS_ELF "\x7F\x45\x4C\x46"
 #endif
 
 #define OS_ELF_LEN 4
@@ -75,7 +75,7 @@ int	not_valid_execve_file(t_mini *mini, char *path)
 
 	fd = open(path, O_RDONLY);
 	if (fd == -1)
-		failure_minishell_exit(mini, &err_file, \
+		failure_minishell_exit(&err_file, \
 			path, PERMISSION_ERR);
 	ft_bzero(&buf, 16);
 	if (read(fd, buf, 15) < 0)

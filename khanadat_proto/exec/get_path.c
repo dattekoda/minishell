@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 13:20:01 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/21 14:48:59 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/24 22:37:59 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,28 +17,24 @@
 #include <sys/stat.h>
 #include <unistd.h>
 
-void	get_cwd_path(char **path, char **argv, t_mini *mini)
+static void	get_cwd_path(char **path, char **argv, t_mini *mini)
 {
 	char	path_buffer[PATH_MAX];
 
 	ft_strlcpy(path_buffer, "./", PATH_MAX);
 	ft_strlcat(path_buffer, argv[0], PATH_MAX);
 	if (access(path_buffer, F_OK))
-		failure_minishell_exit(mini, &err_file, \
+		failure_minishell_exit(&err_file, \
 		argv[0], NOT_FOUND_ERR);
 	if (access(path_buffer, X_OK))
-		failure_minishell_exit(mini, &err_file, \
+		failure_minishell_exit(&err_file, \
 		argv[0], PERMISSION_ERR);
 	*path = ft_strdup(path_buffer);
 	if (!*path)
-	{
-		err_system_call("malloc");
-		failure_minishell_exit(mini, NULL, argv[0], \
-			SYSTEMCALL_EXITSTATUS);
-	}
+		systemcall_minishell_exit(mini, "malloc");
 }
 
-void	set_path_buffer(char *path_buffer, char *path_env, \
+static void	set_path_buffer(char *path_buffer, char *path_env, \
 	char *cmd, char **chr)
 {
 	*chr = ft_strchr(path_env + 1, ':');
@@ -52,7 +48,7 @@ void	set_path_buffer(char *path_buffer, char *path_env, \
 	ft_strlcat(path_buffer, cmd, PATH_MAX);
 }
 
-void	get_path_from_env(char **path, char **argv, \
+static void	get_path_from_env(char **path, char **argv, \
 	t_mini *mini, char *path_env)
 {
 	char	path_buffer[PATH_MAX];
@@ -65,28 +61,28 @@ void	get_path_from_env(char **path, char **argv, \
 		if (!access(path_buffer, F_OK))
 			break ;
 		if (!chr)
-			failure_minishell_exit(mini, &err_cmd_not_found, \
+			failure_minishell_exit(&err_cmd_not_found, \
 			argv[0], NOT_FOUND_ERR);
 		path_env = chr + 1;
 	}
 	if (access(path_buffer, X_OK))
-		failure_minishell_exit(mini, &err_file, \
+		failure_minishell_exit(&err_file, \
 			argv[0], PERMISSION_ERR);
 	*path = ft_strdup(path_buffer);
 	if (!*path)
 		systemcall_minishell_exit(mini, "malloc");
 }
 
-void	get_abs_path(char **path, char **argv, t_mini *mini)
+static void	get_abs_path(char **path, char **argv)
 {
 	if (access(argv[0], F_OK))
-		failure_minishell_exit(mini, &err_cmd_not_found, \
+		failure_minishell_exit(&err_cmd_not_found, \
 			argv[0], NOT_FOUND_ERR);
 	if (mini_is_dir(argv[0]))
-		failure_minishell_exit(mini, &err_is_dir, \
+		failure_minishell_exit(&err_is_dir, \
 		argv[0], IS_DIR_ERR);
 	if (access(argv[0], X_OK))
-		failure_minishell_exit(mini, &err_file, \
+		failure_minishell_exit(&err_file, \
 			argv[0], PERMISSION_ERR);
 	*path = argv[0];
 }
@@ -101,11 +97,11 @@ void	get_path(char **path, t_mini *mini, char **argv)
 	if (PATH_MAX < 1024)
 		return ;
 	if (!argv[0][0])
-		failure_minishell_exit(mini, &err_cmd_not_found, \
+		failure_minishell_exit(&err_cmd_not_found, \
 			"\'\'", NOT_FOUND_ERR);
 	if (ft_strchr(argv[0], '/'))
 	{
-		get_abs_path(path, argv, mini);
+		get_abs_path(path, argv);
 		return ;
 	}
 	path_env = normal_getenv("PATH", mini);

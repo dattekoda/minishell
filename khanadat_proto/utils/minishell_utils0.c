@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/21 18:15:10 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/19 11:56:25 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/24 22:33:27 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,9 @@ void	minishell_exit(t_mini *mini)
 	exit(SUCCESS);
 }
 
-void	failure_minishell_exit(t_mini *mini, \
-	void (*func)(char *), char *file, int status)
+void	failure_minishell_exit(void (*func)(char *), char *file, int status)
 {
 	(*func)(file);
-	t_mini_free(mini);
 	exit(status);
 }
 

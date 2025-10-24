@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 09:45:04 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/21 19:27:17 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/24 22:29:12 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	exec_child_proc(t_mini *mini, char **argv)
 	get_path(&path, mini, argv);
 	execve(path, argv, mini->envp);
 	if (not_valid_execve_file(mini, path))
-		normal_minishell_exit(mini, NULL, NULL, SUCCESS);
+		exit(SUCCESS);
 	systemcall_minishell_exit(mini, "execve");
 }
 
@@ -84,12 +84,12 @@ void	set_rfd(t_mini *mini, t_cmd *cmd)
 void	exec_cmd(t_mini *mini, t_node *node)
 {
 	if (set_redirect(mini, node->red, node->cmd))
-		normal_minishell_exit(mini, NULL, NULL, ft_atoi(mini->status));
+		exit(ft_atoi(mini->status));
 	if (!*node->cmd->argv)
-		normal_minishell_exit(mini, NULL, NULL, ft_atoi(mini->status));
+		exit(ft_atoi(mini->status));
 	set_rfd(mini, node->cmd);
 	if (exec_builtin(mini, node->cmd))
-		normal_minishell_exit(mini, NULL, NULL, ft_atoi(mini->status));
+		exit(ft_atoi(mini->status));
 	exec_child_proc(mini, node->cmd->argv);
 }
 
