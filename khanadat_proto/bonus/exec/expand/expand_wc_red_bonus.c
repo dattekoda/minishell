@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/19 14:41:12 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/24 20:55:23 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/25 13:46:38 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,10 @@ int	set_wild_red(t_mini *mini, t_red **red)
 		if (need_expand_wild(cur->wild_checker, cur->expanded, cur->exp_len))
 			cur = insert_wild_red(before, red, cur, &ambigous);
 		if (!cur)
+		{
 			systemcall_minishell_exit(mini, "malloc");
+			return (ERR);
+		}
 		if (ambigous)
 			return (err_ambiguous(cur->file), FAILURE);
 		before = cur;
@@ -74,7 +77,7 @@ t_red	*insert_wild_red(t_red *before, t_red **red, \
 	new->next = cur->next;
 	cur->next = NULL;
 	free_red(cur);
-	return (new);
+	return (head.next);
 }
 
 static void	set_new_wild_red(t_red *orig, t_red **new, \

@@ -233,3 +233,7 @@ envのエラーメッセージでenvが表示されるように修正。
 make bonusの追加。   
 LINUX_ELFの修正。   
 子プロセスは基本的にexit()で終了するように変更。   
+
+## 10/25
+`scan-build: No bugs found.`のように静的解析をパスするように修正。   
+macでもmake bonusできるようにMakefileの読み込むヘッダーファイルを修正。   

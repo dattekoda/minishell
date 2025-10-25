@@ -6,7 +6,7 @@
 #    By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/09 14:24:07 by khanadat          #+#    #+#              #
-#    Updated: 2025/10/24 21:07:23 by khanadat         ###   ########.fr        #
+#    Updated: 2025/10/25 14:10:15 by khanadat         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -154,8 +154,9 @@ BONUS_OBJS		=	$(addprefix $(BONUS_OBJS_DIR)/, $(BONUS_SRCS:.c=.o))
 UNAME		=	$(shell uname -s)
 
 ifeq ($(UNAME),Darwin)
-	RL_A		:=	-L /opt/homebrew/opt/readline/lib
-	INCS_FLAGS	+=	-I /opt/homebrew/opt/readline/include
+	RL_A				:=	-L /opt/homebrew/opt/readline/lib
+	INCS_FLAGS			+=	-I /opt/homebrew/opt/readline/include
+	BONUS_INCS_FLAGS	+=	-I /opt/homebrew/opt/readline/include
 else ifeq ($(UNAME),Linux)
 	RL_FLAGS	+=	-lncurses
 else

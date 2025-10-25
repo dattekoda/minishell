@@ -6,7 +6,7 @@
 /*   By: khanadat <khanadat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/19 11:11:52 by khanadat          #+#    #+#             */
-/*   Updated: 2025/10/24 20:55:23 by khanadat         ###   ########.fr       */
+/*   Updated: 2025/10/25 13:48:26 by khanadat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,10 @@ void	set_wild_word(t_mini *mini, t_word **word)
 		if (need_expand_wild(cur->wild_checker, cur->expanded, cur->exp_len))
 			cur = insert_wild_word(before, word, cur);
 		if (!cur)
+		{
 			systemcall_minishell_exit(mini, "malloc");
+			return ;
+		}
 		before = cur;
 		cur = cur->next;
 	}
@@ -65,7 +68,7 @@ static t_word	*insert_wild_word(t_word *before, \
 	new->next = cur->next;
 	cur->next = NULL;
 	free_word(cur);
-	return (new);
+	return (head.next);
 }
 
 static void	set_new_wild_word(char *expanded, t_word **new, DIR *dir_ptr)
