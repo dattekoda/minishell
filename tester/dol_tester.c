@@ -1,4 +1,8 @@
 
+// #include "expand_define.h"
+// #include "expand.h"
+// #include <unistd.h>
+// #include <stdio.h>
 
 // void	dol_checker(t_dollar *dol)
 // {

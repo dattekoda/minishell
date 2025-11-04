@@ -237,3 +237,6 @@ LINUX_ELFの修正。
 ## 10/25
 `scan-build: No bugs found.`のように静的解析をパスするように修正。   
 macでもmake bonusできるようにMakefileの読み込むヘッダーファイルを修正。   
+
+## 11/4
+dol_testerの修正。
