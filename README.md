@@ -1,3 +1,10 @@
+## Build my own SHELL
+
+![](.screenshots/Screenshot%20from%202025-11-14%2010-53-57.png)
+
+Zenn記事のURL   
+https://zenn.dev/khanadat/articles/79b570722a65f4
+
 ## 使い方
 `khanadat_proto/prompt`ディレクトリ内で`make`でコンパイル
 作成された実行ファイル、`./minishell`で実行できます。
@@ -239,4 +246,7 @@ LINUX_ELFの修正。
 macでもmake bonusできるようにMakefileの読み込むヘッダーファイルを修正。   
 
 ## 11/4
-dol_testerの修正。
+dol_testerの修正。   
+
+## 11/14
+README.mdに記事のURLと、スクリーンショットを追加
